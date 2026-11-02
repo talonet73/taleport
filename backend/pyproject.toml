@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "taleport"
-version = "0.1.0"
+version = "1.0.0"
 description = "TALeport: local trend scanner and post drafting assistant for social media managers"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
@@ -33,6 +33,9 @@ dev = [
     "pytest>=8",
     "respx>=0.21",
     "ruff>=0.6",
+]
+build = [
+    "pyinstaller>=6.11",
 ]
 
 [project.scripts]

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router'
 import { ArchivePage } from '../pages/archive/ArchivePage'
 import { AskPage } from '../pages/ask/AskPage'
 import { CalendarPage } from '../pages/calendar/CalendarPage'
+import { GuidePage } from '../pages/guide/GuidePage'
 import { ReportsPage } from '../pages/reports/ReportsPage'
 import { GeneratorPage } from '../pages/generator/GeneratorPage'
 import { TrendsPage } from '../pages/trends/TrendsPage'
@@ -38,6 +39,7 @@ export function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/reports" element={<ReportsPage />} />
+        <Route path="/guide" element={<GuidePage />} />
         <Route path="/themes/:id" element={<ThemeDetailPage />} />
         <Route path="/topics" element={<TopicsPage />} />
         <Route path="/topics/new" element={<TopicEditor />} />

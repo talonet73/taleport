@@ -1,4 +1,4 @@
-import { Bell, Bot, PenLine, RefreshCw, Search } from 'lucide-react'
+import { Bell, Bot, CircleHelp, PenLine, RefreshCw, Search } from 'lucide-react'
 import type { TFunction } from 'i18next'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -35,6 +35,14 @@ export function Topbar() {
         {t('topbar.newPost')}
       </Link>
 
+      <Link
+        to="/guide"
+        aria-label={t('guide.title')}
+        title={t('guide.title')}
+        className="grid size-11 place-items-center rounded-full border border-line bg-surface text-ink shadow-card hover:bg-surface-raised"
+      >
+        <CircleHelp className="size-5" aria-hidden />
+      </Link>
       <NotificationBell />
       <AiSelector />
     </header>

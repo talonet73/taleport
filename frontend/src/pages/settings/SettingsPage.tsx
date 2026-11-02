@@ -1,6 +1,7 @@
 import { KeyRound, Monitor, Moon, Sun } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router'
 
 import {
   useDeleteSecret,
@@ -40,6 +41,15 @@ export function SettingsPage() {
   const { data: settings } = useSettings()
   const update = useUpdateSettings()
   const errorMessage = useErrorMessage()
+  const { hash } = useLocation()
+
+  // Links such as /settings#log (guide) or #updates (notification): scroll once the cards,
+  // which load their own data, are on the page.
+  useEffect(() => {
+    if (!settings || !hash || hash === '#posting-times') return
+    const timer = setTimeout(() => document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' }), 400)
+    return () => clearTimeout(timer)
+  }, [settings, hash])
 
   if (!settings) return null
 

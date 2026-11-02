@@ -17,7 +17,8 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 6 completata** (2026-11-02)
 - [x] **Fase 7 completata** (2026-11-02)
 - [x] **Fase 8 completata** (2026-11-02)
-- [x] **Fase 9 completata** (2026-11-02) — in attesa dell'ok per la fase 10
+- [x] **Fase 9 completata** (2026-11-02)
+- [~] **Fase 10** (2026-11-02): installer pronto e provato; restano il repository GitHub con la prima Release e la prova su un Windows pulito
 
 ---
 
@@ -188,9 +189,17 @@ Note:
 - [!] Una volta la suite backend ha dato 1 test fallito, che non si è più ripresentato in 8 esecuzioni successive: probabile test instabile, da tenere d'occhio.
 
 ## Fase 10 — Packaging
-- [ ] Installare Inno Setup 6
-- [ ] PyInstaller (una cartella) con frontend compilato, risorse e icona
-- [ ] Inno Setup → `Setup-TALeport.exe` (per utente, desktop, menu Start, disinstallazione pulita); predisposizione per la firma
-- [ ] Guida utente breve IT/EN/ES dentro l'app (comprese le piattaforme non monitorate e l'avviso SmartScreen)
-- [ ] Repository GitHub pubblico separato `taleport` + prima Release (previa conferma)
-- [ ] Test su Windows pulito: criterio di accettazione finale (installazione, primo avvio senza Ollama e senza chiavi, 10 argomenti, scansione con report, post tramite "Apri nella chat", Tendenze parole, PDF personalizzato)
+- [x] Inno Setup 6.7 installato con winget (per utente)
+- [x] PyInstaller una cartella (`packaging/taleport.spec`, avvio da `packaging/launcher.py`): UI compilata, loghi, risorse del pacchetto, dati di yake, metadati di APScheduler; finestra senza console; dati di versione nel `.exe` (Proprietà → Dettagli); versione 1.0.0 da `backend/taleport/__init__.py`
+- [x] Inno Setup (`packaging/taleport.iss`) → `packaging/output/Setup-TALeport.exe` (46,5 MB): per utente senza permessi di amministratore, in `%LOCALAPPDATA%\Programs\TALeport`; collegamento sul desktop (facoltativo) e nel menu Start; installer in italiano, inglese e spagnolo; chiede di chiudere l'app se è aperta (mutex); la disinstallazione rimuove programma, collegamenti e avvio con Windows, e chiede se eliminare anche i dati (predefinito: no)
+- [x] `packaging/build.ps1`: UI, icona se manca, PyInstaller, firma facoltativa (`TALEPORT_SIGN_CERT` / `TALEPORT_SIGN_PASSWORD`, signtool), Inno Setup
+- [x] Guida utente IT/EN/ES dentro l'app (pulsante «?» nella barra in alto): cosa fa, fonti e piattaforme non monitorate (Instagram, TikTok, Facebook, LinkedIn, X), lavoro quotidiano, AI, report, dati e privacy, avviso SmartScreen, problemi comuni; stessa guida in `docs/guide-{it,en,es}.md` generata da `docs/build_guide.py`; README aggiornato
+- [ ] Repository GitHub pubblico separato `taleport` + prima Release: in attesa del link del repository creato dall'utente; poi indirizzo degli aggiornamenti predefinito, push e Release con l'installer (previa conferma)
+- [~] Test di accettazione: provato su questo PC con una cartella dati vuota (non su un Windows pulito)
+
+Note:
+- Provato l'eseguibile compilato: primo avvio con la configurazione guidata, Ollama rilevato come assente, Gestore credenziali, creazione di un argomento, scansione vera (62 elementi), Oggi con 4 temi, PDF personalizzato scuro con grafici e logo, ripresa della scansione mancata.
+- Provato l'installer: installazione silenziosa per utente (programma, disinstallatore, desktop, menu Start, voce in «App installate» 1.0.0), avvio dell'app installata con la finestra, istanza singola (il secondo avvio porta in primo piano la finestra), disinstallazione pulita senza residui. La cartella dati reale `%LOCALAPPDATA%\TALeport` non è mai stata toccata: tutte le prove hanno usato cartelle temporanee.
+- Corretto durante la prova: il messaggio innocuo di Windows quando una pagina chiude la connessione («ConnectionResetError») finiva nel log come errore; ora viene ignorato.
+- Non provati: la domanda «eliminare anche i dati?» della disinstallazione (in modalità silenziosa viene saltata), la firma del codice (nessun certificato), l'avviso SmartScreen (compare solo su file scaricati da internet), un Windows senza WebView2 (preinstallato su Windows 10 aggiornato e Windows 11).
+- Criterio di accettazione completo (10 argomenti, post tramite «Apri nella chat», Tendenze, PDF personalizzato su un Windows pulito): da fare installando `Setup-TALeport.exe` su un altro PC o in una macchina virtuale.

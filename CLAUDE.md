@@ -51,6 +51,8 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 | "Chiedi" | l'AI produce un piano JSON validato che usa solo un elenco chiuso di funzioni di analisi; **mai SQL generato** | Sicurezza |
 | Errori | il backend restituisce `{code, params}`; la UI li traduce. Mai stack trace nell'interfaccia | i18n e leggibilità |
 | GitHub | repository **pubblico e separato** `taleport` (licenza MIT), distinto da TALedit e TALevent; controllo aggiornamenti tramite GitHub Releases. La CLI `gh` non è installata: creare il repo solo quando serve, chiedendo prima | App gratuita, Releases leggibili senza token |
+| Packaging | `packaging/build.ps1` → PyInstaller una cartella (`taleport.spec`: UI, `assets/brand`, dati del pacchetto, yake, metadati APScheduler) → Inno Setup per utente (`taleport.iss`, `AppMutex` = mutex dell'istanza singola, IT/EN/ES, disinstallazione che chiede se cancellare i dati); versione unica in `taleport/__init__.py` | Un comando per l'installer |
+| Guida utente | pagina `/guide` con testi i18n (`guide.*`, elenchi con lo stesso numero di voci nelle tre lingue); `docs/guide-*.md` generati da `docs/build_guide.py` | Una sola fonte, sempre offline |
 | Firma codice | **nessuna per ora**; la guida spiega l'avviso SmartScreen; in `packaging/` resta un punto di aggancio per `signtool` | Si aggiunge dopo senza toccare il codice |
 | Riferimento grafico | nessuna immagine della dashboard: valgono le specifiche del §7 e i loghi | — |
 | Tema | scelto dall'utente: Scuro (predefinito) / Chiaro / Come Windows. Logo scuro o chiaro in base al tema attivo | Richiesta dell'utente |
@@ -67,7 +69,7 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 - **Backend:** Python 3.12 (`py -3.12`), virtualenv in `backend/.venv`. FastAPI, uvicorn, pydantic v2, httpx, feedparser, APScheduler, yake, keyring, pystray, Pillow, reportlab, matplotlib, svglib, pypdf, python-docx.
 - **Qualità backend:** pytest (+ `respx` per le risposte HTTP registrate), ruff (lint + format).
 - **Frontend:** React 19 + TypeScript + Vite + Tailwind CSS v4, react-router, TanStack Query, react-i18next, ECharts (dalla fase 3), lucide-react (icone). Qualità: `tsc --noEmit`, vitest. Colori solo tramite i token definiti in `src/index.css` (`bg-surface`, `text-muted`, `bg-accent-gradient`, variante `light:`…).
-- **Packaging:** PyInstaller (una cartella) + Inno Setup 6 → `Setup-TALeport.exe` (per utente, collegamento desktop, menu Start, disinstallazione pulita). Inno Setup va installato in fase 10.
+- **Packaging:** PyInstaller (una cartella) + Inno Setup 6 (installato con winget, per utente) → `Setup-TALeport.exe` (per utente, collegamento desktop, menu Start, disinstallazione pulita). Comando: `powershell -ExecutionPolicy Bypass -File packaging\build.ps1`.
 
 ## Struttura del progetto
 

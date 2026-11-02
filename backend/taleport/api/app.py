@@ -48,10 +48,20 @@ def _host_name(host_header: str) -> str:
     return host_header.rsplit(":", 1)[0]
 
 
+def _quiet_disconnects(loop: asyncio.AbstractEventLoop, context: dict) -> None:
+    """Windows' Proactor loop reports a page closing its connection (e.g. the event stream)
+    as an error; it is normal, so it stays out of the error log."""
+    if isinstance(context.get("exception"), ConnectionResetError):
+        return
+    loop.default_exception_handler(context)
+
+
 def create_app(ctx: AppContext, static_dir: Path | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-        ctx.bus.bind_loop(asyncio.get_running_loop())
+        loop = asyncio.get_running_loop()
+        loop.set_exception_handler(_quiet_disconnects)
+        ctx.bus.bind_loop(loop)
         yield
 
     app = FastAPI(
