@@ -20,7 +20,8 @@
     "notScheduled": "not scheduled",
     "apiSpend": "API spend this month",
     "version": "Version {{version}}",
-    "inProgress": "in progress…"
+    "inProgress": "in progress…",
+    "ofCap": "of a {{cap}} cap"
   },
   "topbar": {
     "askLabel": "Ask",
@@ -123,8 +124,6 @@
       "prefillHint": "Works only with short prompts and on some sites, when you are already signed in. The prompt is copied to the clipboard anyway.",
       "providers": "Providers",
       "ollamaUrl": "Ollama address",
-      "spend": "Estimated API spend this month",
-      "spendHint": "Estimated from list prices; Perplexity reports the real cost.",
       "ready": "Ready",
       "paid": "paid",
       "free": "free, local",
@@ -235,7 +234,8 @@
       "no_themes": "There are no themes today to improve: run a scan first.",
       "description_required": "Write a description of the topic.",
       "empty_answer": "Paste the answer before saving.",
-      "unavailable": "The default AI isn't available."
+      "unavailable": "The default AI isn't available.",
+      "spend_cap_reached": "the monthly spending cap has been reached"
     },
     "generator": {
       "platforms_required": "Pick at least one network.",
@@ -261,6 +261,12 @@
       "unknown_preset": "Ready-made question not found.",
       "invalid_plan": "The analysis plan is not valid.",
       "question_required": "Write a question."
+    },
+    "results": {
+      "not_published": "Results can only be entered on posts marked as published."
+    },
+    "calendar": {
+      "published": "A post that is already published cannot be moved."
     }
   },
   "common": {
@@ -270,7 +276,8 @@
     "add": "Add",
     "back": "Back",
     "close": "Close",
-    "removeItem": "Remove {{item}}"
+    "removeItem": "Remove {{item}}",
+    "loading": "Loading…"
   },
   "sources": {
     "news": "Google News",
@@ -510,7 +517,6 @@
     "delete": "Delete draft",
     "scheduleWhen": "Publishing date and time",
     "unschedule": "Remove from calendar",
-    "calendarLater": "The calendar view arrives in phase 7.",
     "publishedUrl": "Link to the published post (optional)",
     "confirmPublished": "Confirm",
     "status": {
@@ -590,7 +596,6 @@
     },
     "handoffTitle": "Ask with your chat",
     "pdfLater": "PDF export of answers arrives in phase 8.",
-    "metricsLater": "Likes, comments and shares of posts arrive in phase 7.",
     "term": "Word",
     "periodA": "Period A",
     "periodB": "Period B",
@@ -616,6 +621,173 @@
       "groups": "The group with most items is {{name}} ({{count}}).",
       "themes": "The hottest theme is “{{title}}” (score {{score}}).",
       "posts": "You generated {{generated}} drafts and published {{published}} posts."
+    },
+    "noMetrics": "No results entered for these posts yet: add them from the Archive (likes, comments, shares, views)."
+  },
+  "notifications": {
+    "unreadLabel_one": "Notifications: {{count}} unread",
+    "unreadLabel_other": "Notifications: {{count}} unread",
+    "markAllRead": "Mark all as read",
+    "clearRead": "Clear read",
+    "settingsTitle": "Notifications",
+    "settingsDescription": "The bell at the top always collects everything. Here you choose whether to also use Windows notifications.",
+    "windows": "Windows notifications",
+    "windowsHint": "Spike on a topic, scan completed or recovered, source not working, spending cap almost reached. Scans you start yourself only show in the bell.",
+    "kinds": {
+      "spike": {
+        "title": "Spike on “{{topic}}”",
+        "body": "{{today}} items today against an average of {{average}} a day. {{theme}}"
+      },
+      "scan_completed": {
+        "title": "Scan completed",
+        "body": "{{new}} new items out of {{found}} found."
+      },
+      "scan_recovered": {
+        "title": "Missed scan recovered",
+        "body": "The PC was off at the scheduled time, so the scan ran at startup. {{new}} new items."
+      },
+      "source_failing": {
+        "title": "Source not working: {{source}}",
+        "body": "{{source}} did not respond during the scan. {{reason}}"
+      },
+      "spend_near": {
+        "title": "Spending cap almost reached",
+        "body": "API spend this month: ${{total}} of ${{cap}}."
+      },
+      "spend_reached": {
+        "title": "Spending cap reached",
+        "body": "Spend this month ${{total}} (cap ${{cap}}): paid calls are paused and “Open in chat” is used instead."
+      }
+    }
+  },
+  "results": {
+    "metrics": {
+      "likes": "Likes",
+      "comments": "Comments",
+      "shares": "Shares",
+      "views": "Views"
+    },
+    "hint": "Copy the numbers from the platform. Leave blank what you do not know; they show which themes and formats work.",
+    "enter": "Enter results",
+    "edit": "Edit results",
+    "missing": "No results entered yet.",
+    "summaryTitle": "What works",
+    "summaryText_one": "Averages over {{count}} post with results.",
+    "summaryText_other": "Averages over {{count}} posts with results.",
+    "posts": "Posts",
+    "avg": {
+      "likes": "Likes (avg)",
+      "comments": "Comments (avg)",
+      "shares": "Shares (avg)",
+      "views": "Views (avg)",
+      "interactions": "Interactions (avg)"
+    },
+    "more": {
+      "likes": "more likes",
+      "comments": "more comments",
+      "shares": "more shares"
+    },
+    "reason": {
+      "platform": "Suggested because posts on {{platform}} got {{metric}} ({{value}} on average).",
+      "theme_one": "Priority: the post on “{{theme}}” got {{metric}} ({{value}}).",
+      "theme_other": "Priority: the {{count}} posts on similar themes (“{{theme}}”) got {{metric}} ({{value}} on average)."
+    }
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Drag drafts onto days: the time is the suggested one for the platform, and you can change it.",
+    "view": "View",
+    "week": "Week",
+    "month": "Month",
+    "previous": "Previous period",
+    "next": "Next period",
+    "today": "Today",
+    "dragHint": "You can also click a draft to pick the day and time with the keyboard.",
+    "unscheduled": "To schedule",
+    "noUnscheduled": "No drafts to schedule.",
+    "goGenerator": "Open the Generator",
+    "published": "published",
+    "publishedNote": "This post is already published: it stays on the calendar as a record.",
+    "day": "Day",
+    "time": "Time",
+    "timeHint": "Without a time, the one already chosen or the platform's suggested time is used.",
+    "postingTimes": "Suggested times",
+    "postingTimesHint": "Starting values you can change. Once you enter post results, the app suggests the hour that worked best.",
+    "learned": "From your results: {{time}} ({{posts}} posts, {{average}} interactions on average)",
+    "editTimes": "Edit times",
+    "resetTime": "Reset to {{time}}",
+    "defaultTime": "default",
+    "useLearned": "Use this time"
+  },
+  "archive": {
+    "subtitle": "Every post and theme, with free-text search. Enter results on published posts.",
+    "tabs": {
+      "posts": "Posts",
+      "themes": "Themes"
+    },
+    "search": "Search",
+    "searchPlaceholder": {
+      "posts": "Words in the post text or theme",
+      "themes": "Words in the title or summary"
+    },
+    "status": "Status",
+    "all": "All",
+    "statuses": {
+      "draft": "Drafts",
+      "scheduled": "Scheduled",
+      "published": "Published"
+    },
+    "platform": "Platform",
+    "topic": "Topic",
+    "from": "From",
+    "to": "To",
+    "postsFound_one": "{{count}} post",
+    "postsFound_other": "{{count}} posts",
+    "themesFound_one": "{{count}} theme",
+    "themesFound_other": "{{count}} themes",
+    "noPosts": "No posts match these filters.",
+    "noThemes": "No themes match these filters.",
+    "more": "Show more",
+    "createdOn": "Created {{date}}",
+    "readAll": "Read all",
+    "less": "Show less",
+    "openPost": "Open post",
+    "score": "Score {{score}}",
+    "themeCounts": "{{items}} items · {{drafts}} drafts · {{published}} published"
+  },
+  "spend": {
+    "title": "API spend",
+    "description": "Estimate for each call from the price list (or the real cost when the provider reports it), monthly total and cap.",
+    "ofCap": "of a {{cap}} cap this month",
+    "noCap": "No cap set",
+    "meter": "This month's spend against the cap",
+    "capReached": "Cap reached: paid calls are paused until next month and AI features switch to “Open in chat” on their own. Ollama stays available.",
+    "cap": "Monthly cap (USD)",
+    "capPlaceholder": "none",
+    "warnAt": "Warn at",
+    "capHint": "Once the cap is reached, the app makes no more paid calls. Leave blank for no cap.",
+    "thisMonth": "This month by provider",
+    "provider": "Provider",
+    "calls": "Calls",
+    "cost": "Cost",
+    "unknown_one": "{{count}} without price",
+    "unknown_other": "{{count}} without price",
+    "recent": "Recent calls",
+    "noCalls": "No calls yet.",
+    "when": "When",
+    "feature": "Feature",
+    "tokens": "Tokens",
+    "priceUnknown": "unknown price",
+    "estimated": "(estimate)",
+    "features": {
+      "theme_insights": "Themes with AI",
+      "topic_suggestion": "Create topic",
+      "x_search": "X search",
+      "connection_test": "Connection test",
+      "post_generation": "Generator",
+      "long_content": "From long content",
+      "post_regeneration": "Regenerate post",
+      "ask": "Ask"
     }
   }
 }

@@ -123,6 +123,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             on_language.append(tray.refresh)
             tray.start()
+            ctx.notifications.toaster = tray.notify
             window.run(debug=args.dev)
     except KeyboardInterrupt:
         pass

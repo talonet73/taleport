@@ -1,4 +1,5 @@
 import { Bell, Bot, PenLine, RefreshCw, Search } from 'lucide-react'
+import type { TFunction } from 'i18next'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
@@ -11,6 +12,12 @@ import {
   useUpdateSettings,
 } from '../api/hooks'
 import { useAskPresets } from '../api/insights'
+import {
+  type AppNotification,
+  useClearNotifications,
+  useMarkNotificationsRead,
+  useNotifications,
+} from '../api/planner'
 import { AI_MODES, type AiMode } from '../api/types'
 
 export function Topbar() {
@@ -127,9 +134,15 @@ function ScanNowButton() {
 }
 
 function NotificationBell() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const { data } = useNotifications()
+  const markRead = useMarkNotificationsRead()
+  const clear = useClearNotifications()
+  const unread = data?.unread ?? 0
+  const rows = data?.rows ?? []
 
   useEffect(() => {
     if (!open) return
@@ -140,24 +153,88 @@ function NotificationBell() {
     return () => document.removeEventListener('mousedown', close)
   }, [open])
 
+  const when = (iso: string) =>
+    new Intl.DateTimeFormat(i18n.language, { dateStyle: 'short', timeStyle: 'short' }).format(new Date(iso))
+
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
-        aria-label={t('topbar.notifications')}
+        aria-label={unread ? t('notifications.unreadLabel', { count: unread }) : t('topbar.notifications')}
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="grid size-11 place-items-center rounded-full border border-line bg-surface text-ink shadow-card hover:bg-surface-raised"
+        className="relative grid size-11 place-items-center rounded-full border border-line bg-surface text-ink shadow-card hover:bg-surface-raised"
       >
         <Bell className="size-5" aria-hidden />
+        {unread > 0 && (
+          <span className="absolute -top-1 -right-1 grid min-w-5 place-items-center rounded-full bg-accent-gradient px-1 text-xs font-bold text-on-accent">
+            {unread > 9 ? '9+' : unread}
+          </span>
+        )}
       </button>
       {open && (
-        <div className="absolute right-0 z-20 mt-2 w-72 rounded-card border border-line bg-surface-raised p-4 text-muted shadow-card">
-          {t('topbar.noNotifications')}
+        <div className="absolute right-0 z-30 mt-2 w-96 rounded-card border border-line bg-surface-raised shadow-card">
+          <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-3">
+            <p className="font-semibold text-ink">{t('topbar.notifications')}</p>
+            <div className="flex gap-3 text-sm">
+              {unread > 0 && (
+                <button type="button" onClick={() => markRead.mutate(undefined)} className="text-accent-text hover:underline">
+                  {t('notifications.markAllRead')}
+                </button>
+              )}
+              {rows.some((r) => r.read) && (
+                <button type="button" onClick={() => clear.mutate()} className="text-muted hover:text-ink">
+                  {t('notifications.clearRead')}
+                </button>
+              )}
+            </div>
+          </div>
+          {rows.length === 0 ? (
+            <p className="p-4 text-muted">{t('topbar.noNotifications')}</p>
+          ) : (
+            <ul className="max-h-96 divide-y divide-line overflow-y-auto">
+              {rows.map((n) => (
+                <li key={n.id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!n.read) markRead.mutate([n.id])
+                      if (n.link) {
+                        setOpen(false)
+                        navigate(n.link)
+                      }
+                    }}
+                    className="flex w-full gap-3 px-4 py-3 text-left hover:bg-surface"
+                  >
+                    <span
+                      aria-hidden
+                      className={`mt-1.5 size-2 shrink-0 rounded-full ${n.read ? 'bg-transparent' : 'bg-accent'}`}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className={`block text-ink ${n.read ? '' : 'font-semibold'}`}>
+                        {t(`notifications.kinds.${n.kind}.title`, n.params)}
+                      </span>
+                      <span className="block text-sm text-muted">{notificationBody(n, t)}</span>
+                      <span className="mt-0.5 block text-xs text-muted">{when(n.created_at)}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
   )
+}
+
+function notificationBody(n: AppNotification, t: TFunction): string {
+  const params: Record<string, string | number> = { ...n.params }
+  if (n.kind === 'source_failing') {
+    params.source = t(`sources.${n.params.source}`)
+    params.reason = t(`errors.${n.params.code}`, { defaultValue: '' })
+  }
+  return t(`notifications.kinds.${n.kind}.body`, params)
 }
 
 function AiSelector() {

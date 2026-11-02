@@ -25,6 +25,10 @@ export interface AppSettings {
   chat_site: ChatSite
   chat_prefill: boolean
   ai_auto_insights: boolean
+  spend_cap_usd: number | null
+  spend_warn_percent: number
+  notify_windows: boolean
+  posting_times: Partial<Record<Platform, string>>
 }
 
 // -- AI -----------------------------------------------------------------------------
@@ -121,9 +125,25 @@ export interface Draft {
   status: 'draft' | 'scheduled' | 'published'
   scheduled_at: string | null
   publication: { published_at: string; url: string | null } | null
+  results?: PostResults | null
   ai_mode: string
   created_at: string
 }
+
+export interface PostResults {
+  likes: number | null
+  comments: number | null
+  shares: number | null
+  views: number | null
+}
+
+export const RESULT_METRICS = ['likes', 'comments', 'shares', 'views'] as const
+export type ResultMetric = (typeof RESULT_METRICS)[number]
+
+/** A suggestion always comes with the numbers behind it. */
+export type PriorityReason =
+  | { code: 'platform'; params: { platform: Platform; metric: ResultMetric; value: number } }
+  | { code: 'theme'; params: { theme: string; metric: ResultMetric; value: number; posts: number } }
 
 export interface GenerationResult {
   batch_id: string
@@ -146,6 +166,7 @@ export interface AppStatus {
   next_scan_at: string | null
   api_spend_month: number
   api_spend_currency: string
+  api_spend_cap: number | null
 }
 
 export const SECRET_NAMES = ['anthropic', 'openai', 'xai', 'perplexity', 'gemini', 'youtube'] as const
@@ -258,6 +279,7 @@ export interface ThemeSummary {
   question_count: number
   representative: { id: number; source: ItemSource; url: string; title: string; publisher: string } | null
   covered: boolean
+  priority?: PriorityReason | null
 }
 
 export interface TodayOverview {

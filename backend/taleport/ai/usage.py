@@ -56,17 +56,31 @@ class UsageStore:
                 ),
             )
 
-    def month_total(self, now: datetime | None = None) -> float:
+    @staticmethod
+    def _month_start(now: datetime | None) -> str:
         # created_at is UTC: count from local midnight of the 1st, converted to UTC.
         now = now or datetime.now().astimezone()
         start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        start_utc = start.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+        return start.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%S.000Z")
+
+    def month_total(self, now: datetime | None = None) -> float:
         with self._db.connect() as conn:
             row = conn.execute(
                 "SELECT COALESCE(SUM(cost_usd), 0) FROM ai_usage WHERE created_at >= ?",
-                (start_utc,),
+                (self._month_start(now),),
             ).fetchone()
         return float(row[0])
+
+    def month_by_provider(self, now: datetime | None = None) -> list[dict[str, Any]]:
+        """This month's calls and cost per provider (calls with an unknown price counted)."""
+        with self._db.connect() as conn:
+            rows = conn.execute(
+                "SELECT provider, COUNT(*) AS calls, COALESCE(SUM(cost_usd), 0) AS cost_usd, "
+                "SUM(cost_source = 'unknown') AS unknown FROM ai_usage WHERE created_at >= ? "
+                "GROUP BY provider ORDER BY cost_usd DESC, calls DESC",
+                (self._month_start(now),),
+            ).fetchall()
+        return [dict(r) for r in rows]
 
     def recent(self, limit: int = 50) -> list[dict[str, Any]]:
         with self._db.connect() as conn:

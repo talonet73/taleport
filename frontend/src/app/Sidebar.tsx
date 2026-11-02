@@ -93,6 +93,13 @@ function StatusBox() {
           {t('sidebar.apiSpend')}
         </p>
         <p className="mt-1 text-xl font-bold text-ink">{spend}</p>
+        {status?.api_spend_cap != null && (
+          <p className="text-xs text-muted">
+            {t('sidebar.ofCap', {
+              cap: new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'USD' }).format(status.api_spend_cap),
+            })}
+          </p>
+        )}
       </div>
       {status && (
         <p className="text-xs text-muted">{t('sidebar.version', { version: status.version })}</p>

@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from collections.abc import Callable
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 from taleport.core.errors import AppError
 from taleport.db.database import Database
@@ -18,6 +19,8 @@ Language = Literal["it", "en", "es"]
 Theme = Literal["dark", "light", "system"]
 AiMode = Literal["chat", "ollama", "anthropic", "openai", "xai", "perplexity", "gemini"]
 ChatSite = Literal["claude", "chatgpt", "grok", "perplexity"]
+PLATFORMS = ("linkedin", "instagram", "facebook", "youtube", "tiktok")
+_TIME = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
 
 
 class AppSettings(BaseModel):
@@ -36,6 +39,18 @@ class AppSettings(BaseModel):
     chat_site: ChatSite = "claude"
     chat_prefill: bool = False  # experimental: put short prompts in the chat site's URL
     ai_auto_insights: bool = True  # after each scan, if the default AI is not "chat"
+    # Phase 7
+    spend_cap_usd: float | None = Field(None, ge=0, le=100_000)  # None = no cap
+    spend_warn_percent: int = Field(80, ge=50, le=99)
+    notify_windows: bool = True
+    posting_times: dict[str, str] = Field(default_factory=dict)  # platform -> "HH:MM" override
+
+    @field_validator("posting_times")
+    @classmethod
+    def _check_posting_times(cls, value: dict[str, str]) -> dict[str, str]:
+        if any(k not in PLATFORMS or not _TIME.match(v) for k, v in value.items()):
+            raise ValueError("invalid posting time")
+        return value
 
 
 SettingsListener = Callable[[AppSettings, AppSettings], None]

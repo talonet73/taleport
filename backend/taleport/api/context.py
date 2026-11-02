@@ -12,7 +12,8 @@ from taleport import __version__
 from taleport.ai.registry import build_provider
 from taleport.ai.service import AIService, ProviderFactory
 from taleport.ai.usage import UsageStore
-from taleport.analysis.service import AnalysisService
+from taleport.analysis.service import AnalysisService, today_local
+from taleport.archive.service import ArchiveService
 from taleport.ask.service import InsightsService
 from taleport.collectors.base import Collector
 from taleport.collectors.google_news import GoogleNewsCollector
@@ -31,6 +32,9 @@ from taleport.core.secrets import SecretStore
 from taleport.core.settings import SettingsStore
 from taleport.db.database import Database
 from taleport.generator.service import GeneratorService
+from taleport.notifications.service import NotificationService
+from taleport.planner.service import PlannerService
+from taleport.results.service import ResultsService
 from taleport.scan.items import ItemRepository
 from taleport.scan.service import ScanService
 from taleport.topics.service import TopicStore
@@ -53,6 +57,10 @@ class AppContext:
     ai: AIService
     generator: GeneratorService
     insights: InsightsService
+    notifications: NotificationService
+    results: ResultsService
+    planner: PlannerService
+    archive: ArchiveService
     token: str
     bus: EventBus
     version: str = __version__
@@ -99,6 +107,7 @@ def build_context(
     analysis = AnalysisService(db, topics)
     settings = SettingsStore(db)
     usage = UsageStore(db)
+    notifications = NotificationService(db, bus, settings)
     ai = AIService(
         db,
         settings,
@@ -108,6 +117,10 @@ def build_context(
         usage,
         provider_factory=ai_provider_factory or build_provider,
     )
+    ai.on_usage = lambda: notifications.check_spend(
+        usage.month_total(), settings.get(), datetime.now().astimezone()
+    )
+    generator = GeneratorService(db, ai, topics)
 
     def analyse_after_scan(summary: dict) -> None:
         for topic in summary["topics"]:
@@ -130,6 +143,10 @@ def build_context(
                     logs.add("warning", "ai", result.get("fallback") or "ai.unavailable", {})
                     break
             bus.publish("analysis.finished", {"scan_id": summary["scan_id"], "ai": True})
+        try:
+            notifications.after_scan(summary, today_local())
+        except Exception:
+            log.exception("Scan notifications failed")
 
     scans.on_finished.append(analyse_after_scan)
     return AppContext(
@@ -137,8 +154,12 @@ def build_context(
         settings=settings,
         usage=usage,
         ai=ai,
-        generator=GeneratorService(db, ai, topics),
+        generator=generator,
         insights=InsightsService(db, topics, ai),
+        notifications=notifications,
+        results=ResultsService(db),
+        planner=PlannerService(db, settings, generator),
+        archive=ArchiveService(db),
         secrets=secrets,
         topics=topics,
         items=items,

@@ -139,6 +139,12 @@ export function StepResult({ step }: { step: AskStep }) {
                 <th className="py-1 font-medium">{t('generator.platforms')}</th>
                 <th className="py-1 text-right font-medium">{t('week.generated')}</th>
                 <th className="py-1 text-right font-medium">{t('week.published')}</th>
+                {step.result.metrics_available &&
+                  (['likes', 'comments', 'shares', 'views'] as const).map((m) => (
+                    <th key={m} className="py-1 text-right font-medium">
+                      {t(`results.avg.${m}`)}
+                    </th>
+                  ))}
               </tr>
             </thead>
             <tbody>
@@ -147,11 +153,17 @@ export function StepResult({ step }: { step: AskStep }) {
                   <td className="py-1.5">{t(`platforms.${r.platform}`)}</td>
                   <td className="py-1.5 text-right">{r.generated}</td>
                   <td className="py-1.5 text-right">{r.published ?? 0}</td>
+                  {step.result.metrics_available &&
+                    (['likes', 'comments', 'shares', 'views'] as const).map((m) => (
+                      <td key={m} className="py-1.5 text-right">
+                        {r[`avg_${m}`] ?? '–'}
+                      </td>
+                    ))}
                 </tr>
               ))}
             </tbody>
           </table>
-          {!step.result.metrics_available && <p className="text-sm text-muted">{t('ask.metricsLater')}</p>}
+          {!step.result.metrics_available && <p className="text-sm text-muted">{t('ask.noMetrics')}</p>}
         </>
       )}
     </div>

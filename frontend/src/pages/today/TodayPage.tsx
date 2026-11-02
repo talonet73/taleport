@@ -10,6 +10,7 @@ import { openExternal, useCurrentScan, useStartScan, useToday, useTopics } from 
 import type { ThemeSummary } from '../../api/types'
 import { Card } from '../../components/Card'
 import { ScoreRing } from '../../components/ScoreRing'
+import { PriorityNote } from '../../components/results/PriorityNote'
 import { TrendBadge } from '../../components/TrendBadge'
 
 export function TodayPage() {
@@ -160,6 +161,7 @@ function ThemeRow({ theme }: { theme: ThemeSummary }) {
           {t('themes.itemsCount', { count: theme.item_count })} · {sources}
           {theme.question_count > 0 && ` · ${t('today.questions', { count: theme.question_count })}`}
         </p>
+        {theme.priority && <PriorityNote reason={theme.priority} className="mt-1" />}
         {theme.summary ? (
           <p className="mt-1 line-clamp-2 max-w-prose text-ink/90">{theme.summary}</p>
         ) : (

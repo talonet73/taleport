@@ -26,9 +26,9 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/trends', labelKey: 'nav.trends', icon: TrendingUp },
   { path: '/generator', labelKey: 'nav.generator', icon: PenLine },
   { path: '/long-content', labelKey: 'nav.longContent', icon: FileText },
-  { path: '/calendar', labelKey: 'nav.calendar', icon: CalendarDays, phase: 7 },
+  { path: '/calendar', labelKey: 'nav.calendar', icon: CalendarDays },
   { path: '/topics', labelKey: 'nav.topics', icon: Tags },
-  { path: '/archive', labelKey: 'nav.archive', icon: Archive, phase: 7 },
+  { path: '/archive', labelKey: 'nav.archive', icon: Archive },
   { path: '/reports', labelKey: 'nav.reports', icon: FileDown, phase: 8 },
   { path: '/settings', labelKey: 'nav.settings', icon: Settings },
 ]

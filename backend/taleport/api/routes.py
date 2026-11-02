@@ -36,6 +36,7 @@ def status(request: Request) -> dict[str, Any]:
         "next_scan_at": next_run.isoformat() if next_run else None,
         "api_spend_month": round(ctx.usage.month_total(), 4),
         "api_spend_currency": "USD",
+        "api_spend_cap": ctx.settings.get().spend_cap_usd,
     }
 
 

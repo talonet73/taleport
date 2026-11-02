@@ -42,6 +42,11 @@ class Tray:
         self._thread = threading.Thread(target=self._icon.run, name="tray", daemon=True)
         self._thread.start()
 
+    def notify(self, title: str, message: str) -> None:
+        """Windows notification from the tray icon (shown as a toast on Windows 10/11)."""
+        if self._icon.visible:
+            self._icon.notify(message, title)
+
     def refresh(self) -> None:
         """Re-read menu labels (after a language change)."""
         self._icon.update_menu()

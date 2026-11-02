@@ -91,8 +91,9 @@ export function useDraftAction() {
     mutationFn: ({ path, method, body }: { path: string; method: string; body?: unknown }) =>
       api<Draft | undefined>(path, { method, body: body === undefined ? undefined : jsonBody(body) }),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['drafts'] })
-      void queryClient.invalidateQueries({ queryKey: queryKeys.today })
+      for (const key of [['drafts'], queryKeys.today, ['calendar'], ['archive'], ['results']]) {
+        void queryClient.invalidateQueries({ queryKey: key })
+      }
     },
   })
 }
@@ -127,7 +128,9 @@ export function useUpdateSettings() {
       api<AppSettings>('/settings', { method: 'PATCH', body: jsonBody(changes) }),
     onSuccess: (settings) => {
       queryClient.setQueryData(queryKeys.settings, settings)
-      void queryClient.invalidateQueries({ queryKey: queryKeys.status })
+      for (const key of [queryKeys.status, ['usage'], ['posting-times'], ['calendar']]) {
+        void queryClient.invalidateQueries({ queryKey: key })
+      }
     },
   })
 }
@@ -287,6 +290,16 @@ export function useServerEvents() {
       void queryClient.invalidateQueries({ queryKey: queryKeys.status })
       void queryClient.invalidateQueries({ queryKey: queryKeys.topics })
       void queryClient.invalidateQueries({ queryKey: queryKeys.quota })
+    })
+    on('notification', () => {
+      void queryClient.invalidateQueries({ queryKey: ['notifications'] })
+      void queryClient.invalidateQueries({ queryKey: ['usage'] })
+      void queryClient.invalidateQueries({ queryKey: queryKeys.status })
+    })
+    on('drafts.changed', () => {
+      for (const key of [['drafts'], ['calendar'], ['archive'], ['results'], queryKeys.today]) {
+        void queryClient.invalidateQueries({ queryKey: key })
+      }
     })
     on('analysis.finished', () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.today })

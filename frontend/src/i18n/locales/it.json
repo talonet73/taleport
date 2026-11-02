@@ -20,7 +20,8 @@
     "notScheduled": "non pianificata",
     "apiSpend": "Spesa API del mese",
     "version": "Versione {{version}}",
-    "inProgress": "in corso…"
+    "inProgress": "in corso…",
+    "ofCap": "su un tetto di {{cap}}"
   },
   "topbar": {
     "askLabel": "Chiedi",
@@ -123,8 +124,6 @@
       "prefillHint": "Funziona solo con prompt brevi e su alcuni siti, quando hai già fatto l'accesso. Il prompt viene comunque copiato negli appunti.",
       "providers": "Provider",
       "ollamaUrl": "Indirizzo di Ollama",
-      "spend": "Spesa API stimata questo mese",
-      "spendHint": "Stima calcolata sui prezzi di listino; Perplexity comunica il costo reale.",
       "ready": "Pronto",
       "paid": "a pagamento",
       "free": "gratis, locale",
@@ -235,7 +234,8 @@
       "no_themes": "Non ci sono temi di oggi da migliorare: avvia prima una scansione.",
       "description_required": "Scrivi una descrizione dell'argomento.",
       "empty_answer": "Incolla la risposta prima di salvare.",
-      "unavailable": "L'AI predefinita non è disponibile."
+      "unavailable": "L'AI predefinita non è disponibile.",
+      "spend_cap_reached": "il tetto di spesa del mese è stato raggiunto"
     },
     "generator": {
       "platforms_required": "Scegli almeno un social.",
@@ -261,6 +261,12 @@
       "unknown_preset": "Domanda pronta non trovata.",
       "invalid_plan": "Il piano di analisi non è valido.",
       "question_required": "Scrivi una domanda."
+    },
+    "results": {
+      "not_published": "I risultati si inseriscono solo sui post segnati come pubblicati."
+    },
+    "calendar": {
+      "published": "Un post già pubblicato non si può spostare."
     }
   },
   "common": {
@@ -270,7 +276,8 @@
     "add": "Aggiungi",
     "back": "Indietro",
     "close": "Chiudi",
-    "removeItem": "Rimuovi {{item}}"
+    "removeItem": "Rimuovi {{item}}",
+    "loading": "Caricamento…"
   },
   "sources": {
     "news": "Google News",
@@ -510,7 +517,6 @@
     "delete": "Elimina la bozza",
     "scheduleWhen": "Data e ora di pubblicazione",
     "unschedule": "Togli dal calendario",
-    "calendarLater": "La vista calendario arriva nella fase 7.",
     "publishedUrl": "Link al post pubblicato (facoltativo)",
     "confirmPublished": "Conferma",
     "status": {
@@ -590,7 +596,6 @@
     },
     "handoffTitle": "Chiedi con la tua chat",
     "pdfLater": "L'esportazione in PDF delle risposte arriva nella fase 8.",
-    "metricsLater": "Like, commenti e condivisioni dei post arrivano nella fase 7.",
     "term": "Parola",
     "periodA": "Periodo A",
     "periodB": "Periodo B",
@@ -616,6 +621,173 @@
       "groups": "Il gruppo con più elementi è {{name}} ({{count}}).",
       "themes": "Il tema più caldo è «{{title}}» (punteggio {{score}}).",
       "posts": "Hai generato {{generated}} bozze e pubblicato {{published}} post."
+    },
+    "noMetrics": "Nessun risultato inserito per questi post: aggiungili dall'Archivio (like, commenti, condivisioni, visualizzazioni)."
+  },
+  "notifications": {
+    "unreadLabel_one": "Notifiche: {{count}} da leggere",
+    "unreadLabel_other": "Notifiche: {{count}} da leggere",
+    "markAllRead": "Segna tutte come lette",
+    "clearRead": "Cancella le lette",
+    "settingsTitle": "Notifiche",
+    "settingsDescription": "La campanella in alto raccoglie sempre tutto. Qui scegli se avvisare anche con le notifiche di Windows.",
+    "windows": "Notifiche di Windows",
+    "windowsHint": "Picco su un argomento, scansione completata o recuperata, fonte non funzionante, tetto di spesa vicino. Per le scansioni avviate a mano basta la campanella.",
+    "kinds": {
+      "spike": {
+        "title": "Picco su «{{topic}}»",
+        "body": "{{today}} elementi oggi contro una media di {{average}} al giorno. {{theme}}"
+      },
+      "scan_completed": {
+        "title": "Scansione completata",
+        "body": "{{new}} elementi nuovi su {{found}} trovati."
+      },
+      "scan_recovered": {
+        "title": "Scansione recuperata",
+        "body": "Il PC era spento all'orario previsto: scansione fatta all'avvio. {{new}} elementi nuovi."
+      },
+      "source_failing": {
+        "title": "Fonte non funzionante: {{source}}",
+        "body": "{{source}} non ha risposto durante la scansione. {{reason}}"
+      },
+      "spend_near": {
+        "title": "Tetto di spesa vicino",
+        "body": "Spesa API del mese: {{total}} $ su {{cap}} $."
+      },
+      "spend_reached": {
+        "title": "Tetto di spesa raggiunto",
+        "body": "Spesa del mese {{total}} $ (tetto {{cap}} $): le chiamate a pagamento sono sospese e si usa «Apri nella chat»."
+      }
+    }
+  },
+  "results": {
+    "metrics": {
+      "likes": "Like",
+      "comments": "Commenti",
+      "shares": "Condivisioni",
+      "views": "Visualizzazioni"
+    },
+    "hint": "Copia i numeri dalla piattaforma. Lascia vuoto ciò che non conosci; servono a capire quali temi e formati funzionano.",
+    "enter": "Inserisci risultati",
+    "edit": "Modifica risultati",
+    "missing": "Risultati non ancora inseriti.",
+    "summaryTitle": "Cosa funziona",
+    "summaryText_one": "Medie calcolate su {{count}} post con risultati.",
+    "summaryText_other": "Medie calcolate su {{count}} post con risultati.",
+    "posts": "Post",
+    "avg": {
+      "likes": "Like (media)",
+      "comments": "Commenti (media)",
+      "shares": "Condivisioni (media)",
+      "views": "Visualizzazioni (media)",
+      "interactions": "Interazioni (media)"
+    },
+    "more": {
+      "likes": "più like",
+      "comments": "più commenti",
+      "shares": "più condivisioni"
+    },
+    "reason": {
+      "platform": "Suggerito perché i post su {{platform}} hanno avuto {{metric}} (in media {{value}}).",
+      "theme_one": "Priorità: il post su «{{theme}}» ha avuto {{metric}} ({{value}}).",
+      "theme_other": "Priorità: i {{count}} post su temi simili («{{theme}}») hanno avuto {{metric}} (in media {{value}})."
+    }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "subtitle": "Trascina le bozze sui giorni: l'orario è quello consigliato per il social, modificabile.",
+    "view": "Vista",
+    "week": "Settimana",
+    "month": "Mese",
+    "previous": "Periodo precedente",
+    "next": "Periodo successivo",
+    "today": "Oggi",
+    "dragHint": "Puoi anche fare clic su una bozza per scegliere giorno e ora dalla tastiera.",
+    "unscheduled": "Da programmare",
+    "noUnscheduled": "Nessuna bozza da programmare.",
+    "goGenerator": "Apri il Generatore",
+    "published": "pubblicato",
+    "publishedNote": "Questo post è già pubblicato: resta nel calendario come promemoria.",
+    "day": "Giorno",
+    "time": "Ora",
+    "timeHint": "Senza ora resta quella già scelta o quella consigliata per il social.",
+    "postingTimes": "Orari consigliati",
+    "postingTimesHint": "Valori di partenza modificabili. Quando inserisci i risultati dei post, l'app suggerisce l'ora che ha funzionato meglio.",
+    "learned": "Dai tuoi risultati: {{time}} ({{posts}} post, in media {{average}} interazioni)",
+    "editTimes": "Modifica gli orari",
+    "resetTime": "Ripristina {{time}}",
+    "defaultTime": "valore predefinito",
+    "useLearned": "Usa questo orario"
+  },
+  "archive": {
+    "subtitle": "Tutti i post e i temi, con ricerca a testo libero. Sui post pubblicati inserisci i risultati.",
+    "tabs": {
+      "posts": "Post",
+      "themes": "Temi"
+    },
+    "search": "Cerca",
+    "searchPlaceholder": {
+      "posts": "Parole nel testo o nel tema del post",
+      "themes": "Parole nel titolo o nel riassunto"
+    },
+    "status": "Stato",
+    "all": "Tutti",
+    "statuses": {
+      "draft": "Bozze",
+      "scheduled": "Programmati",
+      "published": "Pubblicati"
+    },
+    "platform": "Social",
+    "topic": "Argomento",
+    "from": "Dal",
+    "to": "Al",
+    "postsFound_one": "{{count}} post",
+    "postsFound_other": "{{count}} post",
+    "themesFound_one": "{{count}} tema",
+    "themesFound_other": "{{count}} temi",
+    "noPosts": "Nessun post trovato con questi filtri.",
+    "noThemes": "Nessun tema trovato con questi filtri.",
+    "more": "Mostra altri",
+    "createdOn": "Creato il {{date}}",
+    "readAll": "Leggi tutto",
+    "less": "Riduci",
+    "openPost": "Apri il post",
+    "score": "Punteggio {{score}}",
+    "themeCounts": "{{items}} elementi · {{drafts}} bozze · {{published}} pubblicati"
+  },
+  "spend": {
+    "title": "Spesa API",
+    "description": "Stima per ogni chiamata dal listino (o costo reale se il provider lo comunica), totale del mese e tetto massimo.",
+    "ofCap": "su un tetto di {{cap}} questo mese",
+    "noCap": "Nessun tetto impostato",
+    "meter": "Spesa del mese rispetto al tetto",
+    "capReached": "Tetto raggiunto: le chiamate a pagamento sono sospese fino al mese prossimo; le funzioni AI passano da sole ad «Apri nella chat». Ollama resta disponibile.",
+    "cap": "Tetto mensile (USD)",
+    "capPlaceholder": "nessuno",
+    "warnAt": "Avvisa al",
+    "capHint": "Raggiunto il tetto, l'app non fa più chiamate a pagamento. Lascia vuoto per non avere un tetto.",
+    "thisMonth": "Questo mese per provider",
+    "provider": "Provider",
+    "calls": "Chiamate",
+    "cost": "Costo",
+    "unknown_one": "{{count}} senza prezzo",
+    "unknown_other": "{{count}} senza prezzo",
+    "recent": "Ultime chiamate",
+    "noCalls": "Ancora nessuna chiamata.",
+    "when": "Quando",
+    "feature": "Funzione",
+    "tokens": "Token",
+    "priceUnknown": "prezzo sconosciuto",
+    "estimated": "(stima)",
+    "features": {
+      "theme_insights": "Temi con l'AI",
+      "topic_suggestion": "Crea argomento",
+      "x_search": "Ricerca su X",
+      "connection_test": "Prova di connessione",
+      "post_generation": "Generatore",
+      "long_content": "Da contenuto lungo",
+      "post_regeneration": "Rigenera post",
+      "ask": "Chiedi"
     }
   }
 }

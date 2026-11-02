@@ -14,7 +14,8 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 3 completata** (2026-11-02)
 - [x] **Fase 4 completata** (2026-11-02)
 - [x] **Fase 5 completata** (2026-11-02)
-- [x] **Fase 6 completata** (2026-11-02) — in attesa dell'ok per la fase 7
+- [x] **Fase 6 completata** (2026-11-02)
+- [x] **Fase 7 completata** (2026-11-02) — in attesa dell'ok per la fase 8
 
 ---
 
@@ -132,12 +133,20 @@ Note:
 - Con un solo giorno di dati i grafici a 7/30 giorni sono quasi vuoti e le parole emergenti non compaiono: diventano utili dopo qualche giorno di scansioni.
 - Esportazione PDF delle risposte di "Chiedi": fase 8. Like e commenti dei post in `post_performance`: fase 7.
 
-## Fase 7 — Archivio, risultati, calendario, notifiche, spesa
-- [ ] Archivio con ricerca FTS5 e filtri
-- [ ] Inserimento manuale dei risultati (like, commenti, condivisioni, visualizzazioni) + priorità con motivazione
-- [ ] Calendario settimanale/mensile con trascinamento; orari consigliati modificabili e affinati dai risultati
-- [ ] Notifiche Windows + campanella: picco, scansione completata/recuperata, fonte non funzionante, tetto di spesa vicino
-- [ ] Contatore spesa API: stima per chiamata, totale mensile, tetto che blocca le chiamate a pagamento
+## Fase 7 — Archivio, risultati, calendario, notifiche, spesa ✅
+- [x] Migrazione `0006_archive_results_notifications.sql`: `post_results`, `notifications`, indici FTS5 su bozze e temi (tenuti allineati da trigger, accenti ignorati)
+- [x] Archivio: schede Post e Temi, ricerca a testo libero (parole come prefissi: «intel artif» trova «intelligenza artificiale»), filtri per stato, social, argomento e periodo, «Mostra altri»
+- [x] Risultati inseriti a mano (like, commenti, condivisioni, visualizzazioni) dall'Archivio o dalla scheda della bozza; riquadro «Cosa funziona» con le medie per social; motivazione sempre scritta coi numeri («Suggerito perché i post su LinkedIn hanno avuto più commenti (in media 13)») nel Generatore, e «Priorità» sui temi di Oggi simili a post andati bene; "Chiedi" → `post_performance` ora usa i risultati
+- [x] Calendario settimanale e mensile: bozze trascinate sui giorni (anche dalla lista «Da programmare»), clic su una bozza per scegliere giorno e ora da tastiera, post pubblicati come promemoria; orari consigliati per social (predefiniti in `resources/posting_times.json`, modificabili nelle Impostazioni) e orario «imparato» dai risultati (l'ora con più interazioni, da 3 post in su)
+- [x] Notifiche: campanella con contatore aggiornato in diretta (SSE), segna come lette, cancella le lette, clic che apre la pagina giusta; notifica di Windows dall'icona nella tray (attivabile nelle Impostazioni). Eventi: scansione completata o recuperata (per le scansioni avviate a mano solo campanella), fonte non funzionante (una volta al giorno per fonte), picco su un argomento (almeno 10 elementi e il doppio della media dei 7 giorni prima, con almeno 3 giorni di storico), tetto di spesa vicino o raggiunto (una volta al mese)
+- [x] Spesa API: riquadro nelle Impostazioni con totale del mese, barra rispetto al tetto, spesa per provider, ultime chiamate con costo stimato o reale; tetto mensile e soglia di avviso; raggiunto il tetto le funzioni AI passano da sole ad «Apri nella chat» (la ricerca X via API e la prova di connessione danno un errore chiaro), Ollama resta disponibile; tetto visibile anche nel menu laterale
+- [x] Test: 131 backend (ricerca e filtri dell'archivio, risultati e motivazioni, priorità dei temi, calendario e orari imparati, notifiche e duplicati, picchi, tetto di spesa, API) + 4 frontend
+
+Note:
+- Notifiche di Windows tramite pystray (icona già presente nella tray) invece di Windows-Toasts: nessuna libreria in più, e Windows-Toasts in un'app non registrata come pacchetto mostrerebbe «Python» come mittente. Funziona solo con la finestra (la modalità `--no-window` non ha tray); provato con uno script a parte.
+- Verificato nell'app su `devdata/`: trascinamento (eventi di trascinamento inviati via JavaScript: lo strumento di prova non simula il drag-and-drop nativo) e spostamento da tastiera, vista mensile, ricerca nell'archivio, risultati salvati, tetto di spesa, scansione vera → «Scansione completata» nella campanella in diretta, clic che apre Oggi.
+- Corretti durante la prova: medie a 0 per le metriche non inserite (ora «–»), nome del social tagliato nelle caselle del calendario, campi dei filtri senza nome per gli screen reader, collegamento «Modifica gli orari» che non scorreva al riquadro, spesa del mese ripetuta in due riquadri delle Impostazioni.
+- Le chiamate AI a pagamento bloccate dal tetto sono coperte dai test ma non provate dal vivo (sul PC non ci sono chiavi API). Priorità e orari imparati diventano visibili quando ci sono risultati su più post.
 
 ## Fase 8 — Report PDF
 - [ ] Report giornaliero, settimanale, Tendenze parole, risposte di "Chiedi"

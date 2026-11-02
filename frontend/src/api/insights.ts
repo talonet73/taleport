@@ -51,7 +51,16 @@ export interface ComparePeriods {
   rows: { term: string; a: number; b: number }[]
 }
 export interface PostPerformance {
-  rows: { platform: string; generated: number; published: number }[]
+  rows: {
+    platform: string
+    generated: number
+    published: number
+    with_results: number
+    avg_likes: number | null
+    avg_comments: number | null
+    avg_shares: number | null
+    avg_views: number | null
+  }[]
   metrics_available: boolean
 }
 export interface ScopeInfo {

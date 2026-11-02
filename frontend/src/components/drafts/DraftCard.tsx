@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   CalendarPlus,
   CheckCircle2,
   ClipboardCopy,
@@ -15,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 import { copyToClipboard, openExternal, useDraftAction } from '../../api/hooks'
 import type { Draft } from '../../api/types'
+import { ResultsForm, ResultsLine } from '../results/ResultsForm'
 import { useErrorMessage } from '../useErrorMessage'
 import { RegenerateDialog } from './RegenerateDialog'
 
@@ -28,7 +30,7 @@ export function DraftCard({ draft }: { draft: Draft }) {
   const [copied, setCopied] = useState<string | null>(null)
   const [editing, setEditing] = useState(false)
   const [text, setText] = useState(draft.text)
-  const [panel, setPanel] = useState<'schedule' | 'publish' | 'regenerate' | null>(null)
+  const [panel, setPanel] = useState<'schedule' | 'publish' | 'regenerate' | 'results' | null>(null)
   const [when, setWhen] = useState(draft.scheduled_at ?? defaultSchedule())
   const [url, setUrl] = useState('')
 
@@ -165,9 +167,15 @@ export function DraftCard({ draft }: { draft: Draft }) {
           {t('drafts.schedule')}
         </button>
         {draft.status === 'published' ? (
-          <button type="button" onClick={() => run('/publish', 'DELETE')} className={buttonClass}>
-            {t('drafts.unpublish')}
-          </button>
+          <>
+            <button type="button" onClick={() => setPanel(panel === 'results' ? null : 'results')} className={buttonClass}>
+              <BarChart3 className="size-4" aria-hidden />
+              {t('results.enter')}
+            </button>
+            <button type="button" onClick={() => run('/publish', 'DELETE')} className={buttonClass}>
+              {t('drafts.unpublish')}
+            </button>
+          </>
         ) : (
           <button type="button" onClick={() => setPanel(panel === 'publish' ? null : 'publish')} className={buttonClass}>
             <CheckCircle2 className="size-4" aria-hidden />
@@ -201,7 +209,6 @@ export function DraftCard({ draft }: { draft: Draft }) {
               {t('drafts.unschedule')}
             </button>
           )}
-          <span className="text-sm text-muted">{t('drafts.calendarLater')}</span>
         </div>
       )}
       {panel === 'publish' && (
@@ -216,6 +223,12 @@ export function DraftCard({ draft }: { draft: Draft }) {
           <button type="button" onClick={() => run('/publish', 'POST', { url: url.trim() || null }, () => setPanel(null))} className={buttonClass}>
             {t('drafts.confirmPublished')}
           </button>
+        </div>
+      )}
+      {draft.status === 'published' && panel !== 'results' && <div className="mt-3"><ResultsLine results={draft.results} /></div>}
+      {panel === 'results' && (
+        <div className="mt-3">
+          <ResultsForm draftId={draft.id} initial={draft.results} onDone={() => setPanel(null)} />
         </div>
       )}
       {panel === 'regenerate' && <RegenerateDialog draftId={draft.id} onClose={() => setPanel(null)} />}

@@ -22,6 +22,7 @@ from taleport.analysis.themes import Doc, build_themes
 from taleport.core.errors import AppError
 from taleport.db.database import Database
 from taleport.generator.covered import is_covered, published_themes
+from taleport.results.service import ThemePriority, published_with_results
 from taleport.topics.models import Topic
 from taleport.topics.service import TopicStore
 
@@ -279,6 +280,7 @@ class AnalysisService:
             ).fetchone()[0]
             sections = []
             themes_today = 0
+            priority = ThemePriority(published_with_results(conn))
             for topic in topics:
                 rows = conn.execute(
                     "SELECT * FROM themes WHERE topic_id = ? AND day = ? ORDER BY position",
@@ -291,7 +293,10 @@ class AnalysisService:
                         "topic": {"id": topic.id, "name": topic.name},
                         "items_today": items_by_topic.get(topic.id, 0),
                         "themes": [
-                            self._theme_summary(conn, row, published)
+                            {
+                                **self._theme_summary(conn, row, published),
+                                "priority": priority.reason(row["key"], row["title"]),
+                            }
                             for row in rows[:themes_per_topic]
                         ],
                     }

@@ -262,19 +262,23 @@ def daily_items(conn: sqlite3.Connection, scope: Scope) -> dict:
 
 
 def post_performance(conn: sqlite3.Connection, scope: Scope) -> dict:
-    """Drafts generated and posts published per platform. Engagement metrics (likes,
-    comments...) are entered by the user from phase 7 on."""
+    """Drafts generated and posts published per platform, with the average results the
+    user entered (likes, comments, shares, views) where available."""
     start, end = scope.utc_bounds()
     params: list = [start, end]
     sql = (
-        "SELECT platform, COUNT(*) AS generated, "
-        "SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) AS published "
-        "FROM drafts WHERE created_at >= ? AND created_at < ?"
-        + _in("topic_id", scope.topics, params)
-        + " GROUP BY platform ORDER BY generated DESC"
+        "SELECT d.platform, COUNT(*) AS generated, "
+        "SUM(CASE WHEN d.status = 'published' THEN 1 ELSE 0 END) AS published, "
+        "COUNT(r.draft_id) AS with_results, ROUND(AVG(r.likes), 1) AS avg_likes, "
+        "ROUND(AVG(r.comments), 1) AS avg_comments, ROUND(AVG(r.shares), 1) AS avg_shares, "
+        "ROUND(AVG(r.views), 1) AS avg_views "
+        "FROM drafts d LEFT JOIN post_results r ON r.draft_id = d.id "
+        "WHERE d.created_at >= ? AND d.created_at < ?"
+        + _in("d.topic_id", scope.topics, params)
+        + " GROUP BY d.platform ORDER BY generated DESC"
     )
     rows = [dict(r) for r in conn.execute(sql, params)]
-    return {"rows": rows, "metrics_available": False}
+    return {"rows": rows, "metrics_available": any(r["with_results"] for r in rows)}
 
 
 FUNCTIONS = {

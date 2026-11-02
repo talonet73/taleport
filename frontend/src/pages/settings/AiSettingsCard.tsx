@@ -6,7 +6,6 @@ import {
   useAiProviders,
   useProviderModels,
   useSettings,
-  useStatus,
   useTestProvider,
   useUpdateSettings,
 } from '../../api/hooks'
@@ -19,18 +18,11 @@ const fieldClass =
   'rounded-xl border border-line bg-surface-raised px-3 py-2 text-ink outline-none focus:border-accent'
 
 export function AiSettingsCard() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { data: settings } = useSettings()
   const { data: providers } = useAiProviders()
-  const { data: status } = useStatus()
   const update = useUpdateSettings()
   if (!settings) return null
-
-  const spend = new Intl.NumberFormat(i18n.language, {
-    style: 'currency',
-    currency: status?.api_spend_currency ?? 'USD',
-    maximumFractionDigits: 4,
-  }).format(status?.api_spend_month ?? 0)
 
   return (
     <Card title={t('settings.ai.title')} description={t('settings.ai.description')}>
@@ -105,10 +97,6 @@ export function AiSettingsCard() {
           <OllamaUrlInput value={settings.ollama_url} onSave={(ollama_url) => update.mutate({ ollama_url })} />
         </label>
 
-        <p className="text-ink">
-          {t('settings.ai.spend')}: <span className="font-bold">{spend}</span>
-          <span className="ml-2 text-sm text-muted">{t('settings.ai.spendHint')}</span>
-        </p>
       </div>
     </Card>
   )

@@ -73,6 +73,7 @@ class AIService:
         self._factory = provider_factory
         self._x_factory = x_provider_factory
         self._clipboard = clipboard
+        self.on_usage: Callable[[], None] | None = None  # spend notifications (set by context)
 
     # -- plumbing ------------------------------------------------------------------------
 
@@ -83,10 +84,23 @@ class AIService:
         if mode == "chat":
             return "chat", None, None
         try:
-            return mode, self._factory(mode, settings, self._secrets), None
+            provider = self._factory(mode, settings, self._secrets)
         except ProviderError as exc:
             log.info("AI provider %s unavailable (%s): falling back to chat", mode, exc.code)
             return "chat", None, exc.code
+        if provider.paid and self.cap_reached(settings):
+            log.info("Monthly spend cap reached: %s falls back to chat", mode)
+            return "chat", None, "ai.spend_cap_reached"
+        return mode, provider, None
+
+    def cap_reached(self, settings: AppSettings | None = None) -> bool:
+        """The monthly cap blocks every paid call once the month's spend reaches it."""
+        cap = (settings or self._settings.get()).spend_cap_usd
+        return cap is not None and self._usage.month_total() >= cap
+
+    def _check_cap(self, provider: LLMProvider) -> None:
+        if provider.paid and self.cap_reached():
+            raise AppError("ai.spend_cap_reached", status=402)
 
     def handoff(self, prompt: prompts.Prompt, site: str | None = None) -> dict[str, Any]:
         settings = self._settings.get()
@@ -99,9 +113,12 @@ class AIService:
         return {**handoff.to_dict(), "copied": copy(handoff.prompt)}
 
     def recorder(self, provider: LLMProvider, feature: str) -> Callable[[Completion], None]:
-        return lambda completion: self._usage.record(
-            provider.name, feature, completion, paid=provider.paid
-        )
+        def record(completion: Completion) -> None:
+            self._usage.record(provider.name, feature, completion, paid=provider.paid)
+            if provider.paid and self.on_usage:
+                self.on_usage()
+
+        return record
 
     def language(self) -> str:
         return self._settings.get().language
@@ -309,6 +326,7 @@ class AIService:
                 (today - timedelta(days=X_SEARCH_DAYS)).isoformat(),
                 today.isoformat(),
             )
+            self._check_cap(provider)
             completion = provider.complete(
                 prompt.system, prompt.user, json_output=False, max_tokens=4000
             )
@@ -360,6 +378,7 @@ class AIService:
         started = time.monotonic()
         try:
             provider = self._factory(provider_id, settings, self._secrets)
+            self._check_cap(provider)
             completion = provider.complete(
                 "You are a connection test.", "Reply with the single word OK.", json_output=False,
                 max_tokens=300,

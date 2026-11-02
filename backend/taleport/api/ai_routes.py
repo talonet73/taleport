@@ -125,7 +125,15 @@ def x_search_save(request: Request, body: XSearchSave) -> dict[str, Any]:
 @router.get("/ai/usage")
 def usage(request: Request) -> dict[str, Any]:
     ctx = _ctx(request)
-    return {"month_total_usd": ctx.usage.month_total(), "recent": ctx.usage.recent(30)}
+    settings = ctx.settings.get()
+    return {
+        "month_total_usd": ctx.usage.month_total(),
+        "cap_usd": settings.spend_cap_usd,
+        "warn_percent": settings.spend_warn_percent,
+        "cap_reached": ctx.ai.cap_reached(settings),
+        "by_provider": ctx.usage.month_by_provider(),
+        "recent": ctx.usage.recent(30),
+    }
 
 
 class ClipboardBody(BaseModel):

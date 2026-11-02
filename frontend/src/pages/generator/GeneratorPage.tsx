@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router'
 
 import { aiPost, useSettings, useToday, useTopics } from '../../api/hooks'
+import { useResultsSummary } from '../../api/planner'
 import type { AiMode, Language, Platform } from '../../api/types'
 import { AiModeSelect } from '../../components/ai/AiModeSelect'
 import { HandoffPanel } from '../../components/ai/HandoffPanel'
@@ -12,6 +13,7 @@ import { Card } from '../../components/Card'
 import { GenerationResults } from '../../components/drafts/GenerationPanel'
 import { LanguagePicker, PlatformPicker } from '../../components/drafts/Pickers'
 import { Modal } from '../../components/Modal'
+import { PriorityNote } from '../../components/results/PriorityNote'
 import { useErrorMessage } from '../../components/useErrorMessage'
 
 const MAX_POSTS = 12
@@ -25,6 +27,7 @@ export function GeneratorPage() {
   const { data: today } = useToday()
   const { data: topics = [] } = useTopics()
   const errorMessage = useErrorMessage()
+  const { data: results } = useResultsSummary()
 
   const [themeId, setThemeId] = useState<number | null>(params.get('theme') ? Number(params.get('theme')) : null)
   const [platforms, setPlatforms] = useState<Platform[]>([])
@@ -92,6 +95,7 @@ export function GeneratorPage() {
           {theme?.covered && <p className="text-sm text-accent-text">{t('generator.coveredHint')}</p>}
 
           <PlatformPicker value={platforms} onChange={setPlatforms} />
+          {results?.reasons.map((reason, i) => <PriorityNote key={i} reason={reason} />)}
           <LanguagePicker value={languages} onChange={setLanguages} />
 
           <div className="grid gap-4 md:grid-cols-3">

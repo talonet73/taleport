@@ -33,6 +33,7 @@ MAX_POSTS_PER_REQUEST = 12
 MAX_SERIES = 10
 MAX_SOURCES = 12
 GENERATION_MAX_TOKENS = 16_000
+RESULT_COLUMNS = ("likes", "comments", "shares", "views")
 _NOW = "strftime('%Y-%m-%dT%H:%M:%fZ', 'now')"
 
 
@@ -481,7 +482,7 @@ class GeneratorService:
     # -- reading -------------------------------------------------------------------------
 
     @staticmethod
-    def _to_dict(row: sqlite3.Row, publication: sqlite3.Row | None) -> dict[str, Any]:
+    def to_dict(row: sqlite3.Row, publication: sqlite3.Row | None = None) -> dict[str, Any]:
         data = {k: row[k] for k in row.keys() if k != "context"}  # noqa: SIM118
         data["content"] = json.loads(row["content"])
         data["sources"] = json.loads(row["sources"])
@@ -490,13 +491,31 @@ class GeneratorService:
         data["publication"] = dict(publication) if publication else None
         return data
 
+    @classmethod
+    def list_row(cls, row: sqlite3.Row) -> dict[str, Any]:
+        """A draft read with its publication (pub_at, pub_url) and results columns joined."""
+        item = cls.to_dict(row, None)
+        for key in ("pub_at", "pub_url", *RESULT_COLUMNS):
+            item.pop(key, None)
+        if row["pub_at"]:
+            item["publication"] = {"published_at": row["pub_at"], "url": row["pub_url"]}
+        has_results = any(row[m] is not None for m in RESULT_COLUMNS)
+        item["results"] = {m: row[m] for m in RESULT_COLUMNS} if has_results else None
+        return item
+
     def get(self, draft_id: int) -> dict[str, Any]:
         with self._db.connect() as conn:
             row = self._row(conn, draft_id)
             publication = conn.execute(
                 "SELECT published_at, url FROM publications WHERE draft_id = ?", (draft_id,)
             ).fetchone()
-        return self._to_dict(row, publication)
+            results = conn.execute(
+                "SELECT likes, comments, shares, views FROM post_results WHERE draft_id = ?",
+                (draft_id,),
+            ).fetchone()
+        data = self.to_dict(row, publication)
+        data["results"] = dict(results) if results else None
+        return data
 
     def list_drafts(
         self, limit: int = 50, batch_id: str | None = None, status: str | None = None
@@ -511,17 +530,10 @@ class GeneratorService:
         where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
         with self._db.connect() as conn:
             rows = conn.execute(
-                f"SELECT d.*, p.published_at AS pub_at, p.url AS pub_url FROM drafts d "
-                f"LEFT JOIN publications p ON p.draft_id = d.id {where} "
+                f"SELECT d.*, p.published_at AS pub_at, p.url AS pub_url, r.likes, r.comments, "
+                f"r.shares, r.views FROM drafts d LEFT JOIN publications p ON p.draft_id = d.id "
+                f"LEFT JOIN post_results r ON r.draft_id = d.id {where} "
                 "ORDER BY d.id DESC LIMIT ?",
                 (*params, limit),
             ).fetchall()
-        out = []
-        for row in rows:
-            item = self._to_dict(row, None)
-            item.pop("pub_at", None)
-            item.pop("pub_url", None)
-            if row["pub_at"]:
-                item["publication"] = {"published_at": row["pub_at"], "url": row["pub_url"]}
-            out.append(item)
-        return out
+        return [self.list_row(row) for row in rows]
