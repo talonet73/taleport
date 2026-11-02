@@ -5,6 +5,7 @@ import { type TrendsQuery, useTrends } from '../../api/insights'
 import { useTopics } from '../../api/hooks'
 import { LANGUAGES } from '../../api/types'
 import { Card } from '../../components/Card'
+import { ExportPdfButton } from '../../components/reports/ExportPdfButton'
 import { BarList } from '../../components/charts/BarList'
 import { ChangeList } from '../../components/charts/ChangeList'
 import { GroupCompare } from '../../components/charts/GroupCompare'
@@ -29,9 +30,22 @@ export function TrendsPage() {
 
   return (
     <div className="max-w-6xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-ink">{t('nav.trends')}</h1>
-        <p className="mt-1 max-w-prose text-muted">{t('trends.subtitle')}</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-ink">{t('nav.trends')}</h1>
+          <p className="mt-1 max-w-prose text-muted">{t('trends.subtitle')}</p>
+        </div>
+        <ExportPdfButton
+          kind="trends"
+          disabled={query.period === 'custom' && !(query.start && query.end)}
+          body={{
+            period: query.period,
+            start: query.period === 'custom' ? query.start : null,
+            end: query.period === 'custom' ? query.end : null,
+            topics: query.topics.length ? query.topics : null,
+            language: query.language || null,
+          }}
+        />
       </div>
 
       {/* Filters: one row above the charts */}

@@ -15,7 +15,8 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 4 completata** (2026-11-02)
 - [x] **Fase 5 completata** (2026-11-02)
 - [x] **Fase 6 completata** (2026-11-02)
-- [x] **Fase 7 completata** (2026-11-02) — in attesa dell'ok per la fase 8
+- [x] **Fase 7 completata** (2026-11-02)
+- [x] **Fase 8 completata** (2026-11-02) — in attesa dell'ok per la fase 9
 
 ---
 
@@ -148,13 +149,21 @@ Note:
 - Corretti durante la prova: medie a 0 per le metriche non inserite (ora «–»), nome del social tagliato nelle caselle del calendario, campi dei filtri senza nome per gli screen reader, collegamento «Modifica gli orari» che non scorreva al riquadro, spesa del mese ripetuta in due riquadri delle Impostazioni.
 - Le chiamate AI a pagamento bloccate dal tetto sono coperte dai test ma non provate dal vivo (sul PC non ci sono chiavi API). Priorità e orari imparati diventano visibili quando ci sono risultati su più post.
 
-## Fase 8 — Report PDF
-- [ ] Report giornaliero, settimanale, Tendenze parole, risposte di "Chiedi"
-- [ ] Report personalizzato (argomenti, periodo, lingue, sezioni)
-- [ ] Copertina con logo, indice, numeri di pagina, data, link cliccabili, grafici vettoriali
-- [ ] Tema chiaro predefinito, scuro opzionale
-- [ ] Modelli salvabili e rigenerabili
-- [ ] Test: generazione PDF
+## Fase 8 — Report PDF ✅
+- [x] Pacchetto `reports/`: contenuto come dati (`model.py`, `builder.py`) separato dall'impaginazione (`pdf.py` con ReportLab, `charts.py` con matplotlib → SVG → svglib); dipendenze aggiunte: reportlab, matplotlib, svglib
+- [x] Report giornaliero, settimanale e Tendenze parole; pulsante «Esporta PDF» su Oggi, Settimana, Tendenze e nelle risposte di "Chiedi" (il piano validato viene rieseguito sul server, mai fidandosi dei dati inviati dalla pagina)
+- [x] Report personalizzato: titolo, periodo (7/30 giorni, questo mese, settimana scorsa, date a scelta), argomenti, lingue, 8 sezioni (riepilogo, temi caldi, parole e hashtag, emergenti/in calo, andamento, confronto per lingua e fonte, post generati e pubblicati, risultati dei post) in ordine fisso
+- [x] Copertina con logo (TALeport o quello dell'utente: PNG/JPG/SVG fino a 2 MB, controllato prima di salvarlo), nome in copertina, periodo e data di creazione; indice con numeri di pagina; segnalibri del PDF; piè di pagina con titolo, periodo e «Pagina N»; link alle fonti cliccabili; grafici vettoriali con il testo vero (selezionabile) e la palette validata dell'app
+- [x] Tema chiaro predefinito, scuro a scelta (predefinito nelle Impostazioni, modificabile per ogni PDF); font DejaVu Sans incluso in matplotlib (accenti, «», virgolette in IT/EN/ES, offline)
+- [x] Modelli salvati (migrazione `0007_report_templates.sql`): salva, modifica, elimina, «Rigenera» con un clic (i periodi relativi si spostano da soli); ultima generazione mostrata
+- [x] PDF salvati in `exports\` della cartella dati, aperti col lettore PDF di Windows («Apri», «Mostra nella cartella»); elenco degli ultimi 20; nomi di file controllati (niente percorsi)
+- [x] Test: 143 backend (contenuto di ogni report, ordine delle sezioni e filtri, report di "Chiedi" dal piano, PDF con copertina/indice/numeri di pagina/link/segnalibri nei due temi, periodo vuoto, file e nomi non sicuri, modelli, logo, API) + 4 frontend
+
+Note:
+- Verificato nell'app su `devdata/`: report settimanale (chiaro), personalizzato «ultimi 30 giorni» salvato come modello e rigenerato (scuro), risposta di "Chiedi" esportata; pagine controllate convertendole in immagini.
+- Corretti durante la prova: riquadri dei numeri e tabelle che sporgevano dal margine, conteggio dei temi fermo a 10, date sovrapposte sull'asse dei grafici (ora «2 nov»), lettere dei grafici disegnate male (ora testo vero col font registrato), legenda che restringeva il grafico, periodo in copertina di "Chiedi" che mostrava solo il secondo periodo, confronto tra periodi con parole spezzate («intelligenza» accanto a «intelligenza artificiale»), campo nascosto del logo che faceva scorrere la pagina delle Impostazioni.
+- Il riepilogo usa i riassunti dei temi già scritti dall'AI: creare un report non fa mai chiamate all'AI.
+- Nel pannello del browser i PDF non si aprono (finestra «Salva con nome»); nell'app vera si aprono col lettore PDF di Windows.
 
 ## Fase 9 — Primo avvio, backup, aggiornamenti, registro errori
 - [ ] Primo avvio guidato (6 passi, §4.1)

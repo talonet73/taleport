@@ -9,6 +9,7 @@ import { XSearchDialog } from '../../components/ai/XSearchDialog'
 import { openExternal, useCurrentScan, useStartScan, useToday, useTopics } from '../../api/hooks'
 import type { ThemeSummary } from '../../api/types'
 import { Card } from '../../components/Card'
+import { ExportPdfButton } from '../../components/reports/ExportPdfButton'
 import { ScoreRing } from '../../components/ScoreRing'
 import { PriorityNote } from '../../components/results/PriorityNote'
 import { TrendBadge } from '../../components/TrendBadge'
@@ -25,9 +26,12 @@ export function TodayPage() {
 
   return (
     <div className="max-w-6xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-ink">{t('nav.today')}</h1>
-        <p className="mt-1 text-muted first-letter:uppercase">{dateLabel}</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-ink">{t('nav.today')}</h1>
+          <p className="mt-1 text-muted first-letter:uppercase">{dateLabel}</p>
+        </div>
+        <ExportPdfButton kind="daily" body={{}} />
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

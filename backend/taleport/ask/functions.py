@@ -169,7 +169,12 @@ def compare_periods(
     conn: sqlite3.Connection, scope_a: Scope, scope_b: Scope, kind: str = "keyword", limit: int = 15
 ) -> dict:
     a, b = dict(_term_counts(conn, scope_a, kind)), dict(_term_counts(conn, scope_b, kind))
-    terms = sorted(set(a) | set(b), key=lambda t: (-(a.get(t, 0) + b.get(t, 0)), t))[:limit]
+    totals = sorted(
+        ((t, a.get(t, 0) + b.get(t, 0)) for t in set(a) | set(b)), key=lambda r: (-r[1], r[0])
+    )
+    if kind == "keyword":  # same clean-up as the other lists
+        totals = collapse_subterms(totals)
+    terms = [t for t, _ in totals[:limit]]
     return {
         "kind": kind,
         "period_a": {"start": scope_a.start.isoformat(), "end": scope_a.end.isoformat()},

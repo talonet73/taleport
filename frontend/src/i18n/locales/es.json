@@ -259,7 +259,7 @@
     "ask": {
       "unknown_topic": "El plan usa un tema que no existe.",
       "unknown_preset": "Pregunta preparada no encontrada.",
-      "invalid_plan": "El plan de análisis no es válido.",
+      "invalid_plan": "Esta respuesta ya no se puede reconstruir: repite la pregunta.",
       "question_required": "Escribe una pregunta."
     },
     "results": {
@@ -267,6 +267,15 @@
     },
     "calendar": {
       "published": "Un post ya publicado no se puede mover."
+    },
+    "reports": {
+      "not_found": "El archivo ya no está en la carpeta de informes.",
+      "name_required": "Ponle un nombre a la plantilla.",
+      "too_many_templates": "Puedes guardar como máximo {{max}} plantillas.",
+      "template_not_found": "La plantilla ya no existe.",
+      "template_invalid": "Esta plantilla ya no es válida: ábrela, revisa las opciones y guárdala de nuevo.",
+      "logo_type": "El logo debe ser una imagen PNG, JPG o SVG legible.",
+      "logo_size": "El logo puede pesar como máximo {{max_mb}} MB."
     }
   },
   "common": {
@@ -595,7 +604,6 @@
       "posts_month": "¿Cuántos posts generé y publiqué en el último mes?"
     },
     "handoffTitle": "Pregunta con tu chat",
-    "pdfLater": "La exportación a PDF de las respuestas llega en la fase 8.",
     "term": "Palabra",
     "periodA": "Periodo A",
     "periodB": "Periodo B",
@@ -789,5 +797,97 @@
       "post_regeneration": "Regenerar post",
       "ask": "Preguntar"
     }
+  },
+  "reports": {
+    "subtitle": "PDF con portada, índice, números de página, gráficos y enlaces a las fuentes. Se guardan en el PC y se abren con el lector de PDF.",
+    "theme": "Tema del PDF",
+    "themes": {
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "exportPdf": "Exportar PDF",
+    "generating": "Creando el PDF…",
+    "saved": "Guardado: {{name}}",
+    "open": "Abrir",
+    "showFolder": "Mostrar en la carpeta",
+    "quickTitle": "Informes listos",
+    "quickText": "Un clic y el PDF está listo con los datos de ahora.",
+    "quick": {
+      "daily": {
+        "title": "Diario",
+        "text": "Temas calientes, palabras y posts de hoy"
+      },
+      "weekly": {
+        "title": "Semanal",
+        "text": "Últimos 7 días: resumen, temas, tendencias, posts y resultados"
+      },
+      "trends7": {
+        "title": "Tendencias, 7 días",
+        "text": "Palabras, emergentes, evolución y comparaciones"
+      },
+      "trends30": {
+        "title": "Tendencias, 30 días",
+        "text": "El mismo análisis del último mes"
+      }
+    },
+    "customTitle": "Informe personalizado",
+    "customText": "Elige periodo, temas, idiomas y secciones. Guárdalo como plantilla para regenerarlo con un clic.",
+    "reportTitle": "Título",
+    "reportTitlePlaceholder": "Informe personalizado",
+    "period": "Periodo",
+    "periods": {
+      "last_7_days": "Últimos 7 días",
+      "last_30_days": "Últimos 30 días",
+      "this_month": "Este mes",
+      "last_week": "Semana pasada",
+      "custom": "Fechas a elegir",
+      "today": "Hoy",
+      "this_week": "Esta semana"
+    },
+    "topics": "Temas",
+    "languages": "Idiomas",
+    "allIfNone": "(ninguno = todos)",
+    "sections": "Secciones",
+    "sectionNames": {
+      "summary": "Resumen",
+      "themes": "Temas calientes",
+      "keywords": "Palabras y hashtags",
+      "changes": "Emergentes y en descenso",
+      "trend": "Evolución",
+      "compare": "Por idioma y fuente",
+      "posts": "Posts generados y publicados",
+      "results": "Resultados de los posts"
+    },
+    "generate": "Crear PDF",
+    "templateName": "Nombre de la plantilla",
+    "templateNamePlaceholder": "p. ej. Mensual para el cliente",
+    "saveTemplate": "Guardar como plantilla",
+    "updateTemplate": "Actualizar la plantilla",
+    "templateSaved": "Plantilla guardada.",
+    "pickSection": "Elige al menos una sección.",
+    "templatesTitle": "Plantillas guardadas",
+    "templatesText": "Regenera un informe con datos actualizados: periodos como «últimos 30 días» avanzan solos.",
+    "noTemplates": "No hay plantillas guardadas.",
+    "regenerate": "Regenerar",
+    "editTemplate": "Editar",
+    "deleteTemplate": "Eliminar la plantilla {{name}}",
+    "lastRun": "Último PDF: {{date}}",
+    "neverRun": "Nunca generado",
+    "filesTitle": "PDF creados",
+    "filesText": "Los últimos informes, en la carpeta exports de los datos de TALeport.",
+    "noFiles": "Aún no hay PDF.",
+    "openFolder": "Abrir la carpeta",
+    "download": "Descargar",
+    "coverTitle": "Portada de los informes",
+    "coverText": "Tema predeterminado de los PDF, nombre y logo en la portada (p. ej. agencia o cliente).",
+    "defaultTheme": "Tema predeterminado",
+    "coverName": "Nombre en la portada",
+    "coverNamePlaceholder": "p. ej. Agencia Rossi para Cliente X",
+    "logo": "Logo de portada",
+    "logoDefault": "Ahora se usa el logo de TALeport.",
+    "logoCustom": "Ahora se usa tu logo.",
+    "logoHint": "PNG, JPG o SVG hasta 2 MB.",
+    "chooseLogo": "Elegir un logo",
+    "removeLogo": "Volver al logo de TALeport"
   }
 }

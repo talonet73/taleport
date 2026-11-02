@@ -169,6 +169,10 @@ def test_trend_compare_and_themes(seeded) -> None:
         )
         compared = fn.compare_periods(conn, last, week_scope(), limit=2)
         assert compared["rows"][0] == {"term": "reels", "a": 14, "b": 42}
+        _stat(conn, t1, TODAY, "intelligenza artificiale", 10)
+        _stat(conn, t1, TODAY, "intelligenza", 9)
+        terms = [r["term"] for r in fn.compare_periods(conn, last, week_scope())["rows"]]
+        assert "intelligenza artificiale" in terms and "intelligenza" not in terms
 
         languages = fn.compare_languages(conn, week_scope())
         assert [g["key"] for g in languages["groups"]] == ["it", "en"]

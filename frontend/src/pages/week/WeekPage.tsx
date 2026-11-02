@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 
 import { useWeek } from '../../api/insights'
 import { Card } from '../../components/Card'
+import { ExportPdfButton } from '../../components/reports/ExportPdfButton'
 import { BarList } from '../../components/charts/BarList'
 import { DailyBars } from '../../components/charts/DailyBars'
 import { ScoreRing } from '../../components/ScoreRing'
@@ -24,9 +25,12 @@ export function WeekPage() {
 
   return (
     <div className="max-w-6xl space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-ink">{t('nav.week')}</h1>
-        <p className="mt-1 text-muted">{t('week.range', { start: fmt(week.scope.start), end: fmt(week.scope.end) })}</p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-ink">{t('nav.week')}</h1>
+          <p className="mt-1 text-muted">{t('week.range', { start: fmt(week.scope.start), end: fmt(week.scope.end) })}</p>
+        </div>
+        <ExportPdfButton kind="weekly" body={{}} />
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

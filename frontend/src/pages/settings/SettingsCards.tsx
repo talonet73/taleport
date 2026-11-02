@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router'
 
 import { useSettings, useUpdateSettings } from '../../api/hooks'
+import { readAsBase64 } from '../../api/files'
 import { usePostingTimes, useUsage } from '../../api/planner'
+import { useReportLogo, useSetReportLogo } from '../../api/reports'
 import type { Platform } from '../../api/types'
 import { Card } from '../../components/Card'
 import { Toggle } from '../../components/Toggle'
@@ -240,5 +242,84 @@ export function PostingTimesCard() {
         </ul>
       </Card>
     </div>
+  )
+}
+
+/** Cover of the PDF reports: default theme, name and logo. */
+export function ReportCoverCard() {
+  const { t } = useTranslation()
+  const errorMessage = useErrorMessage()
+  const { data: settings } = useSettings()
+  const { data: logo } = useReportLogo()
+  const update = useUpdateSettings()
+  const setLogo = useSetReportLogo()
+  const [name, setName] = useState('')
+  useEffect(() => setName(settings?.report_cover_name ?? ''), [settings?.report_cover_name])
+  if (!settings) return null
+
+  return (
+    <Card title={t('reports.coverTitle')} description={t('reports.coverText')}>
+      <div className="space-y-5">
+        <fieldset>
+          <legend className="mb-1.5 text-sm font-medium text-ink">{t('reports.defaultTheme')}</legend>
+          <div role="radiogroup" className="flex gap-1">
+            {(['light', 'dark'] as const).map((value) => (
+              <button
+                key={value}
+                type="button"
+                role="radio"
+                aria-checked={settings.report_theme === value}
+                onClick={() => update.mutate({ report_theme: value })}
+                className={`rounded-full px-4 py-1.5 text-sm font-semibold ${
+                  settings.report_theme === value
+                    ? 'bg-accent-gradient text-on-accent'
+                    : 'border border-line text-ink hover:bg-surface-raised'
+                }`}
+              >
+                {t(`reports.themes.${value}`)}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+        <label className="block text-sm font-medium text-ink">
+          {t('reports.coverName')}
+          <input
+            value={name}
+            maxLength={80}
+            onChange={(e) => setName(e.target.value)}
+            onBlur={() => name !== settings.report_cover_name && update.mutate({ report_cover_name: name.trim() })}
+            placeholder={t('reports.coverNamePlaceholder')}
+            className={`${fieldClass} mt-1.5 block w-full max-w-md`}
+          />
+        </label>
+        <div>
+          <p className="text-sm font-medium text-ink">{t('reports.logo')}</p>
+          <p className="mb-2 text-sm text-muted">
+            {logo?.custom ? t('reports.logoCustom') : t('reports.logoDefault')} {t('reports.logoHint')}
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="relative cursor-pointer rounded-full border border-line px-4 py-1.5 text-sm font-semibold text-ink focus-within:border-accent hover:bg-surface-raised">
+              {t('reports.chooseLogo')}
+              <input
+                type="file"
+                accept=".png,.jpg,.jpeg,.svg"
+                className="sr-only"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  e.target.value = ''
+                  if (file) setLogo.mutate({ file_name: file.name, file_base64: await readAsBase64(file) })
+                }}
+              />
+            </label>
+            {logo?.custom && (
+              <button type="button" onClick={() => setLogo.mutate(null)} className="text-sm text-muted hover:text-ink">
+                {t('reports.removeLogo')}
+              </button>
+            )}
+          </div>
+          {setLogo.isError && <p className="mt-2 text-sm text-red-400">{errorMessage(setLogo.error)}</p>}
+        </div>
+      </div>
+    </Card>
   )
 }

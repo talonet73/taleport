@@ -2,6 +2,7 @@ import { FileUp, Loader2, Sparkles } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { readAsBase64 } from '../../api/files'
 import { aiPost, extractFile, useSettings, useTopics } from '../../api/hooks'
 import type { AiMode, Language, Platform } from '../../api/types'
 import { AiModeSelect } from '../../components/ai/AiModeSelect'
@@ -15,15 +16,6 @@ import { useErrorMessage } from '../../components/useErrorMessage'
 
 const fieldClass =
   'w-full rounded-xl border border-line bg-surface-raised px-3 py-2.5 text-ink outline-none placeholder:text-muted focus:border-accent'
-
-function readAsBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result).split(',', 2)[1] ?? '')
-    reader.onerror = () => reject(reader.error)
-    reader.readAsDataURL(file)
-  })
-}
 
 export function LongContentPage() {
   const { t, i18n } = useTranslation()

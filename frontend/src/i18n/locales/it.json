@@ -259,7 +259,7 @@
     "ask": {
       "unknown_topic": "Il piano usa un argomento che non esiste.",
       "unknown_preset": "Domanda pronta non trovata.",
-      "invalid_plan": "Il piano di analisi non è valido.",
+      "invalid_plan": "Questa risposta non si può più ricostruire: ripeti la domanda.",
       "question_required": "Scrivi una domanda."
     },
     "results": {
@@ -267,6 +267,15 @@
     },
     "calendar": {
       "published": "Un post già pubblicato non si può spostare."
+    },
+    "reports": {
+      "not_found": "Il file non esiste più nella cartella dei report.",
+      "name_required": "Dai un nome al modello.",
+      "too_many_templates": "Puoi salvare al massimo {{max}} modelli.",
+      "template_not_found": "Il modello non esiste più.",
+      "template_invalid": "Il modello non è più valido: aprilo, controlla le scelte e salvalo di nuovo.",
+      "logo_type": "Il logo deve essere un'immagine PNG, JPG o SVG leggibile.",
+      "logo_size": "Il logo può pesare al massimo {{max_mb}} MB."
     }
   },
   "common": {
@@ -595,7 +604,6 @@
       "posts_month": "Quanti post ho generato e pubblicato nell'ultimo mese?"
     },
     "handoffTitle": "Chiedi con la tua chat",
-    "pdfLater": "L'esportazione in PDF delle risposte arriva nella fase 8.",
     "term": "Parola",
     "periodA": "Periodo A",
     "periodB": "Periodo B",
@@ -789,5 +797,97 @@
       "post_regeneration": "Rigenera post",
       "ask": "Chiedi"
     }
+  },
+  "reports": {
+    "subtitle": "PDF con copertina, indice, numeri di pagina, grafici e link alle fonti. Vengono salvati sul PC e si aprono col lettore PDF.",
+    "theme": "Tema del PDF",
+    "themes": {
+      "light": "Chiaro",
+      "dark": "Scuro"
+    },
+    "exportPdf": "Esporta PDF",
+    "generating": "Creo il PDF…",
+    "saved": "Salvato: {{name}}",
+    "open": "Apri",
+    "showFolder": "Mostra nella cartella",
+    "quickTitle": "Report pronti",
+    "quickText": "Un clic e il PDF è pronto con i dati di adesso.",
+    "quick": {
+      "daily": {
+        "title": "Giornaliero",
+        "text": "Temi caldi, parole e post di oggi"
+      },
+      "weekly": {
+        "title": "Settimanale",
+        "text": "Ultimi 7 giorni: riepilogo, temi, tendenze, post e risultati"
+      },
+      "trends7": {
+        "title": "Tendenze, 7 giorni",
+        "text": "Parole, emergenti, andamento e confronti"
+      },
+      "trends30": {
+        "title": "Tendenze, 30 giorni",
+        "text": "La stessa analisi sull'ultimo mese"
+      }
+    },
+    "customTitle": "Report personalizzato",
+    "customText": "Scegli periodo, argomenti, lingue e sezioni. Puoi salvarlo come modello e rigenerarlo con un clic.",
+    "reportTitle": "Titolo",
+    "reportTitlePlaceholder": "Report personalizzato",
+    "period": "Periodo",
+    "periods": {
+      "last_7_days": "Ultimi 7 giorni",
+      "last_30_days": "Ultimi 30 giorni",
+      "this_month": "Questo mese",
+      "last_week": "Settimana scorsa",
+      "custom": "Date a scelta",
+      "today": "Oggi",
+      "this_week": "Questa settimana"
+    },
+    "topics": "Argomenti",
+    "languages": "Lingue",
+    "allIfNone": "(nessuno = tutti)",
+    "sections": "Sezioni",
+    "sectionNames": {
+      "summary": "Riepilogo",
+      "themes": "Temi caldi",
+      "keywords": "Parole e hashtag",
+      "changes": "Emergenti e in calo",
+      "trend": "Andamento",
+      "compare": "Confronto per lingua e fonte",
+      "posts": "Post generati e pubblicati",
+      "results": "Risultati dei post"
+    },
+    "generate": "Crea PDF",
+    "templateName": "Nome del modello",
+    "templateNamePlaceholder": "es. Mensile per il cliente",
+    "saveTemplate": "Salva come modello",
+    "updateTemplate": "Aggiorna il modello",
+    "templateSaved": "Modello salvato.",
+    "pickSection": "Scegli almeno una sezione.",
+    "templatesTitle": "Modelli salvati",
+    "templatesText": "Rigenera un report con i dati aggiornati: i periodi come «ultimi 30 giorni» si spostano da soli.",
+    "noTemplates": "Nessun modello salvato.",
+    "regenerate": "Rigenera",
+    "editTemplate": "Modifica",
+    "deleteTemplate": "Elimina il modello {{name}}",
+    "lastRun": "Ultimo PDF: {{date}}",
+    "neverRun": "Mai generato",
+    "filesTitle": "PDF creati",
+    "filesText": "Gli ultimi report, nella cartella exports dei dati di TALeport.",
+    "noFiles": "Nessun PDF creato.",
+    "openFolder": "Apri la cartella",
+    "download": "Scarica",
+    "coverTitle": "Copertina dei report",
+    "coverText": "Tema predefinito dei PDF, nome e logo in copertina (es. agenzia o cliente).",
+    "defaultTheme": "Tema predefinito",
+    "coverName": "Nome in copertina",
+    "coverNamePlaceholder": "es. Agenzia Rossi per Cliente X",
+    "logo": "Logo in copertina",
+    "logoDefault": "Ora c'è il logo di TALeport.",
+    "logoCustom": "Ora c'è il tuo logo.",
+    "logoHint": "PNG, JPG o SVG fino a 2 MB.",
+    "chooseLogo": "Scegli un logo",
+    "removeLogo": "Torna al logo di TALeport"
   }
 }

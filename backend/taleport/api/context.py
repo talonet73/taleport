@@ -34,6 +34,7 @@ from taleport.db.database import Database
 from taleport.generator.service import GeneratorService
 from taleport.notifications.service import NotificationService
 from taleport.planner.service import PlannerService
+from taleport.reports.service import ReportService
 from taleport.results.service import ResultsService
 from taleport.scan.items import ItemRepository
 from taleport.scan.service import ScanService
@@ -61,6 +62,7 @@ class AppContext:
     results: ResultsService
     planner: PlannerService
     archive: ArchiveService
+    reports: ReportService
     token: str
     bus: EventBus
     version: str = __version__
@@ -121,6 +123,8 @@ def build_context(
         usage.month_total(), settings.get(), datetime.now().astimezone()
     )
     generator = GeneratorService(db, ai, topics)
+    insights = InsightsService(db, topics, ai)
+    results = ResultsService(db)
 
     def analyse_after_scan(summary: dict) -> None:
         for topic in summary["topics"]:
@@ -155,11 +159,12 @@ def build_context(
         usage=usage,
         ai=ai,
         generator=generator,
-        insights=InsightsService(db, topics, ai),
+        insights=insights,
         notifications=notifications,
-        results=ResultsService(db),
+        results=results,
         planner=PlannerService(db, settings, generator),
         archive=ArchiveService(db),
+        reports=ReportService(db, settings, insights, results),
         secrets=secrets,
         topics=topics,
         items=items,

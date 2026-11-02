@@ -29,7 +29,7 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 | Avvio con Windows | chiave `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` | Nessun permesso di amministratore |
 | Parole chiave | YAKE + stopword IT/EN/ES incluse nel pacchetto | Leggero, multilingua, offline |
 | Grafici UI | Apache ECharts (+ `echarts-wordcloud`) | — |
-| Grafici PDF | matplotlib lato server (SVG/PDF vettoriale) dentro ReportLab; logo con svglib | PDF offline, grafici veri |
+| Report PDF | `reports/builder.py` produce il contenuto come dati (sezioni di blocchi), `reports/pdf.py` lo impagina con ReportLab (copertina, indice con `multiBuild`, segnalibri, piè di pagina); grafici matplotlib → SVG con `svg.fonttype = none` → svglib, font DejaVu Sans di matplotlib registrato sia in ReportLab sia in svglib; file in `exports\`, aperti con `os.startfile`; i report di "Chiedi" rieseguono il piano validato | PDF offline, grafici vettoriali con testo vero, contenuto testabile senza leggere PDF |
 | Notifiche | tabella `notifications` (`kind` + `params`, tradotti dalla UI; `dedupe_key` per non ripetere) + campanella aggiornata via SSE; notifica di Windows con `pystray` `Icon.notify` dall'icona nella tray, testi dal catalogo del backend (`resources/i18n`); regole in `notifications/rules.py` | Nessuna libreria in più; Windows-Toasts in un'app non registrata mostrerebbe «Python» come mittente |
 | Testi lunghi | `pypdf`, `python-docx` | — |
 | Icona `.ico` | script in `packaging/` che rasterizza `taleport-icon.svg` (sharp, Node) → PNG 16–256 → `.ico` con Pillow | cairosvg su Windows richiede librerie native |

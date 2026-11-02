@@ -259,7 +259,7 @@
     "ask": {
       "unknown_topic": "The plan uses a topic that doesn't exist.",
       "unknown_preset": "Ready-made question not found.",
-      "invalid_plan": "The analysis plan is not valid.",
+      "invalid_plan": "This answer can no longer be rebuilt: ask the question again.",
       "question_required": "Write a question."
     },
     "results": {
@@ -267,6 +267,15 @@
     },
     "calendar": {
       "published": "A post that is already published cannot be moved."
+    },
+    "reports": {
+      "not_found": "The file is no longer in the reports folder.",
+      "name_required": "Give the template a name.",
+      "too_many_templates": "You can save up to {{max}} templates.",
+      "template_not_found": "The template no longer exists.",
+      "template_invalid": "This template is no longer valid: open it, check the choices and save it again.",
+      "logo_type": "The logo must be a readable PNG, JPG or SVG image.",
+      "logo_size": "The logo can be at most {{max_mb}} MB."
     }
   },
   "common": {
@@ -595,7 +604,6 @@
       "posts_month": "How many posts did I generate and publish in the last month?"
     },
     "handoffTitle": "Ask with your chat",
-    "pdfLater": "PDF export of answers arrives in phase 8.",
     "term": "Word",
     "periodA": "Period A",
     "periodB": "Period B",
@@ -789,5 +797,97 @@
       "post_regeneration": "Regenerate post",
       "ask": "Ask"
     }
+  },
+  "reports": {
+    "subtitle": "PDFs with cover, contents, page numbers, charts and links to the sources. They are saved on this PC and open in your PDF viewer.",
+    "theme": "PDF theme",
+    "themes": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "exportPdf": "Export PDF",
+    "generating": "Creating the PDF…",
+    "saved": "Saved: {{name}}",
+    "open": "Open",
+    "showFolder": "Show in folder",
+    "quickTitle": "Ready-made reports",
+    "quickText": "One click and the PDF is ready with today's data.",
+    "quick": {
+      "daily": {
+        "title": "Daily",
+        "text": "Today's hot themes, keywords and posts"
+      },
+      "weekly": {
+        "title": "Weekly",
+        "text": "Last 7 days: summary, themes, trends, posts and results"
+      },
+      "trends7": {
+        "title": "Trends, 7 days",
+        "text": "Keywords, emerging terms, trend and comparisons"
+      },
+      "trends30": {
+        "title": "Trends, 30 days",
+        "text": "The same analysis over the last month"
+      }
+    },
+    "customTitle": "Custom report",
+    "customText": "Choose period, topics, languages and sections. Save it as a template to regenerate it with one click.",
+    "reportTitle": "Title",
+    "reportTitlePlaceholder": "Custom report",
+    "period": "Period",
+    "periods": {
+      "last_7_days": "Last 7 days",
+      "last_30_days": "Last 30 days",
+      "this_month": "This month",
+      "last_week": "Last week",
+      "custom": "Pick dates",
+      "today": "Today",
+      "this_week": "This week"
+    },
+    "topics": "Topics",
+    "languages": "Languages",
+    "allIfNone": "(none = all)",
+    "sections": "Sections",
+    "sectionNames": {
+      "summary": "Summary",
+      "themes": "Hot themes",
+      "keywords": "Keywords and hashtags",
+      "changes": "Emerging and declining",
+      "trend": "Trend",
+      "compare": "By language and source",
+      "posts": "Posts generated and published",
+      "results": "Post results"
+    },
+    "generate": "Create PDF",
+    "templateName": "Template name",
+    "templateNamePlaceholder": "e.g. Monthly for the client",
+    "saveTemplate": "Save as template",
+    "updateTemplate": "Update template",
+    "templateSaved": "Template saved.",
+    "pickSection": "Pick at least one section.",
+    "templatesTitle": "Saved templates",
+    "templatesText": "Regenerate a report with fresh data: periods such as “last 30 days” move on by themselves.",
+    "noTemplates": "No saved templates.",
+    "regenerate": "Regenerate",
+    "editTemplate": "Edit",
+    "deleteTemplate": "Delete template {{name}}",
+    "lastRun": "Last PDF: {{date}}",
+    "neverRun": "Never generated",
+    "filesTitle": "Created PDFs",
+    "filesText": "The latest reports, in the exports folder of TALeport's data.",
+    "noFiles": "No PDFs created yet.",
+    "openFolder": "Open folder",
+    "download": "Download",
+    "coverTitle": "Report cover",
+    "coverText": "Default PDF theme, plus the name and logo on the cover (e.g. agency or client).",
+    "defaultTheme": "Default theme",
+    "coverName": "Name on the cover",
+    "coverNamePlaceholder": "e.g. Smith Agency for Client X",
+    "logo": "Cover logo",
+    "logoDefault": "The TALeport logo is used now.",
+    "logoCustom": "Your logo is used now.",
+    "logoHint": "PNG, JPG or SVG up to 2 MB.",
+    "chooseLogo": "Choose a logo",
+    "removeLogo": "Back to the TALeport logo"
   }
 }

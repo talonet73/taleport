@@ -29,6 +29,8 @@ export interface AppSettings {
   spend_warn_percent: number
   notify_windows: boolean
   posting_times: Partial<Record<Platform, string>>
+  report_theme: 'light' | 'dark'
+  report_cover_name: string
 }
 
 // -- AI -----------------------------------------------------------------------------

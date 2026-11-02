@@ -9,6 +9,7 @@ import { api } from '../../api/client'
 import { HandoffPanel } from '../../components/ai/HandoffPanel'
 import { useAiFlow } from '../../components/ai/useAiFlow'
 import { Card } from '../../components/Card'
+import { ExportPdfButton } from '../../components/reports/ExportPdfButton'
 import { StepResult } from '../../components/insights/StepResult'
 import { Modal } from '../../components/Modal'
 import { useErrorMessage } from '../../components/useErrorMessage'
@@ -102,7 +103,12 @@ export function AskPage() {
               <StepResult step={step} />
             </Card>
           ))}
-          <p className="text-sm text-muted">{t('ask.pdfLater')}</p>
+          {result.plan !== undefined && (
+            <ExportPdfButton
+              kind="ask"
+              body={{ plan: result.plan, question: result.question ?? (preset ? t(`ask.presets.${preset}`) : '') }}
+            />
+          )}
         </div>
       )}
 

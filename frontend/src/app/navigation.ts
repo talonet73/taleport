@@ -29,6 +29,6 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/calendar', labelKey: 'nav.calendar', icon: CalendarDays },
   { path: '/topics', labelKey: 'nav.topics', icon: Tags },
   { path: '/archive', labelKey: 'nav.archive', icon: Archive },
-  { path: '/reports', labelKey: 'nav.reports', icon: FileDown, phase: 8 },
+  { path: '/reports', labelKey: 'nav.reports', icon: FileDown },
   { path: '/settings', labelKey: 'nav.settings', icon: Settings },
 ]

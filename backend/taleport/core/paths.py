@@ -35,6 +35,15 @@ def logs_dir() -> Path:
     return _subdir("logs")
 
 
+def exports_dir() -> Path:
+    return _subdir("exports")
+
+
+def branding_dir() -> Path:
+    """User files for report covers (custom logo)."""
+    return _subdir("branding")
+
+
 def webview_storage_dir() -> Path:
     return _subdir("webview")
 

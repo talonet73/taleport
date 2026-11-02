@@ -22,7 +22,7 @@ import { Card } from '../../components/Card'
 import { Toggle } from '../../components/Toggle'
 import { useErrorMessage } from '../../components/useErrorMessage'
 import { AiSettingsCard } from './AiSettingsCard'
-import { NotificationsCard, PostingTimesCard, SpendCard } from './SettingsCards'
+import { NotificationsCard, PostingTimesCard, ReportCoverCard, SpendCard } from './SettingsCards'
 
 const THEME_ICONS = { dark: Moon, light: Sun, system: Monitor } as const
 const THEME_LABELS = {
@@ -102,6 +102,7 @@ export function SettingsPage() {
       <ScanSettingsCard />
       <NotificationsCard />
       <PostingTimesCard />
+      <ReportCoverCard />
     </div>
   )
 }

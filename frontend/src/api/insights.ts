@@ -105,6 +105,8 @@ export interface AskResult {
   title: string
   question?: string
   preset?: string
+  /** The validated plan: sent back to build the PDF (the backend re-runs it). */
+  plan?: unknown
   steps: AskStep[]
 }
 

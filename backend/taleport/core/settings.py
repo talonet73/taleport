@@ -44,6 +44,9 @@ class AppSettings(BaseModel):
     spend_warn_percent: int = Field(80, ge=50, le=99)
     notify_windows: bool = True
     posting_times: dict[str, str] = Field(default_factory=dict)  # platform -> "HH:MM" override
+    # Phase 8: PDF reports
+    report_theme: Literal["light", "dark"] = "light"
+    report_cover_name: str = Field("", max_length=80)  # name on the cover (e.g. agency, client)
 
     @field_validator("posting_times")
     @classmethod
