@@ -55,6 +55,11 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 | Riferimento grafico | nessuna immagine della dashboard: valgono le specifiche del §7 e i loghi | — |
 | Tema | scelto dall'utente: Scuro (predefinito) / Chiaro / Come Windows. Logo scuro o chiaro in base al tema attivo | Richiesta dell'utente |
 | Token di sessione nella UI | il backend apre `/#t=<token>`; la UI lo salva in `sessionStorage` e lo toglie dall'indirizzo | Funziona uguale nella finestra, in dev (Vite) e nel browser |
+| Primo avvio | `first_run_completed` nelle impostazioni; finché è falso `Layout` mostra `FirstRunWizard` (6 passi, riusa `SecretRow` e `NewTopicForm`) | Nessuna configurazione duplicata |
+| Backup | JSON `taleport-backup` / `taleport-topic` con `version`; mai chiavi API; si importa senza sovrascrivere; `first_run_completed` e `start_with_windows` non si ripristinano | Portabile e sicuro |
+| Aggiornamenti | `update_url` (GitHub Releases API o JSON `{version, url, notes}`), controllo giornaliero all'avvio, stato in `settings._update_state`; si apre solo la pagina della versione | Nessun download o esecuzione automatica |
+| File esportati | `core/exports.py`: cartella `exports\`, nomi controllati con regex, `os.startfile` | Un solo punto per PDF, backup, registro |
+| Pulizia | `core/maintenance.py`: notizie non viste da `retention_months` mesi, registro e notifiche lette dopo 90 giorni; all'avvio e dopo ogni scansione | Privacy (§9) |
 | Migrazioni | `0001_init.sql` contiene solo `settings` e `logs`; ogni fase aggiunge la sua migrazione con le tabelle del §8 che usa | Lo schema nasce insieme al codice che lo usa |
 
 ## Stack e strumenti

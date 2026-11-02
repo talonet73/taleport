@@ -23,6 +23,7 @@ import { Toggle } from '../../components/Toggle'
 import { useErrorMessage } from '../../components/useErrorMessage'
 import { AiSettingsCard } from './AiSettingsCard'
 import { NotificationsCard, PostingTimesCard, ReportCoverCard, SpendCard } from './SettingsCards'
+import { BackupCard, DataCard, ErrorLogCard, UpdatesCard } from './SystemCards'
 
 const THEME_ICONS = { dark: Moon, light: Sun, system: Monitor } as const
 const THEME_LABELS = {
@@ -103,6 +104,10 @@ export function SettingsPage() {
       <NotificationsCard />
       <PostingTimesCard />
       <ReportCoverCard />
+      <BackupCard />
+      <DataCard />
+      <UpdatesCard />
+      <ErrorLogCard />
     </div>
   )
 }
@@ -181,7 +186,7 @@ function ApiKeysCard() {
   )
 }
 
-function SecretRow({ name, isSet }: { name: SecretName; isSet: boolean }) {
+export function SecretRow({ name, isSet }: { name: SecretName; isSet: boolean }) {
   const { t } = useTranslation()
   const [value, setValue] = useState('')
   const save = useSaveSecret()

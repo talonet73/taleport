@@ -16,7 +16,8 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 5 completata** (2026-11-02)
 - [x] **Fase 6 completata** (2026-11-02)
 - [x] **Fase 7 completata** (2026-11-02)
-- [x] **Fase 8 completata** (2026-11-02) — in attesa dell'ok per la fase 9
+- [x] **Fase 8 completata** (2026-11-02)
+- [x] **Fase 9 completata** (2026-11-02) — in attesa dell'ok per la fase 10
 
 ---
 
@@ -165,12 +166,26 @@ Note:
 - Il riepilogo usa i riassunti dei temi già scritti dall'AI: creare un report non fa mai chiamate all'AI.
 - Nel pannello del browser i PDF non si aprono (finestra «Salva con nome»); nell'app vera si aprono col lettore PDF di Windows.
 
-## Fase 9 — Primo avvio, backup, aggiornamenti, registro errori
-- [ ] Primo avvio guidato (6 passi, §4.1)
-- [ ] Backup/esportazione/importazione in un unico file (chiavi escluse) + importazione di singoli argomenti
-- [ ] Controllo aggiornamenti da GitHub Releases (URL configurabile)
-- [ ] Registro errori consultabile ed esportabile
-- [ ] Pulizia automatica degli elementi più vecchi di N mesi
+## Fase 9 — Primo avvio, backup, aggiornamenti, registro errori ✅
+- [x] Primo avvio guidato in 6 passi, finché non è completato o saltato («Esci dalla configurazione»); ripetibile dalle Impostazioni:
+  1. lingua e tema (applicati subito);
+  2. AI: rileva Ollama (installato, avviato, modelli) e spiega come installarlo con il link ufficiale; AI predefinita; chiavi API facoltative;
+  3. chiave YouTube facoltativa con guida in 5 passi e link a Google Cloud (senza chiave YouTube viene saltato);
+  4. orario della scansione e avvio con Windows;
+  5. primo argomento (nome, Paesi/lingue, parole chiave, «Crea con l'AI»), o quelli già presenti;
+  6. scansione di prova con barra di avanzamento e risultato.
+- [x] Backup in un unico file JSON (impostazioni, argomenti, modelli di report; mai chiavi API, notizie o bozze), anteprima prima di importare, importazione senza sovrascrivere (nomi doppi → «Nome (2)», limite di 10 argomenti rispettato, modelli identici non duplicati, modelli collegati agli argomenti per nome); «Condividi» e «Importa da file» per un singolo argomento nella pagina Argomenti
+- [x] Controllo aggiornamenti: indirizzo configurabile (API di GitHub Releases o file JSON semplice, solo https), controllo manuale o automatico una volta al giorno all'avvio, notifica «Nuova versione», pulsante che apre la pagina della versione; l'app non scarica né esegue nulla da sola
+- [x] Registro errori nelle Impostazioni: filtro per livello, messaggi tradotti, svuota, esporta in un file .txt (versione, Windows, eventi con dettagli tecnici, ultime 500 righe del log tecnico)
+- [x] Pulizia automatica all'avvio e dopo ogni scansione: notizie non più viste da N mesi (3/6/12/24, oppure «sempre»; predefinito 6), registro e notifiche lette dopo 90 giorni; statistiche delle parole, temi, bozze e report restano; «Pulisci ora»
+- [x] File esportati (PDF, backup, argomenti, registro) gestiti in un unico modulo `core/exports.py`: cartella `exports\`, nomi controllati, apertura con il programma di Windows
+- [x] Test: 151 backend (pulizia, backup senza segreti e ripristino su un altro database, file non validi, limite argomenti, condivisione di un argomento, modelli non duplicati, versioni e formati delle release, controllo aggiornamenti con risposte simulate, registro, API) + 4 frontend
+
+Note:
+- Verificato nell'app su `devdata/`: configurazione guidata completa (anche in inglese), rilevamento di Ollama assente, scansione di prova (92 elementi, 5 nuovi), backup creato e reimportato (argomento e modello duplicati poi rimossi dai dati di prova), registro con messaggi tradotti. La lettura di una risposta vera dell'API di GitHub Releases è stata provata a parte.
+- Corretti durante la prova: pulsante «Salta questo passo» anche con argomenti già presenti, etichetta «Finisci senza scansione» durante la scansione (ora «Vai alla dashboard»), modelli di report duplicati reimportando lo stesso backup.
+- L'indirizzo degli aggiornamenti è vuoto finché il repository `taleport` non esiste su GitHub: si imposta nella fase 10.
+- [!] Una volta la suite backend ha dato 1 test fallito, che non si è più ripresentato in 8 esecuzioni successive: probabile test instabile, da tenere d'occhio.
 
 ## Fase 10 — Packaging
 - [ ] Installare Inno Setup 6

@@ -10,6 +10,7 @@ import {
   PLATFORMS,
   SOURCE_KINDS,
   type SourceKind,
+  type Topic,
   type TopicData,
   type TopicSuggestion,
 } from '../../api/types'
@@ -113,6 +114,34 @@ export function TopicEditor() {
         </Link>
         {save.isError && <span className="text-red-400">{errorMessage(save.error)}</span>}
         {savedAt && !save.isError && <span className="text-accent-text">{t('settings.saved')}</span>}
+      </div>
+    </div>
+  )
+}
+
+/** The essential fields of a new topic, for the first-run wizard (full editor: Topics). */
+export function NewTopicForm({ onSaved }: { onSaved: (topic: Topic) => void }) {
+  const { t } = useTranslation()
+  const save = useSaveTopic()
+  const errorMessage = useErrorMessage()
+  const [draft, setDraft] = useState<TopicData>(EMPTY_TOPIC)
+  const update = (changes: Partial<TopicData>) => setDraft((current) => ({ ...current, ...changes }))
+
+  return (
+    <div className="space-y-6">
+      <GeneralSection draft={draft} update={update} />
+      <EditionsSection draft={draft} update={update} />
+      <KeywordsSection draft={draft} update={update} />
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => save.mutate({ data: draft }, { onSuccess: onSaved })}
+          disabled={save.isPending || !draft.name.trim()}
+          className="rounded-full bg-accent-gradient px-5 py-2 font-semibold text-on-accent disabled:opacity-50"
+        >
+          {t('welcome.topic.save')}
+        </button>
+        {save.isError && <span className="text-red-400">{errorMessage(save.error)}</span>}
       </div>
     </div>
   )

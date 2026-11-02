@@ -1,4 +1,4 @@
-import { Info, Pencil, Plus, RefreshCw, Tags, Trash2 } from 'lucide-react'
+import { Info, Pencil, Plus, RefreshCw, Share2, Tags, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -12,9 +12,12 @@ import {
   useTopicsMeta,
 } from '../../api/hooks'
 import type { Topic } from '../../api/types'
+import { useExportTopic } from '../../api/system'
 import { Card } from '../../components/Card'
+import { SavedNotice } from '../../components/reports/ExportPdfButton'
 import { Toggle } from '../../components/Toggle'
 import { useErrorMessage } from '../../components/useErrorMessage'
+import { ImportButton } from '../settings/SystemCards'
 import { editionLabel } from './editionLabel'
 
 export function TopicsPage() {
@@ -35,7 +38,8 @@ export function TopicsPage() {
           <h1 className="text-3xl font-bold text-ink">{t('topics.title')}</h1>
           <p className="mt-1 text-muted">{t('topics.count', { count: topics.length, max })}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {!atLimit && <ImportButton label={t('topics.importFile')} />}
           <button
             type="button"
             disabled={!topics.some((tp) => tp.active) || scanning || startScan.isPending}
@@ -100,6 +104,7 @@ function TopicCard({ topic, scanning }: { topic: Topic; scanning: boolean }) {
   const remove = useDeleteTopic()
   const startScan = useStartScan()
   const [confirming, setConfirming] = useState(false)
+  const share = useExportTopic()
   const keywordCount = Object.values(topic.keywords).reduce((n, list) => n + (list?.length ?? 0), 0)
 
   return (
@@ -152,6 +157,15 @@ function TopicCard({ topic, scanning }: { topic: Topic; scanning: boolean }) {
           <RefreshCw className="size-4" aria-hidden />
           {t('topics.scanOne')}
         </button>
+        <button
+          type="button"
+          disabled={share.isPending}
+          onClick={() => share.mutate(topic.id)}
+          className="flex items-center gap-2 rounded-xl border border-line px-3 py-2 font-medium text-ink hover:bg-surface-raised disabled:opacity-50"
+        >
+          <Share2 className="size-4" aria-hidden />
+          {t('topics.share')}
+        </button>
         <div className="ml-auto">
           {confirming ? (
             <span className="flex items-center gap-2 text-sm">
@@ -183,6 +197,11 @@ function TopicCard({ topic, scanning }: { topic: Topic; scanning: boolean }) {
           )}
         </div>
       </div>
+      {share.data && (
+        <div className="mt-3">
+          <SavedNotice file={share.data} />
+        </div>
+      )}
     </Card>
   )
 }

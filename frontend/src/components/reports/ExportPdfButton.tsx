@@ -1,7 +1,7 @@
 import { FileDown, FolderOpen, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-import { openReport, type ReportKind, type SavedReport, useGenerateReport } from '../../api/reports'
+import { openReport, type ReportKind, useGenerateReport } from '../../api/reports'
 import { useErrorMessage } from '../useErrorMessage'
 
 /** "Export PDF" for a screen: builds the report and offers to open the saved file. */
@@ -32,7 +32,7 @@ export function ExportPdfButton({ kind, body, disabled }: { kind: ReportKind; bo
 }
 
 /** The file just created, with "Open" and "Show in folder". */
-export function SavedNotice({ file }: { file: SavedReport }) {
+export function SavedNotice({ file }: { file: { name: string } }) {
   const { t } = useTranslation()
   return (
     <p role="status" className="flex flex-wrap items-center justify-end gap-2 text-sm text-muted">

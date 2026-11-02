@@ -269,13 +269,27 @@
       "published": "Un post già pubblicato non si può spostare."
     },
     "reports": {
-      "not_found": "Il file non esiste più nella cartella dei report.",
       "name_required": "Dai un nome al modello.",
       "too_many_templates": "Puoi salvare al massimo {{max}} modelli.",
       "template_not_found": "Il modello non esiste più.",
       "template_invalid": "Il modello non è più valido: aprilo, controlla le scelte e salvalo di nuovo.",
       "logo_type": "Il logo deve essere un'immagine PNG, JPG o SVG leggibile.",
       "logo_size": "Il logo può pesare al massimo {{max_mb}} MB."
+    },
+    "exports": {
+      "not_found": "Il file non esiste più nella cartella exports."
+    },
+    "backup": {
+      "invalid_file": "Questo file non è un backup né un argomento di TALeport.",
+      "newer_version": "Il file viene da una versione più recente di TALeport ({{version}}): aggiorna l'app e riprova.",
+      "too_large": "Il file è troppo grande (massimo {{max_mb}} MB)."
+    },
+    "updates": {
+      "not_configured": "Imposta prima l'indirizzo da cui controllare gli aggiornamenti.",
+      "unreachable": "Non riesco a raggiungere l'indirizzo degli aggiornamenti. Controlla la connessione.",
+      "no_release": "All'indirizzo indicato non c'è ancora nessuna versione pubblicata.",
+      "invalid_answer": "L'indirizzo ha risposto in un formato che TALeport non riconosce.",
+      "not_checked": "Controlla prima se ci sono aggiornamenti."
     }
   },
   "common": {
@@ -379,7 +393,9 @@
       "empty": "Ancora nessun elemento: avvia una scansione.",
       "views_one": "{{count}} visualizzazione",
       "views_other": "{{count}} visualizzazioni"
-    }
+    },
+    "share": "Condividi",
+    "importFile": "Importa da file"
   },
   "scan": {
     "running": "Scansione in corso",
@@ -665,6 +681,10 @@
       "spend_reached": {
         "title": "Tetto di spesa raggiunto",
         "body": "Spesa del mese {{total}} $ (tetto {{cap}} $): le chiamate a pagamento sono sospese e si usa «Apri nella chat»."
+      },
+      "update_available": {
+        "title": "Nuova versione di TALeport",
+        "body": "È disponibile la versione {{version}} (hai la {{current}})."
       }
     }
   },
@@ -889,5 +909,146 @@
     "logoHint": "PNG, JPG o SVG fino a 2 MB.",
     "chooseLogo": "Scegli un logo",
     "removeLogo": "Torna al logo di TALeport"
+  },
+  "system": {
+    "backup": {
+      "title": "Backup e importazione",
+      "description": "Salva impostazioni, argomenti e modelli di report in un unico file, da riportare su un altro PC o da tenere da parte.",
+      "export": "Crea backup",
+      "import": "Importa backup o argomento",
+      "keysHint": "Le chiavi API non finiscono mai nel file: restano nel Gestore credenziali di Windows. Notizie raccolte e bozze non sono incluse."
+    },
+    "import": {
+      "title": "Importa da file",
+      "kindBackup": "Backup completo",
+      "kindTopic": "Argomento condiviso",
+      "topics_one": "{{count}} argomento",
+      "topics_other": "{{count}} argomenti",
+      "templates_one": "{{count}} modello di report",
+      "templates_other": "{{count}} modelli di report",
+      "withSettings": "Importa anche le impostazioni",
+      "withSettingsHint": "Lingua, tema, AI predefinita, orari, tetto di spesa… L'avvio con Windows resta com'è su questo PC.",
+      "noOverwrite": "Non viene cancellato nulla: un argomento con lo stesso nome viene aggiunto con un numero, es. «Moda (2)».",
+      "confirm": "Importa",
+      "doneTopics_one": "Importato {{count}} argomento: {{names}}.",
+      "doneTopics_other": "Importati {{count}} argomenti: {{names}}.",
+      "doneSettings": "Impostazioni importate.",
+      "doneTemplates_one": "Importato {{count}} modello di report.",
+      "doneTemplates_other": "Importati {{count}} modelli di report.",
+      "skipped": {
+        "limit": "«{{name}}» non importato: hai già 10 argomenti.",
+        "invalid": "«{{name}}» non importato: dati non validi."
+      }
+    },
+    "updates": {
+      "title": "Aggiornamenti",
+      "description": "TALeport controlla se è uscita una nuova versione e ti propone di aprire la pagina per scaricarla. Non scarica né installa nulla da solo.",
+      "current": "Versione installata: {{version}}",
+      "url": "Indirizzo delle versioni (GitHub Releases o file JSON)",
+      "auto": "Controlla da solo una volta al giorno all'avvio",
+      "check": "Controlla ora",
+      "checkedAt": "Ultimo controllo: {{date}}",
+      "notConfigured": "L'indirizzo verrà impostato quando l'app sarà pubblicata su GitHub; intanto puoi inserirne uno.",
+      "available": "È disponibile la versione {{version}}",
+      "open": "Apri la pagina della versione",
+      "manual": "Scarica l'installer dalla pagina e avvialo: i tuoi dati restano dove sono.",
+      "upToDate": "Hai già l'ultima versione."
+    },
+    "log": {
+      "title": "Registro errori",
+      "description": "Gli eventi degli ultimi 90 giorni: fonti che non rispondono, problemi con l'AI, scansioni con errori. Esportalo per allegarlo a una segnalazione.",
+      "export": "Esporta registro",
+      "clear": "Svuota il registro",
+      "filter": "Mostra",
+      "levels": {
+        "all": "Tutti",
+        "error": "Errori",
+        "warning": "Avvisi",
+        "info": "Informazioni"
+      },
+      "empty": "Nessun evento registrato."
+    },
+    "data": {
+      "title": "Dati e pulizia",
+      "description": "TALeport tiene sul PC solo ciò che serve.",
+      "retention": "Conserva le notizie raccolte per",
+      "months_one": "{{count}} mese",
+      "months_other": "{{count}} mesi",
+      "forever": "Sempre",
+      "hint": "Le notizie più vecchie vengono eliminate in automatico ad ogni avvio e dopo ogni scansione. Statistiche delle parole, temi, bozze e report restano. Il registro tiene 90 giorni.",
+      "cleanNow": "Pulisci ora",
+      "cleaned": "Eliminati {{items}} elementi e {{logs}} voci del registro.",
+      "rerunWizard": "Ripeti la configurazione guidata"
+    }
+  },
+  "welcome": {
+    "exit": "Esci dalla configurazione",
+    "progress": "Passi della configurazione",
+    "stepOf": "Passo {{n}} di {{total}}",
+    "back": "Indietro",
+    "next": "Avanti",
+    "skip": "Salta questo passo",
+    "finishWithoutScan": "Vai alla dashboard",
+    "steps": {
+      "language": "Lingua",
+      "ai": "AI",
+      "youtube": "YouTube",
+      "scan": "Scansione",
+      "topic": "Argomento",
+      "firstScan": "Prima scansione"
+    },
+    "language": {
+      "title": "Benvenuto in TALeport",
+      "text": "Scegli la lingua dell'interfaccia e il tema. Puoi cambiarli quando vuoi nelle Impostazioni."
+    },
+    "ai": {
+      "title": "Quale AI vuoi usare?",
+      "text": "TALeport funziona anche senza AI. Con un'AI ottieni titoli e riassunti dei temi e bozze dei post.",
+      "ollama": "Ollama (gratis, sul tuo PC)",
+      "detecting": "Controllo se Ollama è installato…",
+      "ollamaReady": "Ollama è pronto. Modelli: {{models}}",
+      "ollamaHow": "Installalo dal sito ufficiale, avvialo e scarica un modello (es. «ollama pull llama3.2»). Puoi farlo anche più tardi.",
+      "ollamaDownload": "Scarica Ollama",
+      "choose": "AI predefinita",
+      "chatHint": "«Apri nella chat» usa il tuo account di Claude, ChatGPT, Grok o Perplexity nel browser: l'app copia il prompt e tu incolli la risposta. Gratis, senza chiavi.",
+      "keys": "Ho una chiave API (facoltativo)",
+      "keysHint": "Le chiavi restano nel Gestore credenziali di Windows. Le chiamate a pagamento si sommano nel contatore di spesa."
+    },
+    "youtube": {
+      "title": "Chiave YouTube (facoltativa)",
+      "text": "Con una chiave gratuita di Google, TALeport cerca i video sui tuoi argomenti e legge i canali che segui.",
+      "open": "Apri la pagina",
+      "steps": {
+        "project": "Accedi a Google Cloud con il tuo account Google e crea un progetto (gratis, basta un nome).",
+        "enable": "Attiva «YouTube Data API v3» per quel progetto.",
+        "key": "In «Credenziali» scegli «Crea credenziali» → «Chiave API».",
+        "restrict": "Consigliato: limita la chiave alla sola «YouTube Data API v3».",
+        "paste": "Copia la chiave e incollala qui sotto."
+      },
+      "withoutKey": "Senza chiave YouTube viene saltato; le altre fonti funzionano lo stesso. La quota gratuita basta per l'uso quotidiano."
+    },
+    "scan": {
+      "title": "Quando scansionare?",
+      "text": "Ogni giorno all'orario scelto TALeport raccoglie notizie, video e discussioni. Puoi sempre usare «Scansiona ora».",
+      "recoveryHint": "Se all'orario previsto il PC è spento, la scansione parte al prossimo avvio. Chiudendo la finestra l'app resta nella barra di sistema."
+    },
+    "topic": {
+      "title": "Il tuo primo argomento",
+      "text": "Un argomento è un tema da seguire: nome, Paesi e lingue, parole chiave. Con «Crea con l'AI» basta descriverlo in una frase.",
+      "save": "Salva e continua",
+      "existing_one": "Hai già un argomento: {{names}}.",
+      "existing_other": "Hai già {{count}} argomenti: {{names}}.",
+      "addAnother": "Aggiungine un altro"
+    },
+    "firstScan": {
+      "title": "Prima scansione di prova",
+      "text": "Vediamo cosa trova TALeport sui tuoi argomenti. Richiede qualche minuto (Reddit va piano per rispettare i suoi limiti).",
+      "start": "Avvia la scansione",
+      "running": "Scansione in corso: {{done}} di {{total}} passaggi",
+      "done": "Fatto: {{found}} elementi trovati, {{fresh}} nuovi.",
+      "hint": "Puoi anche passare alla dashboard: la scansione continua da sola.",
+      "goToday": "Vai a Oggi",
+      "noTopic": "Crea prima un argomento (passo precedente) per fare la scansione di prova."
+    }
   }
 }

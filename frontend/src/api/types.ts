@@ -31,6 +31,9 @@ export interface AppSettings {
   posting_times: Partial<Record<Platform, string>>
   report_theme: 'light' | 'dark'
   report_cover_name: string
+  retention_months: 0 | 3 | 6 | 12 | 24
+  check_updates: boolean
+  update_url: string
 }
 
 // -- AI -----------------------------------------------------------------------------

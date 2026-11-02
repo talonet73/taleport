@@ -9,9 +9,7 @@ from __future__ import annotations
 import base64
 import binascii
 import json
-import os
-import re
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 from typing import Any, Literal
 
@@ -20,9 +18,10 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from taleport.analysis.service import today_local
 from taleport.ask.scope import Filters, Period
 from taleport.ask.service import InsightsService
+from taleport.core import exports
 from taleport.core.errors import AppError
 from taleport.core.i18n import tr
-from taleport.core.paths import branding_dir, exports_dir
+from taleport.core.paths import branding_dir
 from taleport.core.settings import SettingsStore
 from taleport.db.database import Database
 from taleport.reports import pdf
@@ -37,8 +36,6 @@ Section = Literal[
 LOGO_TYPES = {".png", ".jpg", ".jpeg", ".svg"}
 MAX_LOGO_BYTES = 2 * 1024 * 1024
 MAX_TEMPLATES = 50
-RECENT_FILES = 20
-_SAFE_NAME = re.compile(r"^[\w\-. ]+\.pdf$")
 
 assert set(SECTIONS) == set(Section.__args__)  # type: ignore[attr-defined]
 
@@ -118,38 +115,18 @@ class ReportService:
         )
 
     def save(self, report: Report, theme: ReportTheme | None = None) -> dict[str, Any]:
-        data = self.render(report, theme)
-        stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
         label = tr(report.language, f"report.file.{report.kind}")
-        name = f"TALeport_{label}_{stamp}.pdf"
-        path = exports_dir() / name
-        path.write_bytes(data)
-        return {"name": name, "size": len(data), "path": str(path), "title": report.title}
+        name = f"TALeport_{label}_{exports.stamp()}.pdf"
+        return {**exports.save(name, self.render(report, theme)), "title": report.title}
 
     def recent_files(self) -> list[dict[str, Any]]:
-        files = sorted(exports_dir().glob("*.pdf"), key=lambda f: f.stat().st_mtime, reverse=True)
-        return [
-            {
-                "name": f.name,
-                "size": f.stat().st_size,
-                "modified": datetime.fromtimestamp(f.stat().st_mtime).astimezone().isoformat(),
-            }
-            for f in files[:RECENT_FILES]
-        ]
+        return exports.recent(".pdf")
 
     def file_path(self, name: str) -> Path:
-        """An exported file by name; anything that is not a plain PDF name is refused."""
-        if not _SAFE_NAME.match(name) or "/" in name or "\\" in name or ".." in name:
-            raise AppError("reports.not_found", status=404)
-        path = exports_dir() / name
-        if not path.is_file():
-            raise AppError("reports.not_found", status=404)
-        return path
+        return exports.file_path(name)
 
     def open_file(self, name: str, *, folder: bool = False) -> None:
-        path = self.file_path(name)
-        target = path.parent if folder else path
-        os.startfile(target)  # type: ignore[attr-defined]  # Windows only, like the app
+        exports.open_file(name, folder=folder)
 
     # -- templates -----------------------------------------------------------------------
 

@@ -15,6 +15,7 @@ from taleport.ai.usage import UsageStore
 from taleport.analysis.service import AnalysisService, today_local
 from taleport.archive.service import ArchiveService
 from taleport.ask.service import InsightsService
+from taleport.backup.service import BackupService
 from taleport.collectors.base import Collector
 from taleport.collectors.google_news import GoogleNewsCollector
 from taleport.collectors.http import HttpClient
@@ -28,6 +29,7 @@ from taleport.collectors.youtube import YouTubeCollector
 from taleport.core.errors import AppError
 from taleport.core.events import EventBus
 from taleport.core.logs import LogStore
+from taleport.core.maintenance import cleanup
 from taleport.core.secrets import SecretStore
 from taleport.core.settings import SettingsStore
 from taleport.db.database import Database
@@ -39,6 +41,7 @@ from taleport.results.service import ResultsService
 from taleport.scan.items import ItemRepository
 from taleport.scan.service import ScanService
 from taleport.topics.service import TopicStore
+from taleport.updates.service import UpdateService
 
 log = logging.getLogger(__name__)
 
@@ -63,6 +66,8 @@ class AppContext:
     planner: PlannerService
     archive: ArchiveService
     reports: ReportService
+    backup: BackupService
+    updates: UpdateService
     token: str
     bus: EventBus
     version: str = __version__
@@ -125,6 +130,7 @@ def build_context(
     generator = GeneratorService(db, ai, topics)
     insights = InsightsService(db, topics, ai)
     results = ResultsService(db)
+    reports = ReportService(db, settings, insights, results)
 
     def analyse_after_scan(summary: dict) -> None:
         for topic in summary["topics"]:
@@ -151,6 +157,10 @@ def build_context(
             notifications.after_scan(summary, today_local())
         except Exception:
             log.exception("Scan notifications failed")
+        try:
+            cleanup(db, settings.get().retention_months)
+        except Exception:
+            log.exception("Clean-up failed")
 
     scans.on_finished.append(analyse_after_scan)
     return AppContext(
@@ -164,7 +174,9 @@ def build_context(
         results=results,
         planner=PlannerService(db, settings, generator),
         archive=ArchiveService(db),
-        reports=ReportService(db, settings, insights, results),
+        reports=reports,
+        backup=BackupService(db, settings, topics, reports),
+        updates=UpdateService(db, settings, http, notifications),
         secrets=secrets,
         topics=topics,
         items=items,

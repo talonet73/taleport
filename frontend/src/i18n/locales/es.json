@@ -269,13 +269,27 @@
       "published": "Un post ya publicado no se puede mover."
     },
     "reports": {
-      "not_found": "El archivo ya no está en la carpeta de informes.",
       "name_required": "Ponle un nombre a la plantilla.",
       "too_many_templates": "Puedes guardar como máximo {{max}} plantillas.",
       "template_not_found": "La plantilla ya no existe.",
       "template_invalid": "Esta plantilla ya no es válida: ábrela, revisa las opciones y guárdala de nuevo.",
       "logo_type": "El logo debe ser una imagen PNG, JPG o SVG legible.",
       "logo_size": "El logo puede pesar como máximo {{max_mb}} MB."
+    },
+    "exports": {
+      "not_found": "El archivo ya no está en la carpeta exports."
+    },
+    "backup": {
+      "invalid_file": "Este archivo no es una copia de seguridad ni un tema de TALeport.",
+      "newer_version": "El archivo viene de una versión más reciente de TALeport ({{version}}): actualiza la app e inténtalo de nuevo.",
+      "too_large": "El archivo es demasiado grande (máximo {{max_mb}} MB)."
+    },
+    "updates": {
+      "not_configured": "Configura primero la dirección para buscar actualizaciones.",
+      "unreachable": "No se puede acceder a la dirección de actualizaciones. Revisa la conexión.",
+      "no_release": "Todavía no hay ninguna versión publicada en esa dirección.",
+      "invalid_answer": "La dirección respondió en un formato que TALeport no reconoce.",
+      "not_checked": "Busca primero si hay actualizaciones."
     }
   },
   "common": {
@@ -379,7 +393,9 @@
       "empty": "Aún no hay elementos: inicia un escaneo.",
       "views_one": "{{count}} visualización",
       "views_other": "{{count}} visualizaciones"
-    }
+    },
+    "share": "Compartir",
+    "importFile": "Importar desde archivo"
   },
   "scan": {
     "running": "Escaneo en curso",
@@ -665,6 +681,10 @@
       "spend_reached": {
         "title": "Límite de gasto alcanzado",
         "body": "Gasto del mes {{total}} $ (límite {{cap}} $): las llamadas de pago se suspenden y se usa «Abrir en el chat»."
+      },
+      "update_available": {
+        "title": "Nueva versión de TALeport",
+        "body": "Está disponible la versión {{version}} (tienes la {{current}})."
       }
     }
   },
@@ -889,5 +909,146 @@
     "logoHint": "PNG, JPG o SVG hasta 2 MB.",
     "chooseLogo": "Elegir un logo",
     "removeLogo": "Volver al logo de TALeport"
+  },
+  "system": {
+    "backup": {
+      "title": "Copia de seguridad e importación",
+      "description": "Guarda ajustes, temas y plantillas de informes en un único archivo, para llevarlo a otro PC o guardarlo.",
+      "export": "Crear copia",
+      "import": "Importar copia o tema",
+      "keysHint": "Las claves API nunca van en el archivo: se quedan en el Administrador de credenciales de Windows. Las noticias y los borradores no se incluyen."
+    },
+    "import": {
+      "title": "Importar desde archivo",
+      "kindBackup": "Copia completa",
+      "kindTopic": "Tema compartido",
+      "topics_one": "{{count}} tema",
+      "topics_other": "{{count}} temas",
+      "templates_one": "{{count}} plantilla de informe",
+      "templates_other": "{{count}} plantillas de informe",
+      "withSettings": "Importar también los ajustes",
+      "withSettingsHint": "Idioma, tema, IA predeterminada, horarios, límite de gasto… El inicio con Windows se queda como está en este PC.",
+      "noOverwrite": "No se borra nada: un tema con el mismo nombre se añade con un número, p. ej. «Moda (2)».",
+      "confirm": "Importar",
+      "doneTopics_one": "Importado {{count}} tema: {{names}}.",
+      "doneTopics_other": "Importados {{count}} temas: {{names}}.",
+      "doneSettings": "Ajustes importados.",
+      "doneTemplates_one": "Importada {{count}} plantilla de informe.",
+      "doneTemplates_other": "Importadas {{count}} plantillas de informe.",
+      "skipped": {
+        "limit": "«{{name}}» no importado: ya tienes 10 temas.",
+        "invalid": "«{{name}}» no importado: datos no válidos."
+      }
+    },
+    "updates": {
+      "title": "Actualizaciones",
+      "description": "TALeport comprueba si hay una versión nueva y te propone abrir su página de descarga. Nunca descarga ni instala nada por sí solo.",
+      "current": "Versión instalada: {{version}}",
+      "url": "Dirección de las versiones (GitHub Releases o archivo JSON)",
+      "auto": "Comprobar solo una vez al día al iniciar",
+      "check": "Comprobar ahora",
+      "checkedAt": "Última comprobación: {{date}}",
+      "notConfigured": "La dirección se configurará cuando la app se publique en GitHub; mientras tanto puedes introducir una.",
+      "available": "Está disponible la versión {{version}}",
+      "open": "Abrir la página de la versión",
+      "manual": "Descarga el instalador desde la página y ejecútalo: tus datos se quedan donde están.",
+      "upToDate": "Ya tienes la última versión."
+    },
+    "log": {
+      "title": "Registro de errores",
+      "description": "Los eventos de los últimos 90 días: fuentes que no responden, problemas con la IA, análisis con errores. Expórtalo para adjuntarlo a un aviso.",
+      "export": "Exportar registro",
+      "clear": "Vaciar el registro",
+      "filter": "Mostrar",
+      "levels": {
+        "all": "Todos",
+        "error": "Errores",
+        "warning": "Avisos",
+        "info": "Información"
+      },
+      "empty": "No hay eventos registrados."
+    },
+    "data": {
+      "title": "Datos y limpieza",
+      "description": "TALeport guarda en el PC solo lo que sirve.",
+      "retention": "Conservar las noticias recogidas",
+      "months_one": "{{count}} mes",
+      "months_other": "{{count}} meses",
+      "forever": "Siempre",
+      "hint": "Las noticias más antiguas se eliminan solas en cada inicio y tras cada análisis. Estadísticas de palabras, temas, borradores e informes se conservan. El registro guarda 90 días.",
+      "cleanNow": "Limpiar ahora",
+      "cleaned": "Eliminados {{items}} elementos y {{logs}} entradas del registro.",
+      "rerunWizard": "Repetir la configuración guiada"
+    }
+  },
+  "welcome": {
+    "exit": "Salir de la configuración",
+    "progress": "Pasos de la configuración",
+    "stepOf": "Paso {{n}} de {{total}}",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "skip": "Saltar este paso",
+    "finishWithoutScan": "Ir al panel",
+    "steps": {
+      "language": "Idioma",
+      "ai": "IA",
+      "youtube": "YouTube",
+      "scan": "Análisis",
+      "topic": "Tema",
+      "firstScan": "Primer análisis"
+    },
+    "language": {
+      "title": "Te damos la bienvenida a TALeport",
+      "text": "Elige el idioma de la interfaz y el tema. Puedes cambiarlos cuando quieras en los Ajustes."
+    },
+    "ai": {
+      "title": "¿Qué IA quieres usar?",
+      "text": "TALeport funciona también sin IA. Con una IA obtienes títulos y resúmenes de los temas y borradores de posts.",
+      "ollama": "Ollama (gratis, en tu PC)",
+      "detecting": "Comprobando si Ollama está instalado…",
+      "ollamaReady": "Ollama está listo. Modelos: {{models}}",
+      "ollamaHow": "Instálalo desde el sitio oficial, ábrelo y descarga un modelo (p. ej. «ollama pull llama3.2»). También puedes hacerlo más tarde.",
+      "ollamaDownload": "Descargar Ollama",
+      "choose": "IA predeterminada",
+      "chatHint": "«Abrir en el chat» usa tu cuenta de Claude, ChatGPT, Grok o Perplexity en el navegador: la app copia el prompt y tú pegas la respuesta. Gratis, sin claves.",
+      "keys": "Tengo una clave API (opcional)",
+      "keysHint": "Las claves se quedan en el Administrador de credenciales de Windows. Las llamadas de pago se suman en el contador de gasto."
+    },
+    "youtube": {
+      "title": "Clave de YouTube (opcional)",
+      "text": "Con una clave gratuita de Google, TALeport busca vídeos sobre tus temas y lee los canales que sigues.",
+      "open": "Abrir la página",
+      "steps": {
+        "project": "Entra en Google Cloud con tu cuenta de Google y crea un proyecto (gratis, basta un nombre).",
+        "enable": "Activa «YouTube Data API v3» para ese proyecto.",
+        "key": "En «Credenciales» elige «Crear credenciales» → «Clave de API».",
+        "restrict": "Recomendado: limita la clave solo a «YouTube Data API v3».",
+        "paste": "Copia la clave y pégala aquí abajo."
+      },
+      "withoutKey": "Sin clave YouTube se omite; las demás fuentes funcionan igual. La cuota gratuita basta para el uso diario."
+    },
+    "scan": {
+      "title": "¿Cuándo analizar?",
+      "text": "Cada día a la hora elegida TALeport recoge noticias, vídeos y debates. Siempre puedes usar «Analizar ahora».",
+      "recoveryHint": "Si el PC está apagado a la hora prevista, el análisis se hace en el siguiente inicio. Al cerrar la ventana la app sigue en la bandeja del sistema."
+    },
+    "topic": {
+      "title": "Tu primer tema",
+      "text": "Un tema es algo que seguir: nombre, países e idiomas, palabras clave. Con «Crear con IA» basta describirlo en una frase.",
+      "save": "Guardar y continuar",
+      "existing_one": "Ya tienes un tema: {{names}}.",
+      "existing_other": "Ya tienes {{count}} temas: {{names}}.",
+      "addAnother": "Añadir otro"
+    },
+    "firstScan": {
+      "title": "Primer análisis de prueba",
+      "text": "Veamos qué encuentra TALeport sobre tus temas. Tarda unos minutos (Reddit va despacio para respetar sus límites).",
+      "start": "Iniciar el análisis",
+      "running": "Analizando: {{done}} de {{total}} pasos",
+      "done": "Hecho: {{found}} elementos encontrados, {{fresh}} nuevos.",
+      "hint": "También puedes ir al panel: el análisis sigue solo.",
+      "goToday": "Ir a Hoy",
+      "noTopic": "Crea primero un tema (paso anterior) para hacer el análisis de prueba."
+    }
   }
 }

@@ -131,5 +131,7 @@
   "report.empty.declining": "No declining keywords.",
   "report.empty.posts": "No posts generated in this period.",
   "report.empty.results": "No post results have been entered yet.",
-  "report.months_short": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec"
+  "report.months_short": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",
+  "notify.update_available.title": "New TALeport version",
+  "notify.update_available.body": "Version {version} is available (you have {current}). Open it from Settings."
 }

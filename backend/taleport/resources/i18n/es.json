@@ -131,5 +131,7 @@
   "report.empty.declining": "No hay palabras en descenso.",
   "report.empty.posts": "No se generaron posts en este periodo.",
   "report.empty.results": "Aún no se han introducido resultados de los posts.",
-  "report.months_short": "ene,feb,mar,abr,may,jun,jul,ago,sept,oct,nov,dic"
+  "report.months_short": "ene,feb,mar,abr,may,jun,jul,ago,sept,oct,nov,dic",
+  "notify.update_available.title": "Nueva versión de TALeport",
+  "notify.update_available.body": "Está disponible la versión {version} (tienes la {current}). Ábrela desde los Ajustes."
 }

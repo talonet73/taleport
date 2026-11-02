@@ -47,6 +47,10 @@ class AppSettings(BaseModel):
     # Phase 8: PDF reports
     report_theme: Literal["light", "dark"] = "light"
     report_cover_name: str = Field("", max_length=80)  # name on the cover (e.g. agency, client)
+    # Phase 9
+    retention_months: Literal[0, 3, 6, 12, 24] = 6  # collected items kept; 0 = forever
+    check_updates: bool = True
+    update_url: str = Field("", max_length=300, pattern=r"^(https://\S+)?$")  # "" = not set
 
     @field_validator("posting_times")
     @classmethod

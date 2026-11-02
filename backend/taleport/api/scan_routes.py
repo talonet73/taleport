@@ -43,8 +43,3 @@ def scan_history(request: Request, limit: int = 20) -> list[dict[str, Any]]:
 @router.get("/quota/youtube")
 def youtube_quota(request: Request) -> dict[str, Any]:
     return _ctx(request).quota.status()
-
-
-@router.get("/logs")
-def recent_logs(request: Request, limit: int = 100) -> list[dict[str, Any]]:
-    return _ctx(request).logs.recent(min(max(limit, 1), 1000))

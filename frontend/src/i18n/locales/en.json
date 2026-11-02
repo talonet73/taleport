@@ -269,13 +269,27 @@
       "published": "A post that is already published cannot be moved."
     },
     "reports": {
-      "not_found": "The file is no longer in the reports folder.",
       "name_required": "Give the template a name.",
       "too_many_templates": "You can save up to {{max}} templates.",
       "template_not_found": "The template no longer exists.",
       "template_invalid": "This template is no longer valid: open it, check the choices and save it again.",
       "logo_type": "The logo must be a readable PNG, JPG or SVG image.",
       "logo_size": "The logo can be at most {{max_mb}} MB."
+    },
+    "exports": {
+      "not_found": "The file is no longer in the exports folder."
+    },
+    "backup": {
+      "invalid_file": "This file is not a TALeport backup or topic.",
+      "newer_version": "The file comes from a newer TALeport version ({{version}}): update the app and try again.",
+      "too_large": "The file is too large (at most {{max_mb}} MB)."
+    },
+    "updates": {
+      "not_configured": "Set the address to check for updates first.",
+      "unreachable": "The update address cannot be reached. Check your connection.",
+      "no_release": "No version has been published at that address yet.",
+      "invalid_answer": "The address answered in a format TALeport does not recognise.",
+      "not_checked": "Check for updates first."
     }
   },
   "common": {
@@ -379,7 +393,9 @@
       "empty": "No items yet: start a scan.",
       "views_one": "{{count}} view",
       "views_other": "{{count}} views"
-    }
+    },
+    "share": "Share",
+    "importFile": "Import from file"
   },
   "scan": {
     "running": "Scan in progress",
@@ -665,6 +681,10 @@
       "spend_reached": {
         "title": "Spending cap reached",
         "body": "Spend this month ${{total}} (cap ${{cap}}): paid calls are paused and “Open in chat” is used instead."
+      },
+      "update_available": {
+        "title": "New TALeport version",
+        "body": "Version {{version}} is available (you have {{current}})."
       }
     }
   },
@@ -889,5 +909,146 @@
     "logoHint": "PNG, JPG or SVG up to 2 MB.",
     "chooseLogo": "Choose a logo",
     "removeLogo": "Back to the TALeport logo"
+  },
+  "system": {
+    "backup": {
+      "title": "Backup and import",
+      "description": "Save settings, topics and report templates in a single file, to move to another PC or keep aside.",
+      "export": "Create backup",
+      "import": "Import backup or topic",
+      "keysHint": "API keys never go in the file: they stay in Windows Credential Manager. Collected news and drafts are not included."
+    },
+    "import": {
+      "title": "Import from file",
+      "kindBackup": "Full backup",
+      "kindTopic": "Shared topic",
+      "topics_one": "{{count}} topic",
+      "topics_other": "{{count}} topics",
+      "templates_one": "{{count}} report template",
+      "templates_other": "{{count}} report templates",
+      "withSettings": "Import the settings too",
+      "withSettingsHint": "Language, theme, default AI, times, spending cap… Starting with Windows stays as it is on this PC.",
+      "noOverwrite": "Nothing is deleted: a topic with the same name is added with a number, e.g. “Fashion (2)”.",
+      "confirm": "Import",
+      "doneTopics_one": "Imported {{count}} topic: {{names}}.",
+      "doneTopics_other": "Imported {{count}} topics: {{names}}.",
+      "doneSettings": "Settings imported.",
+      "doneTemplates_one": "Imported {{count}} report template.",
+      "doneTemplates_other": "Imported {{count}} report templates.",
+      "skipped": {
+        "limit": "“{{name}}” not imported: you already have 10 topics.",
+        "invalid": "“{{name}}” not imported: invalid data."
+      }
+    },
+    "updates": {
+      "title": "Updates",
+      "description": "TALeport checks whether a new version is out and offers to open its download page. It never downloads or installs anything by itself.",
+      "current": "Installed version: {{version}}",
+      "url": "Releases address (GitHub Releases or JSON file)",
+      "auto": "Check by itself once a day at startup",
+      "check": "Check now",
+      "checkedAt": "Last check: {{date}}",
+      "notConfigured": "The address will be set when the app is published on GitHub; meanwhile you can enter one.",
+      "available": "Version {{version}} is available",
+      "open": "Open the release page",
+      "manual": "Download the installer from the page and run it: your data stays where it is.",
+      "upToDate": "You already have the latest version."
+    },
+    "log": {
+      "title": "Error log",
+      "description": "Events of the last 90 days: sources not responding, AI problems, scans with errors. Export it to attach to a report.",
+      "export": "Export log",
+      "clear": "Clear the log",
+      "filter": "Show",
+      "levels": {
+        "all": "All",
+        "error": "Errors",
+        "warning": "Warnings",
+        "info": "Info"
+      },
+      "empty": "No events logged."
+    },
+    "data": {
+      "title": "Data and clean-up",
+      "description": "TALeport keeps on your PC only what is useful.",
+      "retention": "Keep collected news for",
+      "months_one": "{{count}} month",
+      "months_other": "{{count}} months",
+      "forever": "Forever",
+      "hint": "Older news is deleted automatically at every start and after every scan. Word statistics, themes, drafts and reports stay. The log keeps 90 days.",
+      "cleanNow": "Clean up now",
+      "cleaned": "Deleted {{items}} items and {{logs}} log entries.",
+      "rerunWizard": "Run the guided setup again"
+    }
+  },
+  "welcome": {
+    "exit": "Exit setup",
+    "progress": "Setup steps",
+    "stepOf": "Step {{n}} of {{total}}",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip this step",
+    "finishWithoutScan": "Go to the dashboard",
+    "steps": {
+      "language": "Language",
+      "ai": "AI",
+      "youtube": "YouTube",
+      "scan": "Scan",
+      "topic": "Topic",
+      "firstScan": "First scan"
+    },
+    "language": {
+      "title": "Welcome to TALeport",
+      "text": "Choose the interface language and theme. You can change them any time in Settings."
+    },
+    "ai": {
+      "title": "Which AI do you want to use?",
+      "text": "TALeport also works without AI. With an AI you get theme titles and summaries, and post drafts.",
+      "ollama": "Ollama (free, on your PC)",
+      "detecting": "Checking whether Ollama is installed…",
+      "ollamaReady": "Ollama is ready. Models: {{models}}",
+      "ollamaHow": "Install it from the official site, start it and download a model (e.g. “ollama pull llama3.2”). You can also do it later.",
+      "ollamaDownload": "Download Ollama",
+      "choose": "Default AI",
+      "chatHint": "“Open in chat” uses your Claude, ChatGPT, Grok or Perplexity account in the browser: the app copies the prompt and you paste the answer. Free, no keys.",
+      "keys": "I have an API key (optional)",
+      "keysHint": "Keys stay in Windows Credential Manager. Paid calls add up in the spending counter."
+    },
+    "youtube": {
+      "title": "YouTube key (optional)",
+      "text": "With a free Google key, TALeport searches videos on your topics and reads the channels you follow.",
+      "open": "Open the page",
+      "steps": {
+        "project": "Sign in to Google Cloud with your Google account and create a project (free, a name is enough).",
+        "enable": "Enable “YouTube Data API v3” for that project.",
+        "key": "In “Credentials” choose “Create credentials” → “API key”.",
+        "restrict": "Recommended: restrict the key to “YouTube Data API v3” only.",
+        "paste": "Copy the key and paste it below."
+      },
+      "withoutKey": "Without a key YouTube is skipped; the other sources still work. The free quota is enough for daily use."
+    },
+    "scan": {
+      "title": "When should it scan?",
+      "text": "Every day at the chosen time TALeport collects news, videos and discussions. You can always use “Scan now”.",
+      "recoveryHint": "If the PC is off at the scheduled time, the scan runs at the next start. Closing the window keeps the app in the system tray."
+    },
+    "topic": {
+      "title": "Your first topic",
+      "text": "A topic is a subject to follow: name, countries and languages, keywords. With “Create with AI” one sentence is enough.",
+      "save": "Save and continue",
+      "existing_one": "You already have a topic: {{names}}.",
+      "existing_other": "You already have {{count}} topics: {{names}}.",
+      "addAnother": "Add another one"
+    },
+    "firstScan": {
+      "title": "First test scan",
+      "text": "Let's see what TALeport finds on your topics. It takes a few minutes (Reddit goes slowly to respect its limits).",
+      "start": "Start the scan",
+      "running": "Scanning: {{done}} of {{total}} steps",
+      "done": "Done: {{found}} items found, {{fresh}} new.",
+      "hint": "You can also go to the dashboard: the scan carries on by itself.",
+      "goToday": "Go to Today",
+      "noTopic": "Create a topic first (previous step) to run the test scan."
+    }
   }
 }

@@ -4,6 +4,7 @@ import { Outlet } from 'react-router'
 import { useServerEvents, useSettings } from '../api/hooks'
 import { setLanguage } from '../i18n'
 import { useApplyTheme } from '../theme/useApplyTheme'
+import { FirstRunWizard } from './FirstRunWizard'
 import { ScanPanel } from './ScanPanel'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
@@ -17,6 +18,8 @@ export function Layout() {
   useEffect(() => {
     if (language) setLanguage(language)
   }, [language])
+
+  if (settings && !settings.first_run_completed) return <FirstRunWizard />
 
   return (
     <div className="flex h-screen min-w-[1280px] overflow-hidden">

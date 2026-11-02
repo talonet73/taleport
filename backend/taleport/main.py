@@ -13,6 +13,7 @@ from taleport.api.context import AppContext, build_context
 from taleport.autostart import set_autostart
 from taleport.core.errors import AppError
 from taleport.core.logging_setup import setup_logging
+from taleport.core.maintenance import cleanup
 from taleport.core.paths import bundle_root, db_path, instance_file
 from taleport.core.settings import AppSettings
 from taleport.db.database import Database
@@ -64,6 +65,15 @@ def _start_scan_from_shell(ctx: AppContext) -> None:
         log.info("Scan not started: %s", exc.code)
 
 
+def _housekeeping(ctx: AppContext) -> None:
+    """Startup chores off the main thread: old data clean-up, daily update check."""
+    try:
+        cleanup(ctx.db, ctx.settings.get().retention_months)
+        ctx.updates.check_if_due()
+    except Exception:
+        log.exception("Startup housekeeping failed")
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     setup_logging(logging.DEBUG if args.dev else logging.INFO)
@@ -89,6 +99,7 @@ def main(argv: list[str] | None = None) -> int:
     _wire_settings(ctx, scheduler, on_language)
     set_autostart(settings.start_with_windows)  # keep the registry in sync (e.g. after a move)
     scheduler.catch_up_if_needed(settings.scan_time)
+    threading.Thread(target=_housekeeping, args=(ctx,), name="housekeeping", daemon=True).start()
 
     port = args.port if args.port is not None else (DEV_API_PORT if args.dev else 0)
     server = ApiServer(create_app(ctx), port=port)
