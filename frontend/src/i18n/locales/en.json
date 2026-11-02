@@ -1,0 +1,524 @@
+{
+  "nav": {
+    "label": "Main menu",
+    "today": "Today",
+    "week": "Week",
+    "trends": "Keyword trends",
+    "generator": "Generator",
+    "longContent": "From long content",
+    "calendar": "Calendar",
+    "topics": "Topics",
+    "archive": "Archive",
+    "reports": "PDF reports",
+    "settings": "Settings"
+  },
+  "sidebar": {
+    "scanStatus": "Scan",
+    "lastScan": "Last",
+    "nextScan": "Next",
+    "never": "never",
+    "notScheduled": "not scheduled",
+    "apiSpend": "API spend this month",
+    "version": "Version {{version}}",
+    "inProgress": "in progress…"
+  },
+  "topbar": {
+    "askLabel": "Ask",
+    "askPlaceholder": "Ask: which keywords trended this week?",
+    "scanNow": "Scan now",
+    "newPost": "New post",
+    "notifications": "Notifications",
+    "noNotifications": "No notifications",
+    "activeAi": "Active AI",
+    "comingSoon": "Available in a later phase",
+    "scanning": "Scanning…",
+    "scanNeedsTopics": "Create a topic first"
+  },
+  "ai": {
+    "chat": "Open in chat",
+    "ollama": "Ollama (local)",
+    "anthropic": "Claude (API)",
+    "openai": "ChatGPT (API)",
+    "xai": "Grok (API)",
+    "perplexity": "Perplexity (API)",
+    "gemini": "Gemini (API)",
+    "useAi": "AI to use",
+    "working": "The AI is working…",
+    "fallback": "The chosen AI isn't available ({{reason}}): using your chat instead.",
+    "steps": {
+      "copied": "The prompt has been copied to the clipboard.",
+      "copyFailed": "Copy the prompt with the button below.",
+      "prefilled": "It may already be filled in on the site.",
+      "send": "Paste it into {{site}} and send it.",
+      "paste": "Copy the full answer and paste it below."
+    },
+    "openSite": "Open {{site}}",
+    "copyAgain": "Copy the prompt again",
+    "showPrompt": "Show the prompt",
+    "pasteHere": "Paste the answer here",
+    "useAnswer": "Use the answer",
+    "sites": {
+      "claude": "Claude",
+      "chatgpt": "ChatGPT",
+      "grok": "Grok",
+      "perplexity": "Perplexity"
+    },
+    "insights": {
+      "title": "Improve with AI: {{topic}}",
+      "button": "Improve with AI",
+      "description": "For each of today's themes the AI writes a clear title, a summary and a suggested angle, and merges themes about the same story. It only uses the collected titles and excerpts.",
+      "start": "Start",
+      "done_one": "Done: {{count}} theme updated.",
+      "done_other": "Done: {{count}} themes updated."
+    },
+    "x": {
+      "title": "Search X: {{title}}",
+      "description": "TALeport does not read X directly: it asks Grok to search recent posts and saves the answer as a source of the theme.",
+      "chat": "Grok in the browser (free)",
+      "chatHint": "Uses your grok.com account: copy the prompt, send it and paste the answer here.",
+      "api": "xAI API (paid)",
+      "apiHint": "Automatic search with your xAI key; the cost goes into the spend counter.",
+      "apiNoKey": "Add an xAI key in Settings to use this option.",
+      "start": "Prepare the search",
+      "saved": "Answer saved as the theme's “X via Grok” source.",
+      "saveAnswer": "Save the answer"
+    },
+    "topic": {
+      "title": "Create with AI",
+      "describe": "Describe the topic to monitor in one sentence",
+      "placeholder": "E.g. AI news useful to small businesses",
+      "review": "The AI fills in the topic fields: check and edit them before saving.",
+      "generate": "Generate the proposal"
+    }
+  },
+  "placeholder": {
+    "title": "Under construction",
+    "body": "This section arrives in development phase {{phase}}."
+  },
+  "languages": {
+    "it": "Italiano",
+    "en": "English",
+    "es": "Español"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "App preferences. They stay on this PC only.",
+    "saved": "Saved",
+    "appearance": {
+      "title": "Appearance and language",
+      "language": "Interface language",
+      "theme": "Theme",
+      "themeDark": "Dark",
+      "themeLight": "Light",
+      "themeSystem": "Same as Windows"
+    },
+    "ai": {
+      "title": "Default AI",
+      "description": "TALeport also works without AI. With Ollama (free, on your PC), an API key (paid) or your own chat in the browser you get titles, summaries, proposals and drafts.",
+      "default": "Default AI",
+      "chatSite": "Site for “Open in chat”",
+      "autoInsights": "After each scan, improve themes with the default AI",
+      "autoInsightsHint": "Only when the default AI is Ollama or an API key. With API keys every scan has a small cost.",
+      "prefill": "Try to prefill the prompt on the chat site (experimental)",
+      "prefillHint": "Works only with short prompts and on some sites, when you are already signed in. The prompt is copied to the clipboard anyway.",
+      "providers": "Providers",
+      "ollamaUrl": "Ollama address",
+      "spend": "Estimated API spend this month",
+      "spendHint": "Estimated from list prices; Perplexity reports the real cost.",
+      "ready": "Ready",
+      "paid": "paid",
+      "free": "free, local",
+      "modelPlaceholder": "Model",
+      "model": "{{provider}} model",
+      "test": "Test",
+      "testOk": "Connected to {{model}} in {{ms}} ms."
+    },
+    "keys": {
+      "title": "API keys",
+      "description": "Keys are stored in the Windows Credential Manager, never in the app's files or backups. All of them are optional.",
+      "set": "Saved",
+      "missing": "Not set",
+      "placeholder": "Paste the key",
+      "save": "Save",
+      "remove": "Remove",
+      "names": {
+        "anthropic": "Anthropic (Claude)",
+        "openai": "OpenAI (ChatGPT)",
+        "xai": "xAI (Grok)",
+        "perplexity": "Perplexity",
+        "gemini": "Google Gemini",
+        "youtube": "YouTube Data API"
+      },
+      "youtubeQuota": "YouTube quota today: {{remaining}} units left out of {{limit}}"
+    },
+    "scan": {
+      "title": "Scan",
+      "description": "The daily scan starts at the chosen time. If the PC is off at that time, it starts as soon as you reopen TALeport.",
+      "time": "Daily scan time",
+      "startWithWindows": "Start TALeport with Windows (minimized to the system tray)",
+      "closeToTray": "Closing the window minimizes to the system tray",
+      "closeToTrayHint": "This way scheduled scans run even with the window closed. To quit, use the menu of the icon near the clock."
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "internal": "Internal app error. Details are in the error log.",
+    "network": "Can't reach the app engine. Try restarting TALeport.",
+    "unauthorized": "Invalid session: please restart TALeport.",
+    "forbidden": "Request not allowed.",
+    "not_found": "Item not found.",
+    "frontend_missing": "Interface not found.",
+    "settings": {
+      "invalid": "Invalid value."
+    },
+    "secrets": {
+      "unavailable": "The Windows Credential Manager is not available.",
+      "unknown": "Unknown key.",
+      "empty": "The key is empty."
+    },
+    "validation": "Some data is not valid.",
+    "invalid_url": "Invalid link.",
+    "topics": {
+      "invalid": "Check the topic fields: some values are not valid.",
+      "invalid_source": "Invalid source: {{value}}",
+      "keywords_required": "Add at least one keyword in one of the chosen languages.",
+      "limit": "You can have at most {{max}} topics.",
+      "not_found": "Topic not found."
+    },
+    "scan": {
+      "running": "A scan is already running.",
+      "no_topics": "There are no active topics to scan.",
+      "cancelled": "Cancelled.",
+      "finished_with_errors": "The scan finished with some errors."
+    },
+    "source": {
+      "network": "Source unreachable: check your connection.",
+      "http": "The source answered with an error ({{status}}).",
+      "rate_limited": "The source limited our requests: try again later."
+    },
+    "rss": {
+      "feeds_failed": "RSS feed unreachable: {{url}}",
+      "invalid_feed": "The RSS feed is not valid."
+    },
+    "reddit": {
+      "blocked": "Reddit blocked the requests: source paused for this scan.",
+      "rate_limited": "Reddit limited the requests: source paused for this scan.",
+      "unavailable": "Reddit paused for this scan."
+    },
+    "youtube": {
+      "no_key": "No YouTube key: add it in Settings to use this source.",
+      "key_invalid": "The YouTube key is invalid or the API is not enabled.",
+      "quota_exhausted": "Today's YouTube quota is used up: it resumes tomorrow."
+    },
+    "trends": {
+      "invalid_feed": "Google Trends answered in an unexpected format."
+    },
+    "themes": {
+      "not_found": "Theme not found."
+    },
+    "ai": {
+      "no_key": "The {{provider}} API key is missing: add it in Settings.",
+      "key_invalid": "The {{provider}} API key is invalid or lacks the required permissions.",
+      "model_not_found": "The model “{{model}}” doesn't exist or isn't available.",
+      "rate_limited": "{{provider}} limited the requests: try again shortly.",
+      "timeout": "The AI didn't answer in time. Try again or pick a faster model.",
+      "network": "Can't reach {{provider}}: check your connection.",
+      "provider_error": "{{provider}} answered with an error ({{status}}).",
+      "refused": "{{provider}} declined the request.",
+      "ollama_unreachable": "Ollama is not answering at {{url}}.",
+      "ollama_missing": "Ollama is not installed. You can download it for free from ollama.com.",
+      "ollama_installed_not_running": "Ollama is installed but not running.",
+      "ollama_no_models": "Ollama has no models: download one, e.g. with “ollama pull llama3.2”.",
+      "unknown_provider": "Unknown AI: {{provider}}.",
+      "invalid_response": "The AI answered in an invalid format, even on the second try ({{detail}}).",
+      "invalid_pasted": "The pasted answer isn't in the expected format ({{detail}}). Paste the full answer.",
+      "no_themes": "There are no themes today to improve: run a scan first.",
+      "description_required": "Write a description of the topic.",
+      "empty_answer": "Paste the answer before saving.",
+      "unavailable": "The default AI isn't available."
+    },
+    "generator": {
+      "platforms_required": "Pick at least one network.",
+      "languages_required": "Pick at least one language.",
+      "variants_range": "Variants go from 1 to 3.",
+      "too_many": "Too many posts at once: max {{max}}. Reduce networks, languages or variants.",
+      "series_range": "The series goes from 1 to {{max}} posts.",
+      "no_posts": "The answer has no posts for the chosen networks and languages."
+    },
+    "content": {
+      "unreadable": "Can't read the file. Is it protected or damaged?",
+      "too_large": "The file is larger than {{max_mb}} MB.",
+      "unsupported_format": "Unsupported format: use PDF, DOCX or TXT.",
+      "empty": "The file has no text (for example a scanned PDF).",
+      "too_short": "The content is too short: at least 200 characters are needed."
+    },
+    "drafts": {
+      "not_found": "Draft not found.",
+      "empty": "The post text is empty."
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "add": "Add",
+    "back": "Back",
+    "close": "Close",
+    "removeItem": "Remove {{item}}"
+  },
+  "sources": {
+    "news": "Google News",
+    "rss": "RSS feeds",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "trends": "Google Trends",
+    "x_grok": "X via Grok"
+  },
+  "platforms": {
+    "linkedin": "LinkedIn",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "youtube": "YouTube",
+    "tiktok": "TikTok / Reels"
+  },
+  "topics": {
+    "title": "Topics",
+    "count": "{{count}} of {{max}} topics",
+    "new": "New topic",
+    "scanAll": "Scan all",
+    "scanOne": "Scan",
+    "limitReached": "You reached the maximum of {{max}} topics",
+    "emptyTitle": "No topics yet",
+    "emptyBody": "A topic tells TALeport what to look for: keywords in your languages, sources to follow and your audience. You can create up to {{max}}.",
+    "notMonitored": "Instagram, TikTok, Facebook and LinkedIn are not monitored: they offer no free, permitted access to their content. TALeport uses news, YouTube, Reddit and Google Trends.",
+    "active": "Active",
+    "paused": "Paused",
+    "activeToggle": "Activate or pause {{name}}",
+    "keywordsStat": "Keywords",
+    "sourcesStat": "Followed sources",
+    "itemsTodayStat": "Items today",
+    "edit": "Edit",
+    "confirmDelete": "Delete the topic and its links?",
+    "deleteNamed": "Delete {{name}}",
+    "untitled": "Untitled topic",
+    "createWithAi": "Create with AI",
+    "addStyleExample": "Add an example",
+    "sections": {
+      "general": "General",
+      "editions": "Source languages and countries",
+      "keywords": "Keywords",
+      "sources": "Watched sources",
+      "audience": "Audience and social networks",
+      "style": "Style examples"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "active": "Active topic (included in scans)",
+      "keywordsIn": "Keywords in {{language}}",
+      "exclude": "Words to exclude",
+      "hashtags": "Hashtags to monitor",
+      "sourceKind": "Source type",
+      "sourceValue": "Source address",
+      "audience": "Audience",
+      "tone": "Tone of voice",
+      "platforms": "Target social networks",
+      "styleExample": "Style example {{n}}"
+    },
+    "placeholders": {
+      "name": "E.g. AI in marketing",
+      "description": "What it is about and why it matters to you",
+      "keywords": "Type and press Enter",
+      "exclude": "E.g. crypto, job offers",
+      "hashtags": "E.g. #marketing",
+      "source_rss": "https://site.com/feed",
+      "source_youtube_channel": "@channelname or channel link",
+      "source_subreddit": "E.g. socialmedia",
+      "audience": "E.g. small businesses adopting AI",
+      "tone": "E.g. authoritative but friendly",
+      "style": "Paste a post you wrote"
+    },
+    "hints": {
+      "editions": "For each language pick the source countries: they set the Google News edition, the YouTube region and Google's trends.",
+      "keywords": "Write the keywords for each chosen language. They are searched as whole phrases.",
+      "pickEdition": "Pick at least one language and country above.",
+      "exclude": "Items containing these words are discarded.",
+      "sources": "RSS feeds, YouTube channels and subreddits to always follow, even without keywords.",
+      "style": "3 to {{max}} posts you wrote: the AI will imitate your style."
+    },
+    "sourceKinds": {
+      "rss": "RSS feed",
+      "youtube_channel": "YouTube channel",
+      "subreddit": "Subreddit"
+    },
+    "items": {
+      "title": "Collected items",
+      "description": "The latest items found for this topic.",
+      "empty": "No items yet: start a scan.",
+      "views_one": "{{count}} view",
+      "views_other": "{{count}} views"
+    }
+  },
+  "scan": {
+    "running": "Scan in progress",
+    "status": {
+      "running": "Scan in progress",
+      "completed": "Scan completed",
+      "partial": "Scan completed with warnings",
+      "failed": "Scan failed",
+      "cancelled": "Scan cancelled"
+    },
+    "summary": "{{done}} of {{total}} checks · {{count}} new items",
+    "cancel": "Cancel",
+    "topic": "Topic",
+    "cellDone": "{{found}} found, {{count}} new",
+    "cell": {
+      "pending": "Waiting",
+      "running": "Running",
+      "done": "Done",
+      "skipped": "Skipped",
+      "error": "Error"
+    }
+  },
+  "today": {
+    "stats": {
+      "items": "Items found today",
+      "themes": "Hot themes",
+      "generated": "Posts generated today",
+      "published": "Posts published this week"
+    },
+    "noTopicsTitle": "Start with a topic",
+    "noTopicsBody": "Create your first topic: every day TALeport will look for news, videos and discussions, and the hottest themes will show up here.",
+    "noItems": "No items yet today: start a scan.",
+    "noThemes": "No hot themes: today's items don't share subjects yet.",
+    "generatePost": "Generate post",
+    "searchX": "Search X with Grok",
+    "details": "Details",
+    "scoreLabel": "Hot score {{score}} out of 100",
+    "trend": {
+      "up": "Rising",
+      "down": "Falling",
+      "flat": "Steady",
+      "new": "New"
+    },
+    "itemsToday_one": "{{count}} item today",
+    "itemsToday_other": "{{count}} items today",
+    "questions_one": "{{count}} question",
+    "questions_other": "{{count}} questions",
+    "covered": "Already covered"
+  },
+  "themes": {
+    "summary": "Summary",
+    "aiLater": "The AI-written summary arrives in phase 4.",
+    "trendTitle": "7-day trend",
+    "trendHint": "Items per day mentioning “{{term}}”.",
+    "showTable": "Show table",
+    "showChart": "Show chart",
+    "day": "Day",
+    "items": "Items",
+    "questions": "People's questions",
+    "noQuestions": "No questions found in YouTube comments or on Reddit.",
+    "angle": "Suggested angle",
+    "angleLater": "The suggested angle to tell this story arrives with AI in phase 4.",
+    "sourcesTitle": "News, videos and discussions",
+    "why": {
+      "title": "Why it's hot",
+      "volume": "{{today}} items today, against an average of {{average}} on previous days",
+      "volumeNew": "New theme: {{today}} items today, no history yet",
+      "growth": "Yesterday {{yesterday}}, today {{today}}",
+      "growthNew": "Growth: not measurable yet",
+      "diversity_one": "Only one source talks about it",
+      "diversity_other": "{{count}} different sources talk about it",
+      "size_one": "Overall volume: {{count}} item",
+      "size_other": "Overall volume: {{count}} items"
+    },
+    "itemsCount_one": "{{count}} item",
+    "itemsCount_other": "{{count}} items",
+    "statsSummary_one": "{{count}} item collected today from: {{sources}}. Words that appear together: {{related}}.",
+    "statsSummary_other": "{{count}} items collected today from: {{sources}}. Words that appear together: {{related}}.",
+    "statsSummaryNoRelated_one": "{{count}} item collected today from: {{sources}}.",
+    "statsSummaryNoRelated_other": "{{count}} items collected today from: {{sources}}.",
+    "xTitle": "X via Grok",
+    "xHint": "What people say on X, collected with Grok.",
+    "xEmpty": "No X searches for this theme yet.",
+    "xViaApi": "Search via the xAI API",
+    "xViaChat": "Answer pasted from Grok",
+    "writtenByAi": "Title, summary and angle written by the AI from the collected items."
+  },
+  "generator": {
+    "subtitle": "Post drafts based on the theme's sources, in the right format for each network. You publish them by hand.",
+    "theme": "Theme to tell",
+    "noThemes": "No themes today: start a scan from the Today screen.",
+    "coveredHint": "You already published on a similar theme: the AI will look for a different angle.",
+    "platforms": "Social networks",
+    "languages": "Post languages",
+    "language": "Post language",
+    "variants": "Variants per network and language",
+    "tone": "Tone (optional)",
+    "count_one": "{{count}} post to generate (max {{max}})",
+    "count_other": "{{count}} posts to generate (max {{max}})",
+    "generate": "Generate drafts",
+    "handoffTitle": "Generate with your chat",
+    "results_one": "{{count}} draft generated",
+    "results_other": "{{count}} drafts generated",
+    "recent": "Recent drafts"
+  },
+  "longContent": {
+    "subtitle": "Paste a text or upload a document: TALeport turns it into a coherent series of posts to publish on different days.",
+    "upload": "Upload a file",
+    "formats": "PDF, DOCX or TXT, up to 15 MB",
+    "title": "Content title",
+    "content": "Content",
+    "placeholder": "Paste an article, a transcript or a document here…",
+    "characters_one": "{{count}} character",
+    "characters_other": "{{count}} characters",
+    "truncated": "The text was very long and has been shortened to its first part.",
+    "count": "Posts per network",
+    "styleFrom": "Style and audience from",
+    "noTopic": "No topic",
+    "generate_one": "Generate {{count}} post",
+    "generate_other": "Generate {{count}} posts",
+    "tooShort": "At least 200 characters are needed."
+  },
+  "drafts": {
+    "seriesIndex": "Post {{n}} of the series",
+    "variant": "Variant {{n}}",
+    "editText": "Post text",
+    "factCheck": "Check before publishing (not found in the sources)",
+    "warning": {
+      "number": "Number",
+      "quote": "Quote",
+      "name": "Name"
+    },
+    "imageIdea": "Image idea",
+    "copyPrompt": "Copy prompt",
+    "copied": "Copied",
+    "sources": "Sources used",
+    "copy": "Copy",
+    "regenerate": "Regenerate",
+    "regenerateHint": "A new version of this post, different from the current one.",
+    "edit": "Edit",
+    "schedule": "Add to calendar",
+    "unpublish": "Undo “published”",
+    "markPublished": "Mark as published",
+    "delete": "Delete draft",
+    "scheduleWhen": "Publishing date and time",
+    "unschedule": "Remove from calendar",
+    "calendarLater": "The calendar view arrives in phase 7.",
+    "publishedUrl": "Link to the published post (optional)",
+    "confirmPublished": "Confirm",
+    "status": {
+      "published": "Published on {{date}}",
+      "scheduled": "Scheduled: {{date}}",
+      "draft": "Draft"
+    },
+    "hook": "Hook",
+    "time": "Time",
+    "scene": "Scene",
+    "voiceover": "Voice-over",
+    "carousel": "Carousel",
+    "copySlides": "Copy slides",
+    "outline": "Outline",
+    "thumbnail": "Thumbnail"
+  }
+}

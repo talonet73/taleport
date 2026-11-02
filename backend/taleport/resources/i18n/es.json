@@ -1,0 +1,9 @@
+{
+  "tray.tooltip": "TALeport",
+  "tray.open": "Abrir TALeport",
+  "tray.scan_now": "Escanear ahora",
+  "tray.quit": "Salir",
+  "render.outline": "Guion:",
+  "render.script": "Guion de vídeo:",
+  "render.hook": "Gancho (primeros 3 segundos)"
+}

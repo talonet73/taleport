@@ -1,0 +1,524 @@
+{
+  "nav": {
+    "label": "Menú principal",
+    "today": "Hoy",
+    "week": "Semana",
+    "trends": "Tendencias de palabras",
+    "generator": "Generador",
+    "longContent": "Desde contenido largo",
+    "calendar": "Calendario",
+    "topics": "Temas",
+    "archive": "Archivo",
+    "reports": "Informes PDF",
+    "settings": "Ajustes"
+  },
+  "sidebar": {
+    "scanStatus": "Escaneo",
+    "lastScan": "Último",
+    "nextScan": "Próximo",
+    "never": "nunca",
+    "notScheduled": "no programado",
+    "apiSpend": "Gasto de API del mes",
+    "version": "Versión {{version}}",
+    "inProgress": "en curso…"
+  },
+  "topbar": {
+    "askLabel": "Pregunta",
+    "askPlaceholder": "Pregunta: ¿qué palabras fueron tendencia esta semana?",
+    "scanNow": "Escanear ahora",
+    "newPost": "Nuevo post",
+    "notifications": "Notificaciones",
+    "noNotifications": "No hay notificaciones",
+    "activeAi": "IA activa",
+    "comingSoon": "Disponible en una próxima fase",
+    "scanning": "Escaneando…",
+    "scanNeedsTopics": "Crea primero un tema"
+  },
+  "ai": {
+    "chat": "Abrir en el chat",
+    "ollama": "Ollama (local)",
+    "anthropic": "Claude (API)",
+    "openai": "ChatGPT (API)",
+    "xai": "Grok (API)",
+    "perplexity": "Perplexity (API)",
+    "gemini": "Gemini (API)",
+    "useAi": "IA a usar",
+    "working": "La IA está trabajando…",
+    "fallback": "La IA elegida no está disponible ({{reason}}): usamos tu chat.",
+    "steps": {
+      "copied": "El prompt se ha copiado al portapapeles.",
+      "copyFailed": "Copia el prompt con el botón de abajo.",
+      "prefilled": "Puede que ya esté rellenado en el sitio.",
+      "send": "Pégalo en {{site}} y envíalo.",
+      "paste": "Copia la respuesta completa y pégala abajo."
+    },
+    "openSite": "Abrir {{site}}",
+    "copyAgain": "Copiar de nuevo el prompt",
+    "showPrompt": "Mostrar el prompt",
+    "pasteHere": "Pega aquí la respuesta",
+    "useAnswer": "Usar la respuesta",
+    "sites": {
+      "claude": "Claude",
+      "chatgpt": "ChatGPT",
+      "grok": "Grok",
+      "perplexity": "Perplexity"
+    },
+    "insights": {
+      "title": "Mejorar con IA: {{topic}}",
+      "button": "Mejorar con IA",
+      "description": "Para cada tema de hoy la IA escribe un título claro, un resumen y un enfoque sugerido, y une los temas que hablan de lo mismo. Solo usa los títulos y extractos recopilados.",
+      "start": "Iniciar",
+      "done_one": "Hecho: {{count}} tema actualizado.",
+      "done_other": "Hecho: {{count}} temas actualizados."
+    },
+    "x": {
+      "title": "Buscar en X: {{title}}",
+      "description": "TALeport no lee X directamente: pide a Grok que busque los posts recientes y guarda la respuesta como fuente del tema.",
+      "chat": "Grok en el navegador (gratis)",
+      "chatHint": "Usa tu cuenta de grok.com: copias el prompt, lo envías y pegas aquí la respuesta.",
+      "api": "API de xAI (de pago)",
+      "apiHint": "Búsqueda automática con tu clave de xAI; el coste entra en el contador de gasto.",
+      "apiNoKey": "Añade una clave de xAI en Ajustes para usar esta opción.",
+      "start": "Preparar la búsqueda",
+      "saved": "Respuesta guardada como fuente «X vía Grok» del tema.",
+      "saveAnswer": "Guardar la respuesta"
+    },
+    "topic": {
+      "title": "Crear con IA",
+      "describe": "Describe en una frase el tema que quieres monitorizar",
+      "placeholder": "Ej. novedades de IA útiles para pequeñas empresas",
+      "review": "La IA rellena los campos del tema: revísalos y modifícalos antes de guardar.",
+      "generate": "Generar la propuesta"
+    }
+  },
+  "placeholder": {
+    "title": "En construcción",
+    "body": "Esta sección llegará en la fase {{phase}} del desarrollo."
+  },
+  "languages": {
+    "it": "Italiano",
+    "en": "English",
+    "es": "Español"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "subtitle": "Preferencias de la app. Se quedan solo en este PC.",
+    "saved": "Guardado",
+    "appearance": {
+      "title": "Apariencia e idioma",
+      "language": "Idioma de la interfaz",
+      "theme": "Tema",
+      "themeDark": "Oscuro",
+      "themeLight": "Claro",
+      "themeSystem": "Igual que Windows"
+    },
+    "ai": {
+      "title": "IA predeterminada",
+      "description": "TALeport también funciona sin IA. Con Ollama (gratis, en tu PC), con una clave de API (de pago) o con tu chat en el navegador obtienes títulos, resúmenes, propuestas y borradores.",
+      "default": "IA predeterminada",
+      "chatSite": "Sitio para «Abrir en el chat»",
+      "autoInsights": "Después de cada escaneo, mejorar los temas con la IA predeterminada",
+      "autoInsightsHint": "Solo si la IA predeterminada es Ollama o una clave de API. Con claves de API cada escaneo tiene un pequeño coste.",
+      "prefill": "Intentar rellenar el prompt en el sitio de chat (experimental)",
+      "prefillHint": "Solo funciona con prompts cortos y en algunos sitios, cuando ya has iniciado sesión. El prompt se copia igualmente al portapapeles.",
+      "providers": "Proveedores",
+      "ollamaUrl": "Dirección de Ollama",
+      "spend": "Gasto de API estimado este mes",
+      "spendHint": "Estimado con precios de tarifa; Perplexity comunica el coste real.",
+      "ready": "Listo",
+      "paid": "de pago",
+      "free": "gratis, local",
+      "modelPlaceholder": "Modelo",
+      "model": "Modelo de {{provider}}",
+      "test": "Probar",
+      "testOk": "Conexión correcta con {{model}} en {{ms}} ms."
+    },
+    "keys": {
+      "title": "Claves de API",
+      "description": "Las claves se guardan en el Administrador de credenciales de Windows, nunca en los archivos de la app ni en las copias de seguridad. Todas son opcionales.",
+      "set": "Guardada",
+      "missing": "Sin configurar",
+      "placeholder": "Pega la clave",
+      "save": "Guardar",
+      "remove": "Quitar",
+      "names": {
+        "anthropic": "Anthropic (Claude)",
+        "openai": "OpenAI (ChatGPT)",
+        "xai": "xAI (Grok)",
+        "perplexity": "Perplexity",
+        "gemini": "Google Gemini",
+        "youtube": "YouTube Data API"
+      },
+      "youtubeQuota": "Cuota de YouTube de hoy: quedan {{remaining}} unidades de {{limit}}"
+    },
+    "scan": {
+      "title": "Escaneo",
+      "description": "El escaneo diario empieza a la hora elegida. Si a esa hora el PC está apagado, empieza en cuanto vuelvas a abrir TALeport.",
+      "time": "Hora del escaneo diario",
+      "startWithWindows": "Iniciar TALeport con Windows (minimizado en la bandeja del sistema)",
+      "closeToTray": "Al cerrar la ventana, minimizar en la bandeja del sistema",
+      "closeToTrayHint": "Así los escaneos programados se ejecutan aunque la ventana esté cerrada. Para salir, usa el menú del icono junto al reloj."
+    }
+  },
+  "errors": {
+    "generic": "Algo salió mal. Inténtalo de nuevo.",
+    "internal": "Error interno de la app. Los detalles están en el registro de errores.",
+    "network": "No se puede contactar con el motor de la app. Prueba a reiniciar TALeport.",
+    "unauthorized": "Sesión no válida: reinicia TALeport.",
+    "forbidden": "Solicitud no permitida.",
+    "not_found": "Elemento no encontrado.",
+    "frontend_missing": "Interfaz no encontrada.",
+    "settings": {
+      "invalid": "Valor no válido."
+    },
+    "secrets": {
+      "unavailable": "El Administrador de credenciales de Windows no está disponible.",
+      "unknown": "Clave no reconocida.",
+      "empty": "La clave está vacía."
+    },
+    "validation": "Algunos datos no son válidos.",
+    "invalid_url": "Enlace no válido.",
+    "topics": {
+      "invalid": "Revisa los campos del tema: algunos valores no son válidos.",
+      "invalid_source": "Fuente no válida: {{value}}",
+      "keywords_required": "Añade al menos una palabra clave en uno de los idiomas elegidos.",
+      "limit": "Puedes tener como máximo {{max}} temas.",
+      "not_found": "Tema no encontrado."
+    },
+    "scan": {
+      "running": "Ya hay un escaneo en curso.",
+      "no_topics": "No hay temas activos que escanear.",
+      "cancelled": "Cancelado.",
+      "finished_with_errors": "El escaneo terminó con algunos errores."
+    },
+    "source": {
+      "network": "Fuente inaccesible: revisa la conexión.",
+      "http": "La fuente respondió con un error ({{status}}).",
+      "rate_limited": "La fuente limitó las solicitudes: inténtalo más tarde."
+    },
+    "rss": {
+      "feeds_failed": "Feed RSS inaccesible: {{url}}",
+      "invalid_feed": "El feed RSS no es válido."
+    },
+    "reddit": {
+      "blocked": "Reddit bloqueó las solicitudes: fuente pausada en este escaneo.",
+      "rate_limited": "Reddit limitó las solicitudes: fuente pausada en este escaneo.",
+      "unavailable": "Reddit pausado en este escaneo."
+    },
+    "youtube": {
+      "no_key": "Sin clave de YouTube: añádela en Ajustes para usar esta fuente.",
+      "key_invalid": "La clave de YouTube no es válida o la API no está activada.",
+      "quota_exhausted": "La cuota de YouTube de hoy se ha agotado: se reanuda mañana."
+    },
+    "trends": {
+      "invalid_feed": "Google Trends respondió en un formato inesperado."
+    },
+    "themes": {
+      "not_found": "Tema no encontrado."
+    },
+    "ai": {
+      "no_key": "Falta la clave de API de {{provider}}: añádela en Ajustes.",
+      "key_invalid": "La clave de API de {{provider}} no es válida o no tiene los permisos necesarios.",
+      "model_not_found": "El modelo «{{model}}» no existe o no está disponible.",
+      "rate_limited": "{{provider}} limitó las solicitudes: inténtalo en un momento.",
+      "timeout": "La IA no respondió a tiempo. Inténtalo de nuevo o elige un modelo más rápido.",
+      "network": "No se puede contactar con {{provider}}: revisa la conexión.",
+      "provider_error": "{{provider}} respondió con un error ({{status}}).",
+      "refused": "{{provider}} rechazó la solicitud.",
+      "ollama_unreachable": "Ollama no responde en la dirección {{url}}.",
+      "ollama_missing": "Ollama no está instalado. Puedes descargarlo gratis en ollama.com.",
+      "ollama_installed_not_running": "Ollama está instalado pero no se está ejecutando.",
+      "ollama_no_models": "Ollama no tiene modelos: descarga uno, por ejemplo con «ollama pull llama3.2».",
+      "unknown_provider": "IA no reconocida: {{provider}}.",
+      "invalid_response": "La IA respondió con un formato no válido incluso en el segundo intento ({{detail}}).",
+      "invalid_pasted": "La respuesta pegada no tiene el formato esperado ({{detail}}). Pega la respuesta completa.",
+      "no_themes": "No hay temas de hoy que mejorar: inicia primero un escaneo.",
+      "description_required": "Escribe una descripción del tema.",
+      "empty_answer": "Pega la respuesta antes de guardar.",
+      "unavailable": "La IA predeterminada no está disponible."
+    },
+    "generator": {
+      "platforms_required": "Elige al menos una red.",
+      "languages_required": "Elige al menos un idioma.",
+      "variants_range": "Las variantes van de 1 a 3.",
+      "too_many": "Demasiados posts a la vez: máximo {{max}}. Reduce redes, idiomas o variantes.",
+      "series_range": "La serie va de 1 a {{max}} posts.",
+      "no_posts": "La respuesta no contiene posts para las redes e idiomas elegidos."
+    },
+    "content": {
+      "unreadable": "No puedo leer el archivo. ¿Está protegido o dañado?",
+      "too_large": "El archivo supera {{max_mb}} MB.",
+      "unsupported_format": "Formato no compatible: usa PDF, DOCX o TXT.",
+      "empty": "El archivo no contiene texto (por ejemplo, un PDF escaneado).",
+      "too_short": "El contenido es demasiado corto: se necesitan al menos 200 caracteres."
+    },
+    "drafts": {
+      "not_found": "Borrador no encontrado.",
+      "empty": "El texto del post está vacío."
+    }
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "add": "Añadir",
+    "back": "Atrás",
+    "close": "Cerrar",
+    "removeItem": "Quitar {{item}}"
+  },
+  "sources": {
+    "news": "Google News",
+    "rss": "Feeds RSS",
+    "youtube": "YouTube",
+    "reddit": "Reddit",
+    "trends": "Google Trends",
+    "x_grok": "X vía Grok"
+  },
+  "platforms": {
+    "linkedin": "LinkedIn",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "youtube": "YouTube",
+    "tiktok": "TikTok / Reels"
+  },
+  "topics": {
+    "title": "Temas",
+    "count": "{{count}} de {{max}} temas",
+    "new": "Nuevo tema",
+    "scanAll": "Escanear todos",
+    "scanOne": "Escanear",
+    "limitReached": "Has alcanzado el máximo de {{max}} temas",
+    "emptyTitle": "Aún no hay temas",
+    "emptyBody": "Un tema le dice a TALeport qué buscar: palabras clave en tus idiomas, fuentes a seguir y tu público. Puedes crear hasta {{max}}.",
+    "notMonitored": "Instagram, TikTok, Facebook y LinkedIn no se monitorizan: no ofrecen un acceso gratuito y permitido a su contenido. TALeport usa noticias, YouTube, Reddit y Google Trends.",
+    "active": "Activo",
+    "paused": "En pausa",
+    "activeToggle": "Activar o pausar {{name}}",
+    "keywordsStat": "Palabras clave",
+    "sourcesStat": "Fuentes seguidas",
+    "itemsTodayStat": "Elementos hoy",
+    "edit": "Editar",
+    "confirmDelete": "¿Eliminar el tema y sus vínculos?",
+    "deleteNamed": "Eliminar {{name}}",
+    "untitled": "Tema sin nombre",
+    "createWithAi": "Crear con IA",
+    "addStyleExample": "Añadir un ejemplo",
+    "sections": {
+      "general": "General",
+      "editions": "Idiomas y países de las fuentes",
+      "keywords": "Palabras clave",
+      "sources": "Fuentes vigiladas",
+      "audience": "Público y redes sociales",
+      "style": "Ejemplos de estilo"
+    },
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "active": "Tema activo (incluido en los escaneos)",
+      "keywordsIn": "Palabras clave en {{language}}",
+      "exclude": "Palabras a excluir",
+      "hashtags": "Hashtags a monitorizar",
+      "sourceKind": "Tipo de fuente",
+      "sourceValue": "Dirección de la fuente",
+      "audience": "Público",
+      "tone": "Tono de voz",
+      "platforms": "Redes sociales de destino",
+      "styleExample": "Ejemplo de estilo {{n}}"
+    },
+    "placeholders": {
+      "name": "Ej. IA en el marketing",
+      "description": "De qué trata y por qué te interesa",
+      "keywords": "Escribe y pulsa Intro",
+      "exclude": "Ej. cripto, ofertas de empleo",
+      "hashtags": "Ej. #marketing",
+      "source_rss": "https://sitio.es/feed",
+      "source_youtube_channel": "@nombrecanal o enlace al canal",
+      "source_subreddit": "Ej. socialmedia",
+      "audience": "Ej. pymes que quieren usar IA",
+      "tone": "Ej. experto pero cercano",
+      "style": "Pega un post que hayas escrito tú"
+    },
+    "hints": {
+      "editions": "Para cada idioma elige los países de las fuentes: definen la edición de Google News, la región de YouTube y las tendencias de Google.",
+      "keywords": "Escribe las palabras clave para cada idioma elegido. Se buscan como frases completas.",
+      "pickEdition": "Elige al menos un idioma y un país arriba.",
+      "exclude": "Los elementos que contienen estas palabras se descartan.",
+      "sources": "Feeds RSS, canales de YouTube y subreddits que seguir siempre, incluso sin palabras clave.",
+      "style": "De 3 a {{max}} posts escritos por ti: la IA imitará tu estilo."
+    },
+    "sourceKinds": {
+      "rss": "Feed RSS",
+      "youtube_channel": "Canal de YouTube",
+      "subreddit": "Subreddit"
+    },
+    "items": {
+      "title": "Elementos recopilados",
+      "description": "Los últimos elementos encontrados para este tema.",
+      "empty": "Aún no hay elementos: inicia un escaneo.",
+      "views_one": "{{count}} visualización",
+      "views_other": "{{count}} visualizaciones"
+    }
+  },
+  "scan": {
+    "running": "Escaneo en curso",
+    "status": {
+      "running": "Escaneo en curso",
+      "completed": "Escaneo completado",
+      "partial": "Escaneo completado con avisos",
+      "failed": "El escaneo falló",
+      "cancelled": "Escaneo cancelado"
+    },
+    "summary": "{{done}} de {{total}} comprobaciones · {{count}} elementos nuevos",
+    "cancel": "Cancelar",
+    "topic": "Tema",
+    "cellDone": "{{found}} encontrados, {{count}} nuevos",
+    "cell": {
+      "pending": "En espera",
+      "running": "En curso",
+      "done": "Hecho",
+      "skipped": "Omitido",
+      "error": "Error"
+    }
+  },
+  "today": {
+    "stats": {
+      "items": "Elementos encontrados hoy",
+      "themes": "Temas candentes",
+      "generated": "Posts generados hoy",
+      "published": "Posts publicados esta semana"
+    },
+    "noTopicsTitle": "Empieza por un tema",
+    "noTopicsBody": "Crea tu primer tema: cada día TALeport buscará noticias, vídeos y debates, y aquí verás los temas más candentes.",
+    "noItems": "Aún no hay elementos hoy: inicia un escaneo.",
+    "noThemes": "No hay temas candentes: los elementos de hoy aún no comparten asuntos.",
+    "generatePost": "Generar post",
+    "searchX": "Buscar en X con Grok",
+    "details": "Detalle",
+    "scoreLabel": "Puntuación candente {{score}} de 100",
+    "trend": {
+      "up": "En alza",
+      "down": "En baja",
+      "flat": "Estable",
+      "new": "Nuevo"
+    },
+    "itemsToday_one": "{{count}} elemento hoy",
+    "itemsToday_other": "{{count}} elementos hoy",
+    "questions_one": "{{count}} pregunta",
+    "questions_other": "{{count}} preguntas",
+    "covered": "Ya tratado"
+  },
+  "themes": {
+    "summary": "Resumen",
+    "aiLater": "El resumen escrito por la IA llega en la fase 4.",
+    "trendTitle": "Tendencia de 7 días",
+    "trendHint": "Elementos al día que hablan de «{{term}}».",
+    "showTable": "Mostrar tabla",
+    "showChart": "Mostrar gráfico",
+    "day": "Día",
+    "items": "Elementos",
+    "questions": "Preguntas de la gente",
+    "noQuestions": "No se encontraron preguntas en los comentarios de YouTube ni en Reddit.",
+    "angle": "Enfoque sugerido",
+    "angleLater": "El enfoque sugerido para contar el tema llega con la IA en la fase 4.",
+    "sourcesTitle": "Noticias, vídeos y debates",
+    "why": {
+      "title": "Por qué es candente",
+      "volume": "Hoy {{today}} elementos, frente a una media de {{average}} en los días anteriores",
+      "volumeNew": "Tema nuevo: {{today}} elementos hoy, sin historial",
+      "growth": "Ayer {{yesterday}}, hoy {{today}}",
+      "growthNew": "Crecimiento: aún no medible",
+      "diversity_one": "Solo habla de ello una fuente",
+      "diversity_other": "Hablan de ello {{count}} fuentes distintas",
+      "size_one": "Volumen total: {{count}} elemento",
+      "size_other": "Volumen total: {{count}} elementos"
+    },
+    "itemsCount_one": "{{count}} elemento",
+    "itemsCount_other": "{{count}} elementos",
+    "statsSummary_one": "{{count}} elemento recopilado hoy de: {{sources}}. Palabras que aparecen juntas: {{related}}.",
+    "statsSummary_other": "{{count}} elementos recopilados hoy de: {{sources}}. Palabras que aparecen juntas: {{related}}.",
+    "statsSummaryNoRelated_one": "{{count}} elemento recopilado hoy de: {{sources}}.",
+    "statsSummaryNoRelated_other": "{{count}} elementos recopilados hoy de: {{sources}}.",
+    "xTitle": "X vía Grok",
+    "xHint": "Lo que se dice en X, recopilado con Grok.",
+    "xEmpty": "Aún no hay búsquedas en X para este tema.",
+    "xViaApi": "Búsqueda vía API de xAI",
+    "xViaChat": "Respuesta pegada desde Grok",
+    "writtenByAi": "Título, resumen y enfoque escritos por la IA a partir de los elementos recopilados."
+  },
+  "generator": {
+    "subtitle": "Borradores de posts basados en las fuentes del tema, en el formato adecuado para cada red. Los publicas tú, a mano.",
+    "theme": "Asunto que contar",
+    "noThemes": "No hay temas hoy: inicia un escaneo desde la pantalla Hoy.",
+    "coveredHint": "Ya publicaste sobre un tema parecido: la IA buscará un enfoque distinto.",
+    "platforms": "Redes sociales",
+    "languages": "Idiomas de los posts",
+    "language": "Idioma de los posts",
+    "variants": "Variantes por red e idioma",
+    "tone": "Tono (opcional)",
+    "count_one": "{{count}} post a generar (máximo {{max}})",
+    "count_other": "{{count}} posts a generar (máximo {{max}})",
+    "generate": "Generar borradores",
+    "handoffTitle": "Generar con tu chat",
+    "results_one": "{{count}} borrador generado",
+    "results_other": "{{count}} borradores generados",
+    "recent": "Borradores recientes"
+  },
+  "longContent": {
+    "subtitle": "Pega un texto o sube un documento: TALeport lo convierte en una serie coherente de posts para publicar en días distintos.",
+    "upload": "Subir un archivo",
+    "formats": "PDF, DOCX o TXT, hasta 15 MB",
+    "title": "Título del contenido",
+    "content": "Contenido",
+    "placeholder": "Pega aquí un artículo, una transcripción o un documento…",
+    "characters_one": "{{count}} carácter",
+    "characters_other": "{{count}} caracteres",
+    "truncated": "El texto era muy largo y se ha acortado a su parte inicial.",
+    "count": "Posts por red",
+    "styleFrom": "Estilo y público de",
+    "noTopic": "Ningún tema",
+    "generate_one": "Generar {{count}} post",
+    "generate_other": "Generar {{count}} posts",
+    "tooShort": "Se necesitan al menos 200 caracteres."
+  },
+  "drafts": {
+    "seriesIndex": "Post {{n}} de la serie",
+    "variant": "Variante {{n}}",
+    "editText": "Texto del post",
+    "factCheck": "Comprobar antes de publicar (no encontrado en las fuentes)",
+    "warning": {
+      "number": "Cifra",
+      "quote": "Cita",
+      "name": "Nombre"
+    },
+    "imageIdea": "Idea para la imagen",
+    "copyPrompt": "Copiar prompt",
+    "copied": "Copiado",
+    "sources": "Fuentes usadas",
+    "copy": "Copiar",
+    "regenerate": "Regenerar",
+    "regenerateHint": "Una nueva versión de este post, distinta de la actual.",
+    "edit": "Editar",
+    "schedule": "Añadir al calendario",
+    "unpublish": "Deshacer «publicado»",
+    "markPublished": "Marcar como publicado",
+    "delete": "Eliminar borrador",
+    "scheduleWhen": "Fecha y hora de publicación",
+    "unschedule": "Quitar del calendario",
+    "calendarLater": "La vista de calendario llega en la fase 7.",
+    "publishedUrl": "Enlace al post publicado (opcional)",
+    "confirmPublished": "Confirmar",
+    "status": {
+      "published": "Publicado el {{date}}",
+      "scheduled": "En calendario: {{date}}",
+      "draft": "Borrador"
+    },
+    "hook": "Gancho",
+    "time": "Tiempo",
+    "scene": "Escena",
+    "voiceover": "Voz",
+    "carousel": "Carrusel",
+    "copySlides": "Copiar diapositivas",
+    "outline": "Guion",
+    "thumbnail": "Miniatura"
+  }
+}

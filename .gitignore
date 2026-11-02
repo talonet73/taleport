@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Local development data (database, logs): see CLAUDE.md "Riprendere il lavoro"
+devdata/
+
+# Packaging
+build/
+dist/
+packaging/output/
+packaging/icon-png/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db

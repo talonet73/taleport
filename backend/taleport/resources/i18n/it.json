@@ -1,0 +1,9 @@
+{
+  "tray.tooltip": "TALeport",
+  "tray.open": "Apri TALeport",
+  "tray.scan_now": "Scansiona ora",
+  "tray.quit": "Esci",
+  "render.outline": "Scaletta:",
+  "render.script": "Script:",
+  "render.hook": "Gancio (primi 3 secondi)"
+}

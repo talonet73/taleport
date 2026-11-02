@@ -1,0 +1,9 @@
+{
+  "tray.tooltip": "TALeport",
+  "tray.open": "Open TALeport",
+  "tray.scan_now": "Scan now",
+  "tray.quit": "Quit",
+  "render.outline": "Outline:",
+  "render.script": "Script:",
+  "render.hook": "Hook (first 3 seconds)"
+}
