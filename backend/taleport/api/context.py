@@ -13,6 +13,7 @@ from taleport.ai.registry import build_provider
 from taleport.ai.service import AIService, ProviderFactory
 from taleport.ai.usage import UsageStore
 from taleport.analysis.service import AnalysisService
+from taleport.ask.service import InsightsService
 from taleport.collectors.base import Collector
 from taleport.collectors.google_news import GoogleNewsCollector
 from taleport.collectors.http import HttpClient
@@ -51,6 +52,7 @@ class AppContext:
     usage: UsageStore
     ai: AIService
     generator: GeneratorService
+    insights: InsightsService
     token: str
     bus: EventBus
     version: str = __version__
@@ -136,6 +138,7 @@ def build_context(
         usage=usage,
         ai=ai,
         generator=GeneratorService(db, ai, topics),
+        insights=InsightsService(db, topics, ai),
         secrets=secrets,
         topics=topics,
         items=items,

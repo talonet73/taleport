@@ -255,6 +255,12 @@
     "drafts": {
       "not_found": "Bozza non trovata.",
       "empty": "Il testo del post è vuoto."
+    },
+    "ask": {
+      "unknown_topic": "Il piano usa un argomento che non esiste.",
+      "unknown_preset": "Domanda pronta non trovata.",
+      "invalid_plan": "Il piano di analisi non è valido.",
+      "question_required": "Scrivi una domanda."
     }
   },
   "common": {
@@ -520,5 +526,96 @@
     "copySlides": "Copia le slide",
     "outline": "Scaletta",
     "thumbnail": "Miniatura"
+  },
+  "week": {
+    "range": "Dal {{start}} al {{end}}",
+    "items": "Elementi raccolti",
+    "themes": "Temi caldi",
+    "generated": "Post generati",
+    "published": "Post pubblicati",
+    "perDay": "Elementi raccolti al giorno",
+    "bySource": "Per fonte",
+    "hotThemes": "Temi più caldi della settimana",
+    "topKeywords": "Parole principali",
+    "toTrends": "Vai a Tendenze parole"
+  },
+  "trends": {
+    "subtitle": "Le parole e gli hashtag che compaiono di più negli elementi raccolti, come cambiano e dove.",
+    "period": "Periodo",
+    "periods": {
+      "last_7_days": "7 giorni",
+      "last_30_days": "30 giorni",
+      "custom": "Personalizzato"
+    },
+    "from": "Dal",
+    "to": "Al",
+    "language": "Lingua",
+    "allLanguages": "Tutte",
+    "topics": "Argomenti",
+    "loading": "Aggiornamento…",
+    "scope_one": "Dal {{start}} al {{end}} · {{count}} elemento analizzato",
+    "scope_other": "Dal {{start}} al {{end}} · {{count}} elementi analizzati",
+    "topKeywords": "Le 20 parole principali",
+    "shareHint": "La percentuale indica in quanti elementi del periodo compare la parola.",
+    "topHashtags": "I 20 hashtag principali",
+    "noHashtags": "Nessun hashtag negli elementi di questo periodo.",
+    "trendTitle": "Andamento delle 5 parole principali",
+    "trendHint": "Elementi al giorno che citano ciascuna parola.",
+    "changesTitle": "Parole emergenti e in calo",
+    "changesHint": "Confronto con il periodo precedente, dal {{start}} al {{end}}.",
+    "noHistory": "Servono dati del periodo precedente: le parole emergenti e in calo compaiono dopo qualche giorno di scansioni.",
+    "emerging": "Emergenti",
+    "declining": "In calo",
+    "noChanges": "Nessuna variazione forte.",
+    "cloud": "Nuvola di parole",
+    "byLanguage": "Confronto per lingua",
+    "bySource": "Confronto per fonte",
+    "noData": "Nessun dato per questo periodo.",
+    "new": "nuova",
+    "mentions_one": "{{count}} elemento",
+    "mentions_other": "{{count}} elementi"
+  },
+  "ask": {
+    "title": "Chiedi",
+    "subtitle": "Fai una domanda sui dati raccolti. Le domande pronte rispondono subito; le altre vengono tradotte dall'AI in un'analisi dei tuoi dati, senza inventare numeri.",
+    "ready": "Domande pronte",
+    "presets": {
+      "trending_week": "Quali parole sono state in tendenza questa settimana?",
+      "emerging": "Quali parole stanno emergendo?",
+      "hashtags_month": "Quali hashtag sono stati più usati nell'ultimo mese?",
+      "languages_month": "Come cambiano le parole tra le lingue nell'ultimo mese?",
+      "hot_themes_week": "Quali temi sono stati più caldi questa settimana?",
+      "this_vs_last_week": "Cosa è cambiato rispetto alla settimana scorsa?",
+      "posts_month": "Quanti post ho generato e pubblicato nell'ultimo mese?"
+    },
+    "handoffTitle": "Chiedi con la tua chat",
+    "pdfLater": "L'esportazione in PDF delle risposte arriva nella fase 8.",
+    "metricsLater": "Like, commenti e condivisioni dei post arrivano nella fase 7.",
+    "term": "Parola",
+    "periodA": "Periodo A",
+    "periodB": "Periodo B",
+    "difference": "Differenza",
+    "functions": {
+      "top_keywords": "Parole più citate",
+      "emerging_keywords": "Parole emergenti e in calo",
+      "topic_trend": "Andamento giorno per giorno",
+      "compare_periods": "Confronto tra due periodi",
+      "compare_languages": "Confronto per lingua",
+      "compare_sources": "Confronto per fonte",
+      "top_themes": "Temi più caldi",
+      "post_performance": "Post generati e pubblicati"
+    },
+    "sentence": {
+      "empty": "Nessun dato per questo periodo.",
+      "topKeyword": "La parola più citata ({{range}}) è «{{term}}»: compare in {{count}} elementi, il {{share}}% del totale.",
+      "topHashtag": "L'hashtag più usato ({{range}}) è #{{term}}: compare in {{count}} elementi, il {{share}}% del totale.",
+      "noHistory": "Non ci sono ancora dati del periodo precedente per confrontare.",
+      "changes": "In crescita: {{up}}. In calo: {{down}}.",
+      "trend": "Andamento giorno per giorno di: {{terms}}.",
+      "periods": "La parola più presente è «{{term}}»: {{a}} nel periodo A, {{b}} nel periodo B.",
+      "groups": "Il gruppo con più elementi è {{name}} ({{count}}).",
+      "themes": "Il tema più caldo è «{{title}}» (punteggio {{score}}).",
+      "posts": "Hai generato {{generated}} bozze e pubblicato {{published}} post."
+    }
   }
 }

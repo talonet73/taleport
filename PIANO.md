@@ -13,7 +13,8 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 2 completata** (2026-11-02)
 - [x] **Fase 3 completata** (2026-11-02)
 - [x] **Fase 4 completata** (2026-11-02)
-- [x] **Fase 5 completata** (2026-11-02) — in attesa dell'ok per la fase 6
+- [x] **Fase 5 completata** (2026-11-02)
+- [x] **Fase 6 completata** (2026-11-02) — in attesa dell'ok per la fase 7
 
 ---
 
@@ -117,12 +118,19 @@ Note:
 - Il controllo dei fatti è prudente: segnala anche sigle non presenti nelle fonti (es. «PMI» se il testo diceva «piccole e medie imprese»). Gli avvisi delle bozze create prima di una correzione si aggiornano quando la bozza viene modificata o rigenerata.
 - Il caricamento di un file vero è coperto dai test (TXT, DOCX, PDF senza testo) ma non provato a mano: il selettore file non si può pilotare dal browser di prova.
 
-## Fase 6 — Settimana, Tendenze parole, Chiedi
-- [ ] Schermata Settimana
-- [ ] Tendenze parole: filtri; 20 parole e 20 hashtag principali; emergenti / in calo; linee delle 5 principali; nuvola; confronto per lingua e per fonte
-- [ ] Funzioni di analisi chiuse: `top_keywords`, `emerging_keywords`, `topic_trend`, `compare_periods`, `compare_languages`, `top_themes`, `post_performance`
-- [ ] Casella "Chiedi": piano JSON validato → dashboard e/o risposta scritta; domande pronte
-- [ ] Test: validazione dei piani, funzioni di analisi
+## Fase 6 — Settimana, Tendenze parole, Chiedi ✅
+- [x] Schermata Settimana: 4 riquadri (elementi, temi, post generati, pubblicati), elementi al giorno, per fonte, temi più caldi, parole principali
+- [x] Tendenze parole: filtri in una riga (7 / 30 giorni / personalizzato, lingua, argomenti); 20 parole e 20 hashtag con percentuale; emergenti / in calo rispetto al periodo precedente; andamento delle 5 principali; nuvola di parole; confronto per lingua e per fonte
+- [x] Funzioni di analisi chiuse (`ask/functions.py`): `top_keywords`, `emerging_keywords`, `topic_trend`, `compare_periods`, `compare_languages`, `compare_sources` (in più, per il confronto per fonte), `top_themes`, `post_performance`, più `daily_items` per la Settimana
+- [x] Casella "Chiedi" nella barra in alto: 7 domande pronte che rispondono subito senza AI; domande libere → l'AI produce un piano JSON validato (schema chiuso, max 4 passi, nessun SQL) → grafici + risposta scritta generata dai dati; funziona anche con "Apri nella chat"
+- [x] Palette per grafici a più serie validata con lo script dataviz su entrambi i temi (ciano, arancio, viola, giallo, magenta); legenda, tooltip e tabella sempre presenti
+- [x] Test: 119 backend (periodi, funzioni su dati di 14 giorni, piani validi e rifiutati, domande pronte, AI e risposta incollata, API) + 4 frontend
+
+Note:
+- Verificato nell'app su `devdata/`: Settimana, Tendenze, domanda pronta dal menu della barra in alto, domanda libera con piano incollato (confronto per fonte).
+- Corretti durante la prova: parole singole ripetute sotto la loro espressione («intelligenza», «artificiale» sotto «intelligenza artificiale»), tutte le parole «nuove» quando non c'è storico, etichette delle linee sovrapposte (tolte: restano legenda, tooltip e tabella), menu delle domande pronte che si riapriva da solo.
+- Con un solo giorno di dati i grafici a 7/30 giorni sono quasi vuoti e le parole emergenti non compaiono: diventano utili dopo qualche giorno di scansioni.
+- Esportazione PDF delle risposte di "Chiedi": fase 8. Like e commenti dei post in `post_performance`: fase 7.
 
 ## Fase 7 — Archivio, risultati, calendario, notifiche, spesa
 - [ ] Archivio con ricerca FTS5 e filtri

@@ -255,6 +255,12 @@
     "drafts": {
       "not_found": "Draft not found.",
       "empty": "The post text is empty."
+    },
+    "ask": {
+      "unknown_topic": "The plan uses a topic that doesn't exist.",
+      "unknown_preset": "Ready-made question not found.",
+      "invalid_plan": "The analysis plan is not valid.",
+      "question_required": "Write a question."
     }
   },
   "common": {
@@ -520,5 +526,96 @@
     "copySlides": "Copy slides",
     "outline": "Outline",
     "thumbnail": "Thumbnail"
+  },
+  "week": {
+    "range": "From {{start}} to {{end}}",
+    "items": "Items collected",
+    "themes": "Hot themes",
+    "generated": "Posts generated",
+    "published": "Posts published",
+    "perDay": "Items collected per day",
+    "bySource": "By source",
+    "hotThemes": "Hottest themes of the week",
+    "topKeywords": "Top words",
+    "toTrends": "Go to Keyword trends"
+  },
+  "trends": {
+    "subtitle": "The words and hashtags that appear most in the collected items, how they change and where.",
+    "period": "Period",
+    "periods": {
+      "last_7_days": "7 days",
+      "last_30_days": "30 days",
+      "custom": "Custom"
+    },
+    "from": "From",
+    "to": "To",
+    "language": "Language",
+    "allLanguages": "All",
+    "topics": "Topics",
+    "loading": "Updating…",
+    "scope_one": "From {{start}} to {{end}} · {{count}} item analysed",
+    "scope_other": "From {{start}} to {{end}} · {{count}} items analysed",
+    "topKeywords": "Top 20 words",
+    "shareHint": "The percentage is the share of the period's items that mention the word.",
+    "topHashtags": "Top 20 hashtags",
+    "noHashtags": "No hashtags in this period's items.",
+    "trendTitle": "Trend of the top 5 words",
+    "trendHint": "Items per day mentioning each word.",
+    "changesTitle": "Emerging and falling words",
+    "changesHint": "Compared with the previous period, from {{start}} to {{end}}.",
+    "noHistory": "Data from the previous period is needed: emerging and falling words show up after a few days of scans.",
+    "emerging": "Emerging",
+    "declining": "Falling",
+    "noChanges": "No strong changes.",
+    "cloud": "Word cloud",
+    "byLanguage": "By language",
+    "bySource": "By source",
+    "noData": "No data for this period.",
+    "new": "new",
+    "mentions_one": "{{count}} item",
+    "mentions_other": "{{count}} items"
+  },
+  "ask": {
+    "title": "Ask",
+    "subtitle": "Ask a question about the collected data. Ready-made questions answer at once; others are turned by the AI into an analysis of your data, without invented numbers.",
+    "ready": "Ready-made questions",
+    "presets": {
+      "trending_week": "Which words trended this week?",
+      "emerging": "Which words are emerging?",
+      "hashtags_month": "Which hashtags were used most in the last month?",
+      "languages_month": "How do words differ across languages in the last month?",
+      "hot_themes_week": "Which themes were hottest this week?",
+      "this_vs_last_week": "What changed compared with last week?",
+      "posts_month": "How many posts did I generate and publish in the last month?"
+    },
+    "handoffTitle": "Ask with your chat",
+    "pdfLater": "PDF export of answers arrives in phase 8.",
+    "metricsLater": "Likes, comments and shares of posts arrive in phase 7.",
+    "term": "Word",
+    "periodA": "Period A",
+    "periodB": "Period B",
+    "difference": "Difference",
+    "functions": {
+      "top_keywords": "Most mentioned words",
+      "emerging_keywords": "Emerging and falling words",
+      "topic_trend": "Day-by-day trend",
+      "compare_periods": "Two periods compared",
+      "compare_languages": "By language",
+      "compare_sources": "By source",
+      "top_themes": "Hottest themes",
+      "post_performance": "Posts generated and published"
+    },
+    "sentence": {
+      "empty": "No data for this period.",
+      "topKeyword": "The most mentioned word ({{range}}) is “{{term}}”: it appears in {{count}} items, {{share}}% of the total.",
+      "topHashtag": "The most used hashtag ({{range}}) is #{{term}}: it appears in {{count}} items, {{share}}% of the total.",
+      "noHistory": "There is no data from the previous period to compare yet.",
+      "changes": "Rising: {{up}}. Falling: {{down}}.",
+      "trend": "Day-by-day trend of: {{terms}}.",
+      "periods": "The most present word is “{{term}}”: {{a}} in period A, {{b}} in period B.",
+      "groups": "The group with most items is {{name}} ({{count}}).",
+      "themes": "The hottest theme is “{{title}}” (score {{score}}).",
+      "posts": "You generated {{generated}} drafts and published {{published}} posts."
+    }
   }
 }

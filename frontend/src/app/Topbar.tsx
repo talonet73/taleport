@@ -10,6 +10,7 @@ import {
   useTopics,
   useUpdateSettings,
 } from '../api/hooks'
+import { useAskPresets } from '../api/insights'
 import { AI_MODES, type AiMode } from '../api/types'
 
 export function Topbar() {
@@ -17,22 +18,7 @@ export function Topbar() {
 
   return (
     <header className="flex items-center gap-4 px-8 py-5">
-      {/* "Ask" box: wired up in phase 6. */}
-      <label className="relative min-w-0 flex-1">
-        <span className="sr-only">{t('topbar.askLabel')}</span>
-        <Search
-          className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted"
-          aria-hidden
-        />
-        <input
-          type="search"
-          disabled
-          title={t('topbar.comingSoon')}
-          placeholder={t('topbar.askPlaceholder')}
-          className="w-full rounded-full border border-line bg-surface py-2.5 pr-4 pl-11 text-ink shadow-card placeholder:text-muted disabled:cursor-not-allowed"
-        />
-      </label>
-
+      <AskBox />
       <ScanNowButton />
       <Link
         to="/generator"
@@ -45,6 +31,75 @@ export function Topbar() {
       <NotificationBell />
       <AiSelector />
     </header>
+  )
+}
+
+/** "Ask" box: free questions go to the AI as a plan; ready-made ones run instantly. */
+function AskBox() {
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { data: presets = [] } = useAskPresets()
+  const [value, setValue] = useState('')
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const close = (event: MouseEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', close)
+    return () => document.removeEventListener('mousedown', close)
+  }, [open])
+
+  return (
+    <form
+      ref={ref}
+      role="search"
+      className="relative min-w-0 flex-1"
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (!value.trim()) return
+        setOpen(false)
+        navigate(`/ask?q=${encodeURIComponent(value.trim())}`)
+      }}
+    >
+      <label>
+        <span className="sr-only">{t('topbar.askLabel')}</span>
+        <Search className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted" aria-hidden />
+        <input
+          type="search"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          // Opened by the user (click or arrow key), not by focus coming back from a dialog.
+          onClick={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setOpen(false)
+            if (e.key === 'ArrowDown') setOpen(true)
+          }}
+          placeholder={t('topbar.askPlaceholder')}
+          className="w-full rounded-full border border-line bg-surface py-2.5 pr-4 pl-11 text-ink shadow-card placeholder:text-muted"
+        />
+      </label>
+      {open && presets.length > 0 && (
+        <div className="absolute inset-x-0 z-30 mt-2 rounded-card border border-line bg-surface-raised p-2 shadow-card">
+          <p className="px-2 py-1 text-xs font-medium text-muted">{t('ask.ready')}</p>
+          {presets.map((id) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => {
+                setOpen(false)
+                navigate(`/ask?preset=${id}`)
+              }}
+              className="block w-full rounded-lg px-2 py-1.5 text-left text-ink hover:bg-surface"
+            >
+              {t(`ask.presets.${id}`)}
+            </button>
+          ))}
+        </div>
+      )}
+    </form>
   )
 }
 

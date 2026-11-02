@@ -24,6 +24,14 @@
   /* Single-series chart mark, validated (dataviz validate_palette.js) on --tp-surface. */
   --tp-chart-1: #1aa3c2;
   --tp-chart-grid: rgb(165 180 252 / 0.14);
+  /* Categorical series, fixed order, validated on --tp-surface (dataviz validate_palette.js,
+     2026-11-03): cyan, orange, violet, yellow, magenta. Orange/magenta are under 3:1, so
+     multi-series charts always carry direct labels and a table view. */
+  --tp-series-1: #1aa3c2;
+  --tp-series-2: #d95926;
+  --tp-series-3: #9085e9;
+  --tp-series-4: #c98500;
+  --tp-series-5: #d55181;
   color-scheme: dark;
 }
 
@@ -42,6 +50,11 @@
   --tp-shadow: 0 12px 28px -16px rgb(30 27 75 / 0.25);
   --tp-chart-1: #0891b2;
   --tp-chart-grid: rgb(30 27 75 / 0.1);
+  --tp-series-1: #0891b2;
+  --tp-series-2: #eb6834;
+  --tp-series-3: #6250d6;
+  --tp-series-4: #eda100;
+  --tp-series-5: #e87ba4;
   color-scheme: light;
 }
 

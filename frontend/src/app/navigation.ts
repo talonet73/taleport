@@ -22,8 +22,8 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { path: '/today', labelKey: 'nav.today', icon: Sun },
-  { path: '/week', labelKey: 'nav.week', icon: CalendarRange, phase: 6 },
-  { path: '/trends', labelKey: 'nav.trends', icon: TrendingUp, phase: 6 },
+  { path: '/week', labelKey: 'nav.week', icon: CalendarRange },
+  { path: '/trends', labelKey: 'nav.trends', icon: TrendingUp },
   { path: '/generator', labelKey: 'nav.generator', icon: PenLine },
   { path: '/long-content', labelKey: 'nav.longContent', icon: FileText },
   { path: '/calendar', labelKey: 'nav.calendar', icon: CalendarDays, phase: 7 },

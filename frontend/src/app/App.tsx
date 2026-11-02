@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router'
 
+import { AskPage } from '../pages/ask/AskPage'
 import { GeneratorPage } from '../pages/generator/GeneratorPage'
+import { TrendsPage } from '../pages/trends/TrendsPage'
+import { WeekPage } from '../pages/week/WeekPage'
 import { LongContentPage } from '../pages/longContent/LongContentPage'
 import { PlaceholderPage } from '../pages/PlaceholderPage'
 import { SettingsPage } from '../pages/settings/SettingsPage'
@@ -24,6 +27,9 @@ export function App() {
           />
         ))}
         <Route path="/today" element={<TodayPage />} />
+        <Route path="/week" element={<WeekPage />} />
+        <Route path="/trends" element={<TrendsPage />} />
+        <Route path="/ask" element={<AskPage />} />
         <Route path="/generator" element={<GeneratorPage />} />
         <Route path="/long-content" element={<LongContentPage />} />
         <Route path="/themes/:id" element={<ThemeDetailPage />} />
