@@ -948,7 +948,7 @@
       "auto": "Comprobar solo una vez al día al iniciar",
       "check": "Comprobar ahora",
       "checkedAt": "Última comprobación: {{date}}",
-      "notConfigured": "La dirección se configurará cuando la app se publique en GitHub; mientras tanto puedes introducir una.",
+      "notConfigured": "Sin dirección: la comprobación de actualizaciones está desactivada. La predeterminada es la página de versiones de TALeport en GitHub.",
       "available": "Está disponible la versión {{version}}",
       "open": "Abrir la página de la versión",
       "manual": "Descarga el instalador desde la página y ejecútalo: tus datos se quedan donde están.",

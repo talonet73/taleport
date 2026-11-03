@@ -948,7 +948,7 @@
       "auto": "Controlla da solo una volta al giorno all'avvio",
       "check": "Controlla ora",
       "checkedAt": "Ultimo controllo: {{date}}",
-      "notConfigured": "L'indirizzo verrà impostato quando l'app sarà pubblicata su GitHub; intanto puoi inserirne uno.",
+      "notConfigured": "Nessun indirizzo: il controllo degli aggiornamenti è spento. Quello predefinito è la pagina delle versioni di TALeport su GitHub.",
       "available": "È disponibile la versione {{version}}",
       "open": "Apri la pagina della versione",
       "manual": "Scarica l'installer dalla pagina e avvialo: i tuoi dati restano dove sono.",

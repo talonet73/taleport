@@ -18,7 +18,7 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 7 completata** (2026-11-02)
 - [x] **Fase 8 completata** (2026-11-02)
 - [x] **Fase 9 completata** (2026-11-02)
-- [~] **Fase 10** (2026-11-02): installer pronto e provato; restano il repository GitHub con la prima Release e la prova su un Windows pulito
+- [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; restano push, prima Release e prova su un Windows pulito
 
 ---
 
@@ -194,7 +194,8 @@ Note:
 - [x] Inno Setup (`packaging/taleport.iss`) → `packaging/output/Setup-TALeport.exe` (46,5 MB): per utente senza permessi di amministratore, in `%LOCALAPPDATA%\Programs\TALeport`; collegamento sul desktop (facoltativo) e nel menu Start; installer in italiano, inglese e spagnolo; chiede di chiudere l'app se è aperta (mutex); la disinstallazione rimuove programma, collegamenti e avvio con Windows, e chiede se eliminare anche i dati (predefinito: no)
 - [x] `packaging/build.ps1`: UI, icona se manca, PyInstaller, firma facoltativa (`TALEPORT_SIGN_CERT` / `TALEPORT_SIGN_PASSWORD`, signtool), Inno Setup
 - [x] Guida utente IT/EN/ES dentro l'app (pulsante «?» nella barra in alto): cosa fa, fonti e piattaforme non monitorate (Instagram, TikTok, Facebook, LinkedIn, X), lavoro quotidiano, AI, report, dati e privacy, avviso SmartScreen, problemi comuni; stessa guida in `docs/guide-{it,en,es}.md` generata da `docs/build_guide.py`; README aggiornato
-- [ ] Repository GitHub pubblico separato `taleport` + prima Release: in attesa del link del repository creato dall'utente; poi indirizzo degli aggiornamenti predefinito, push e Release con l'installer (previa conferma)
+- [x] Repository GitHub pubblico separato creato dall'utente: https://github.com/talonet73/taleport (ramo `main`); indirizzo degli aggiornamenti predefinito `https://api.github.com/repos/talonet73/taleport/releases/latest` (si può svuotare per spegnere il controllo); link nell'installer e nel README; `CHANGELOG.md` con le note della 1.0.0
+- [ ] Push su GitHub (previa conferma) e prima Release `v1.0.0` con `Setup-TALeport.exe`, creata dall'utente dalla pagina Releases (la CLI `gh` non è installata)
 - [~] Test di accettazione: provato su questo PC con una cartella dati vuota (non su un Windows pulito)
 
 Note:

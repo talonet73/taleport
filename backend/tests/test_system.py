@@ -180,6 +180,7 @@ def test_update_check(ctx: AppContext) -> None:
         return httpx.Response(200, json={"version": "0.2.0", "url": "https://example.com/r"})
 
     service = _updates(ctx, handler)
+    ctx.settings.update({"update_url": ""})  # the user can turn the check off
     with pytest.raises(AppError) as info:
         service.check()
     assert info.value.code == "updates.not_configured"
@@ -224,7 +225,7 @@ def test_system_api(client: TestClient, ctx: AppContext) -> None:
     opened = []
     ctx.open_url = opened.append
     assert client.post("/api/updates/open").json()["error"]["code"] == "updates.not_checked"
-    assert client.get("/api/updates").json()["configured"] is False
+    assert client.get("/api/updates").json()["configured"] is True  # GitHub Releases by default
     assert client.post("/api/maintenance/cleanup").json() == {
         "items": 0, "logs": 0, "notifications": 0,
     }  # fmt: skip

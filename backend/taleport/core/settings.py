@@ -19,6 +19,8 @@ Language = Literal["it", "en", "es"]
 Theme = Literal["dark", "light", "system"]
 AiMode = Literal["chat", "ollama", "anthropic", "openai", "xai", "perplexity", "gemini"]
 ChatSite = Literal["claude", "chatgpt", "grok", "perplexity"]
+# Public GitHub repository of the app: its latest Release is the update source.
+UPDATE_URL = "https://api.github.com/repos/talonet73/taleport/releases/latest"
 PLATFORMS = ("linkedin", "instagram", "facebook", "youtube", "tiktok")
 _TIME = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
 
@@ -50,7 +52,7 @@ class AppSettings(BaseModel):
     # Phase 9
     retention_months: Literal[0, 3, 6, 12, 24] = 6  # collected items kept; 0 = forever
     check_updates: bool = True
-    update_url: str = Field("", max_length=300, pattern=r"^(https://\S+)?$")  # "" = not set
+    update_url: str = Field(UPDATE_URL, max_length=300, pattern=r"^(https://\S+)?$")  # "" = off
 
     @field_validator("posting_times")
     @classmethod

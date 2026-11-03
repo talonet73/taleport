@@ -948,7 +948,7 @@
       "auto": "Check by itself once a day at startup",
       "check": "Check now",
       "checkedAt": "Last check: {{date}}",
-      "notConfigured": "The address will be set when the app is published on GitHub; meanwhile you can enter one.",
+      "notConfigured": "No address: the update check is off. The default is TALeport's releases page on GitHub.",
       "available": "Version {{version}} is available",
       "open": "Open the release page",
       "manual": "Download the installer from the page and run it: your data stays where it is.",

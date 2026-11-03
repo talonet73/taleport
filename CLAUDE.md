@@ -50,7 +50,7 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 | Output strutturati AI | JSON validato con schemi Pydantic; un nuovo tentativo, poi errore chiaro | — |
 | "Chiedi" | l'AI produce un piano JSON validato che usa solo un elenco chiuso di funzioni di analisi; **mai SQL generato** | Sicurezza |
 | Errori | il backend restituisce `{code, params}`; la UI li traduce. Mai stack trace nell'interfaccia | i18n e leggibilità |
-| GitHub | repository **pubblico e separato** `taleport` (licenza MIT), distinto da TALedit e TALevent; controllo aggiornamenti tramite GitHub Releases. La CLI `gh` non è installata: creare il repo solo quando serve, chiedendo prima | App gratuita, Releases leggibili senza token |
+| GitHub | repository **pubblico e separato** https://github.com/talonet73/taleport (licenza MIT, ramo `main`), distinto da TALedit e TALevent; aggiornamenti dall'ultima Release (`UPDATE_URL` in `core/settings.py`, tag `vX.Y.Z` = `__version__`). La CLI `gh` non è installata: le Release le crea l'utente dal sito, con `Setup-TALeport.exe` allegato e il testo da `CHANGELOG.md` | App gratuita, Releases leggibili senza token |
 | Packaging | `packaging/build.ps1` → PyInstaller una cartella (`taleport.spec`: UI, `assets/brand`, dati del pacchetto, yake, metadati APScheduler) → Inno Setup per utente (`taleport.iss`, `AppMutex` = mutex dell'istanza singola, IT/EN/ES, disinstallazione che chiede se cancellare i dati); versione unica in `taleport/__init__.py` | Un comando per l'installer |
 | Guida utente | pagina `/guide` con testi i18n (`guide.*`, elenchi con lo stesso numero di voci nelle tre lingue); `docs/guide-*.md` generati da `docs/build_guide.py` | Una sola fonte, sempre offline |
 | Firma codice | **nessuna per ora**; la guida spiega l'avviso SmartScreen; in `packaging/` resta un punto di aggancio per `signtool` | Si aggiunge dopo senza toccare il codice |
@@ -142,7 +142,7 @@ npm run icon       # rigenera assets/brand/taleport.ico e public/favicon.svg
 - **Dati di sviluppo:** le prove manuali usano `devdata/` nella radice del progetto (escluso da git): contiene il database con l'argomento d'esempio, le notizie raccolte, i temi e le bozze. Avviare sempre così, per non toccare la cartella vera dell'utente (`%LOCALAPPDATA%\TALeport`):
 
 ```powershell
-$env:TALEPORT_DATA_DIR = "C:\Users\39392\Downloads\Claude\TALeport\devdata"
+$env:TALEPORT_DATA_DIR = "$PWD\devdata"   # dalla radice del progetto
 backend\.venv\Scripts\python.exe -m taleport --no-window --port 8790
 ```
 

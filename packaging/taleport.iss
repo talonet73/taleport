@@ -5,7 +5,7 @@
   #define AppVersion "0.0.0"
 #endif
 #ifndef AppURL
-  #define AppURL "https://github.com/"
+  #define AppURL "https://github.com/talonet73/taleport"
 #endif
 #define AppName "TALeport"
 #define AppExe "TALeport.exe"

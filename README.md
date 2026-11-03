@@ -6,7 +6,7 @@ All data stays on your PC. No server, no account, no telemetry. UI in Italian, E
 
 ## Install
 
-Download `Setup-TALeport.exe` from the Releases page and run it. It installs for your Windows user only (no administrator rights), with shortcuts on the desktop and in the Start menu.
+Download `Setup-TALeport.exe` from the [Releases page](https://github.com/talonet73/taleport/releases/latest) and run it. It installs for your Windows user only (no administrator rights), with shortcuts on the desktop and in the Start menu.
 
 The installer is not code-signed yet, so Windows SmartScreen may show "Windows protected your PC": click **More info** → **Run anyway**.
 
