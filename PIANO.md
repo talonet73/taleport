@@ -18,7 +18,7 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 7 completata** (2026-11-02)
 - [x] **Fase 8 completata** (2026-11-02)
 - [x] **Fase 9 completata** (2026-11-02)
-- [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; restano push, prima Release e prova su un Windows pulito
+- [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; codice e Release 1.0.0 su GitHub; resta solo la prova su un Windows pulito
 
 ---
 
@@ -195,7 +195,8 @@ Note:
 - [x] `packaging/build.ps1`: UI, icona se manca, PyInstaller, firma facoltativa (`TALEPORT_SIGN_CERT` / `TALEPORT_SIGN_PASSWORD`, signtool), Inno Setup
 - [x] Guida utente IT/EN/ES dentro l'app (pulsante «?» nella barra in alto): cosa fa, fonti e piattaforme non monitorate (Instagram, TikTok, Facebook, LinkedIn, X), lavoro quotidiano, AI, report, dati e privacy, avviso SmartScreen, problemi comuni; stessa guida in `docs/guide-{it,en,es}.md` generata da `docs/build_guide.py`; README aggiornato
 - [x] Repository GitHub pubblico separato creato dall'utente: https://github.com/talonet73/taleport (ramo `main`); indirizzo degli aggiornamenti predefinito `https://api.github.com/repos/talonet73/taleport/releases/latest` (si può svuotare per spegnere il controllo); link nell'installer e nel README; `CHANGELOG.md` con le note della 1.0.0
-- [ ] Push su GitHub (previa conferma) e prima Release `v1.0.0` con `Setup-TALeport.exe`, creata dall'utente dalla pagina Releases (la CLI `gh` non è installata)
+- [x] Push su GitHub (2026-11-03, ramo `main`); commit con l'indirizzo privato di GitHub `178192068+talonet73@users.noreply.github.com` (impostato in `.git/config` del progetto)
+- [x] Prima Release pubblicata dall'utente (2026-11-03): https://github.com/talonet73/taleport/releases/tag/v1.0.0 con `Setup-TALeport.exe` (48.712.420 byte, uguale al file compilato); il controllo aggiornamenti dell'app la legge e la riconosce come versione attuale
 - [~] Test di accettazione: provato su questo PC con una cartella dati vuota (non su un Windows pulito)
 
 Note:
