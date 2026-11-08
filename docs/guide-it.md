@@ -24,6 +24,13 @@ Come funziona TALeport, in breve.
 - Archivio: cerchi post e temi e inserisci like, commenti, condivisioni e visualizzazioni dei post pubblicati. TALeport ti dice cosa funziona e perché.
 - Settimana, Tendenze parole e la casella «Chiedi» mostrano grafici e risposte sui dati raccolti.
 
+## Analisi video per i clienti
+
+- Crea un cliente, trascina i suoi video e quelli dei concorrenti: TALeport misura sul PC durata, tagli di montaggio, pause, volume e parlato (FFmpeg e faster-whisper, open source).
+- Su ogni video premi «Aggiungi risultati»: trascina gli screenshot delle statistiche (Insight di Instagram, TikTok Studio) e l'AI legge i numeri e la curva di permanenza, oppure scrivili tu.
+- «Analizza» scrive punti di forza, punti deboli, cosa fa la concorrenza e cosa cambiare video per video; «PDF per il cliente» crea il report da mandare.
+- Nessun accesso agli account e nessuno scraping: si usano solo i file che ti manda il cliente. «Messaggio per il cliente» ti dà il testo pronto per chiederglieli.
+
 ## AI: tre modi
 
 - Ollama: gratis e sul tuo PC. Installalo dal sito ufficiale, avvialo e scarica un modello.

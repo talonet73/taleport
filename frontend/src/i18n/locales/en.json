@@ -6,6 +6,7 @@
     "trends": "Keyword trends",
     "generator": "Generator",
     "longContent": "From long content",
+    "video": "Video analysis",
     "calendar": "Calendar",
     "topics": "Topics",
     "archive": "Archive",
@@ -235,7 +236,8 @@
       "description_required": "Write a description of the topic.",
       "empty_answer": "Paste the answer before saving.",
       "unavailable": "The default AI isn't available.",
-      "spend_cap_reached": "the monthly spending cap has been reached"
+      "spend_cap_reached": "the monthly spending cap has been reached",
+      "no_vision": "The model “{{model}}” cannot read images: choose a model that supports them (e.g. Claude, GPT, Gemini or an Ollama “vision” model)."
     },
     "generator": {
       "platforms_required": "Pick at least one network.",
@@ -290,6 +292,26 @@
       "no_release": "No version has been published at that address yet.",
       "invalid_answer": "The address answered in a format TALeport does not recognise.",
       "not_checked": "Check for updates first."
+    },
+    "video": {
+      "ffmpeg_missing": "The component that reads videos (FFmpeg) is not available: reinstall TALeport.",
+      "unreadable": "This file does not look like a readable video.",
+      "timeout": "The video took too long to analyze.",
+      "process_failed": "This video could not be analyzed.",
+      "speech_unavailable": "Transcription not available: the analysis uses images and audio only.",
+      "speech_failed": "Transcription failed (did the model download?): the analysis goes on without speech.",
+      "unsupported_file": "“{{name}}” is not a supported video format (MP4, MOV, M4V, WEBM, MKV, AVI).",
+      "too_big": "The video is too large (maximum {{max_gb}} GB).",
+      "too_many_videos": "At most {{max}} videos per client.",
+      "too_many_projects": "At most {{max}} clients: delete some.",
+      "project_not_found": "Client not found.",
+      "not_found": "Video not found.",
+      "no_client_videos": "At least one client video must be ready for the analysis.",
+      "still_processing": "Some videos are still being processed: wait a few seconds.",
+      "no_screenshots": "Add at least one screenshot.",
+      "too_many_screenshots": "At most {{max}} screenshots at a time.",
+      "unsupported_image": "“{{name}}” is not a supported image (PNG, JPG, WEBP).",
+      "image_too_big": "“{{name}}” is too large (maximum 8 MB)."
     }
   },
   "common": {
@@ -1086,6 +1108,15 @@
           "Week, Keyword trends and the “Ask” box show charts and answers on the collected data."
         ]
       },
+      "video": {
+        "title": "Video analysis for clients",
+        "items": [
+          "Create a client and drop their videos and their competitors': TALeport measures length, edit cuts, pauses, loudness and speech on your PC (FFmpeg and faster-whisper, open source).",
+          "On each video press “Add results”: drop screenshots of its statistics (Instagram Insights, TikTok Studio) and the AI reads the numbers and the retention curve, or type them yourself.",
+          "“Analyze” writes strengths, weaknesses, what competitors do and what to change video by video; “PDF for the client” creates the report to send.",
+          "No account access and no scraping: only the files the client sends you are used. “Message for the client” gives you a ready text to ask for them."
+        ]
+      },
       "ai": {
         "title": "AI: three ways",
         "items": [
@@ -1130,6 +1161,168 @@
           "To report a problem, export the error log from Settings: it contains no API keys."
         ]
       }
+    }
+  },
+  "video": {
+    "subtitle": "A client asks you to review their videos and their competitors'? Create the client, drop the videos and press “Analyze”: strengths, weaknesses, what to do next and a PDF to send them.",
+    "new": {
+      "title": "New client",
+      "placeholder": "Client or profile name (e.g. Mario's Pizzeria)",
+      "create": "Create and start"
+    },
+    "empty": {
+      "title": "How it works",
+      "one": {
+        "title": "Ask the client for the videos",
+        "text": "“Message for the client” copies a ready-made text: original videos, screenshots of the statistics and the competitors to look at."
+      },
+      "two": {
+        "title": "Drop the files",
+        "text": "The client's and the competitors' videos: TALeport measures length, cuts, pauses and speech right on your PC."
+      },
+      "three": {
+        "title": "Press “Analyze”",
+        "text": "The AI you choose writes strengths, weaknesses and actions; then you export the PDF for the client."
+      }
+    },
+    "list": {
+      "counts": "{{videos}} client videos · {{competitors}} competitors",
+      "analyzed": "Analyzed on {{date}}",
+      "notAnalyzed": "Not analyzed yet",
+      "busy_one": "{{count}} video being processed…",
+      "busy_other": "{{count}} videos being processed…"
+    },
+    "backToClients": "All clients",
+    "deleteClient": "Delete client",
+    "confirmDeleteClient": "Delete “{{name}}” with all its videos and the analysis? This cannot be undone.",
+    "message": {
+      "button": "Message for the client",
+      "title": "What to ask the client",
+      "hint": "Copy this message and send it to the client (email, WhatsApp…). You can edit it before copying.",
+      "text": "Hi! To analyze your videos I need:\n\n1. The original files of the videos to review (at least 5, ideally 10): the ones that did best and the ones that did worst. Downloading them from the app is fine.\n\n2. For each video, screenshots of its statistics:\n   • Instagram: open the reel → “View insights” → screenshot the whole page, including the retention chart.\n   • TikTok: open the video → “More data” / TikTok Studio → screenshots of the overview and of the “Watch time / retention” chart.\n\n3. The names of 2-3 competitors or profiles you like. If you can, save a few of their recent videos too.\n\nWith this I'll prepare an analysis with your strengths, weaknesses and what to change in the next videos. Thanks!",
+      "copy": "Copy message",
+      "copied": "Copied!"
+    },
+    "tools": {
+      "noFfmpeg": "The component that reads videos (FFmpeg) is not available: reinstall TALeport.",
+      "modelDownload": "With the first video that has sound, TALeport downloads the free transcription model (about {{mb}} MB, only once); after that it works offline too."
+    },
+    "step1": {
+      "title": "1 · The client's videos",
+      "text": "Drop the client's videos here. Then press “Add results” on each video: with screenshots of the statistics the analysis can tell where people stop watching."
+    },
+    "step2": {
+      "title": "2 · Competitors (optional)",
+      "text": "Add the competitors and drop their videos, saved from the app or recorded from the screen. Without competitors the analysis looks at the client only.",
+      "placeholder": "Competitor name",
+      "add": "Add competitor"
+    },
+    "step3": {
+      "title": "3 · Analysis",
+      "text": "Videos with results: {{done}} of {{total}}. The more results you add, the more precise the analysis."
+    },
+    "notes": {
+      "label": "Notes about the client (optional)",
+      "placeholder": "Industry, goals, audience… e.g. “restaurant, wants more bookings from young people”"
+    },
+    "platform": "Platform",
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube Shorts",
+      "facebook": "Facebook",
+      "other": "Other"
+    },
+    "drop": {
+      "client": "Drop the client's videos here or click to choose them",
+      "competitor": "Drop {{name}}'s videos here",
+      "hint": "MP4, MOV, WEBM… several files at once are fine"
+    },
+    "uploading": "Uploading…",
+    "steps": {
+      "probe": "Reading the video…",
+      "cuts": "Finding edit cuts…",
+      "audio": "Analyzing the audio…",
+      "frames": "Extracting frames…",
+      "speech": "Transcribing speech…"
+    },
+    "card": {
+      "queued": "Queued…",
+      "retry": "Try again",
+      "delete": "Delete video",
+      "confirmDelete": "Delete “{{name}}”?",
+      "cuts": "{{value}} cuts/min",
+      "addResults": "Add results",
+      "resultsSummary": "{{views}} views · watched {{watched}} · edit"
+    },
+    "stats": {
+      "title": "Results of “{{name}}”",
+      "fromScreenshots": "From screenshots (recommended)",
+      "screenshotsHint": "Drop screenshots of the video's statistics (Instagram Insights, TikTok Studio…): the AI reads views, interactions, average watch time and the retention curve. It needs an AI that can read images.",
+      "dropImages": "Drop the screenshots here or click to choose them",
+      "imagesFormats": "PNG, JPG or WEBP, up to 6 images",
+      "imagesChosen_one": "{{count}} screenshot chosen",
+      "imagesChosen_other": "{{count}} screenshots chosen",
+      "read": "Read the numbers",
+      "reading": "Reading…",
+      "readDone": "Numbers read and saved: check them below.",
+      "attachInChat_one": "In the chat, also attach the screenshot ({{count}}) before sending the message.",
+      "attachInChat_other": "In the chat, also attach the {{count}} screenshots before sending the message.",
+      "manual": "Or type the numbers"
+    },
+    "fields": {
+      "views": "Views",
+      "reach": "Accounts reached",
+      "likes": "Likes",
+      "comments": "Comments",
+      "shares": "Shares",
+      "saves": "Saves",
+      "follows": "New followers",
+      "avg_watch_seconds": "Average watch time (seconds)",
+      "retention": "Retention curve",
+      "retentionHint": "Pairs second=percentage still watching, separated by commas (e.g. 0=100, 3=62)."
+    },
+    "analyze": "Analyze",
+    "reanalyze": "Analyze again",
+    "analyzing": "Analyzing…",
+    "pdf": "PDF for the client",
+    "needClientVideo": "Add at least one client video to start the analysis.",
+    "waitProcessing": "Wait for the videos to finish processing.",
+    "compare": {
+      "title": "Comparison with competitors",
+      "subtitle": "Median values per profile, measured from the files and the results you entered.",
+      "profile": "Profile",
+      "you": "client",
+      "videos": "Videos",
+      "length": "Length",
+      "cuts": "Cuts/min",
+      "firstCut": "First cut",
+      "firstWords": "First words",
+      "views": "Views",
+      "watched": "Watched",
+      "interactions": "Interactions",
+      "note": "“Watched” = average watch time divided by length. “Interactions” = (likes + comments + shares + saves) / views. “–” = data not available."
+    },
+    "analysis": {
+      "summary": "In short",
+      "strengths": "Strengths",
+      "weaknesses": "Weaknesses",
+      "recommendations": "What to do next",
+      "competitors": "What competitors do",
+      "whatWorks": "What works",
+      "weakSpots": "Weak spots",
+      "toBorrow": "Worth adapting",
+      "byVideo": "Video by video",
+      "hook": "Opening",
+      "dropOff": "Where viewers leave",
+      "fix": "What to change",
+      "ideas": "Ideas for the next videos",
+      "examples": "Examples: {{videos}}"
+    },
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
     }
   }
 }

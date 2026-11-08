@@ -16,6 +16,8 @@ User guide: [Italiano](docs/guide-it.md) · [English](docs/guide-en.md) · [Espa
 
 Not monitored: Instagram, TikTok, Facebook and LinkedIn offer no free, legitimate access to their content. TALeport writes posts for them but does not read them.
 
+**Video analysis for clients** (1.1): drop a client's videos and their competitors', add the results from screenshots of Insights / TikTok Studio, and get strengths, weaknesses, actions and a PDF for the client. Videos are measured on your PC with FFmpeg and faster-whisper; no account access, no scraping.
+
 See [PIANO.md](PIANO.md) for the development history and [CLAUDE.md](CLAUDE.md) for architecture and conventions.
 
 ## Development

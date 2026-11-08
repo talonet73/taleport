@@ -16,6 +16,8 @@ from taleport.ai.providers.base import (
     TIMEOUT_SECONDS,
     Completion,
     ProviderError,
+    image_base64,
+    image_mime,
 )
 
 
@@ -56,8 +58,22 @@ def list_models(base_url: str, key: str, provider: str) -> list[str]:
     return sorted(i.removeprefix("models/") for i in ids if i)
 
 
+def _user_content(user: str, images: list[bytes] | None) -> str | list[dict[str, Any]]:
+    if not images:
+        return user
+    parts: list[dict[str, Any]] = [
+        {
+            "type": "image_url",
+            "image_url": {"url": f"data:{image_mime(img)};base64,{image_base64(img)}"},
+        }
+        for img in images
+    ]
+    return [*parts, {"type": "text", "text": user}]
+
+
 class ChatCompletionsProvider:
     paid = True
+    vision = True
 
     def __init__(
         self,
@@ -79,11 +95,20 @@ class ChatCompletionsProvider:
         self._max_tokens_field = max_tokens_field
 
     def complete(
-        self, system: str, user: str, *, json_output: bool, max_tokens: int = DEFAULT_MAX_TOKENS
+        self,
+        system: str,
+        user: str,
+        *,
+        json_output: bool,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        images: list[bytes] | None = None,
     ) -> Completion:
         body: dict[str, Any] = {
             "model": self.model,
-            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": _user_content(user, images)},
+            ],
             self._max_tokens_field: max_tokens,
         }
         if json_output and self._json_mode:
@@ -121,6 +146,7 @@ def parse_responses_output(data: dict[str, Any]) -> tuple[str, list[str]]:
 
 class ResponsesProvider:
     paid = True
+    vision = False  # search agents: images are not sent
 
     def __init__(
         self,
@@ -140,7 +166,13 @@ class ResponsesProvider:
         self._tools = tools
 
     def complete(
-        self, system: str, user: str, *, json_output: bool, max_tokens: int = DEFAULT_MAX_TOKENS
+        self,
+        system: str,
+        user: str,
+        *,
+        json_output: bool,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        images: list[bytes] | None = None,
     ) -> Completion:
         body: dict[str, Any] = {
             "model": self.model,

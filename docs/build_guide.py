@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SECTIONS = ["what", "sources", "daily", "ai", "reports", "privacy", "install", "problems"]
+SECTIONS = ["what", "sources", "daily", "video", "ai", "reports", "privacy", "install", "problems"]
 
 for lang in ("it", "en", "es"):
     guide = json.loads(

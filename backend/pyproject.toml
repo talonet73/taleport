@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "taleport"
-version = "1.0.0"
+version = "1.1.0"
 description = "TALeport: local trend scanner and post drafting assistant for social media managers"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
@@ -26,6 +26,9 @@ dependencies = [
     "reportlab>=4.2",
     "matplotlib>=3.9",
     "svglib>=1.5",
+    "python-multipart>=0.0.9",
+    "imageio-ffmpeg>=0.5",
+    "faster-whisper>=1.1",
 ]
 
 [project.optional-dependencies]

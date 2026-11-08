@@ -6,6 +6,7 @@
     "trends": "Tendenze parole",
     "generator": "Generatore",
     "longContent": "Da contenuto lungo",
+    "video": "Analisi video",
     "calendar": "Calendario",
     "topics": "Argomenti",
     "archive": "Archivio",
@@ -235,7 +236,8 @@
       "description_required": "Scrivi una descrizione dell'argomento.",
       "empty_answer": "Incolla la risposta prima di salvare.",
       "unavailable": "L'AI predefinita non è disponibile.",
-      "spend_cap_reached": "il tetto di spesa del mese è stato raggiunto"
+      "spend_cap_reached": "il tetto di spesa del mese è stato raggiunto",
+      "no_vision": "Il modello «{{model}}» non legge le immagini: scegli un modello che le supporta (es. Claude, GPT, Gemini o un modello Ollama «vision»)."
     },
     "generator": {
       "platforms_required": "Scegli almeno un social.",
@@ -290,6 +292,26 @@
       "no_release": "All'indirizzo indicato non c'è ancora nessuna versione pubblicata.",
       "invalid_answer": "L'indirizzo ha risposto in un formato che TALeport non riconosce.",
       "not_checked": "Controlla prima se ci sono aggiornamenti."
+    },
+    "video": {
+      "ffmpeg_missing": "Il componente per leggere i video (FFmpeg) non è disponibile: reinstalla TALeport.",
+      "unreadable": "Questo file non sembra un video leggibile.",
+      "timeout": "Il video ha richiesto troppo tempo per essere analizzato.",
+      "process_failed": "Non è stato possibile analizzare questo video.",
+      "speech_unavailable": "Trascrizione non disponibile: l'analisi usa solo immagini e audio.",
+      "speech_failed": "Trascrizione non riuscita (il modello non si è scaricato?): l'analisi continua senza il parlato.",
+      "unsupported_file": "«{{name}}» non è un formato video supportato (MP4, MOV, M4V, WEBM, MKV, AVI).",
+      "too_big": "Il video è troppo grande (massimo {{max_gb}} GB).",
+      "too_many_videos": "Massimo {{max}} video per cliente.",
+      "too_many_projects": "Massimo {{max}} clienti: eliminane qualcuno.",
+      "project_not_found": "Cliente non trovato.",
+      "not_found": "Video non trovato.",
+      "no_client_videos": "Serve almeno un video del cliente pronto per l'analisi.",
+      "still_processing": "Alcuni video sono ancora in elaborazione: attendi qualche secondo.",
+      "no_screenshots": "Aggiungi almeno uno screenshot.",
+      "too_many_screenshots": "Massimo {{max}} screenshot alla volta.",
+      "unsupported_image": "«{{name}}» non è un'immagine supportata (PNG, JPG, WEBP).",
+      "image_too_big": "«{{name}}» è troppo grande (massimo 8 MB)."
     }
   },
   "common": {
@@ -1086,6 +1108,15 @@
           "Settimana, Tendenze parole e la casella «Chiedi» mostrano grafici e risposte sui dati raccolti."
         ]
       },
+      "video": {
+        "title": "Analisi video per i clienti",
+        "items": [
+          "Crea un cliente, trascina i suoi video e quelli dei concorrenti: TALeport misura sul PC durata, tagli di montaggio, pause, volume e parlato (FFmpeg e faster-whisper, open source).",
+          "Su ogni video premi «Aggiungi risultati»: trascina gli screenshot delle statistiche (Insight di Instagram, TikTok Studio) e l'AI legge i numeri e la curva di permanenza, oppure scrivili tu.",
+          "«Analizza» scrive punti di forza, punti deboli, cosa fa la concorrenza e cosa cambiare video per video; «PDF per il cliente» crea il report da mandare.",
+          "Nessun accesso agli account e nessuno scraping: si usano solo i file che ti manda il cliente. «Messaggio per il cliente» ti dà il testo pronto per chiederglieli."
+        ]
+      },
       "ai": {
         "title": "AI: tre modi",
         "items": [
@@ -1130,6 +1161,168 @@
           "Per una segnalazione esporta il registro errori dalle Impostazioni: non contiene chiavi API."
         ]
       }
+    }
+  },
+  "video": {
+    "subtitle": "Il cliente ti chiede di analizzare i suoi video e quelli della concorrenza? Crea il cliente, trascina i video e premi «Analizza»: punti di forza, punti deboli, cosa fare e un PDF da mandargli.",
+    "new": {
+      "title": "Nuovo cliente",
+      "placeholder": "Nome del cliente o del profilo (es. Pizzeria Da Mario)",
+      "create": "Crea e inizia"
+    },
+    "empty": {
+      "title": "Come funziona",
+      "one": {
+        "title": "Chiedi i video al cliente",
+        "text": "Con «Messaggio per il cliente» copi un testo pronto: video originali, screenshot delle statistiche e i concorrenti da guardare."
+      },
+      "two": {
+        "title": "Trascina i file",
+        "text": "Video del cliente e dei concorrenti: TALeport misura durata, tagli, pause e parlato direttamente sul PC."
+      },
+      "three": {
+        "title": "Premi «Analizza»",
+        "text": "L'AI che scegli scrive punti di forza, punti deboli e azioni; poi esporti il PDF per il cliente."
+      }
+    },
+    "list": {
+      "counts": "{{videos}} video del cliente · {{competitors}} concorrenti",
+      "analyzed": "Analizzato il {{date}}",
+      "notAnalyzed": "Da analizzare",
+      "busy_one": "{{count}} video in elaborazione…",
+      "busy_other": "{{count}} video in elaborazione…"
+    },
+    "backToClients": "Tutti i clienti",
+    "deleteClient": "Elimina cliente",
+    "confirmDeleteClient": "Eliminare «{{name}}» con tutti i suoi video e l'analisi? Non si può annullare.",
+    "message": {
+      "button": "Messaggio per il cliente",
+      "title": "Cosa chiedere al cliente",
+      "hint": "Copia questo messaggio e mandalo al cliente (email, WhatsApp…). Puoi modificarlo prima di copiarlo.",
+      "text": "Ciao! Per analizzare i tuoi video mi servono:\n\n1. I file originali dei video da analizzare (almeno 5, meglio 10): quelli andati meglio e quelli andati peggio. Va bene anche scaricarli dall'app.\n\n2. Per ogni video, gli screenshot delle statistiche:\n   • Instagram: apri il reel → «Visualizza insight» → fai screenshot di tutta la pagina, compreso il grafico della permanenza.\n   • TikTok: apri il video → «Altri dati» / TikTok Studio → screenshot di panoramica e grafico «Tempo di permanenza».\n\n3. I nomi di 2-3 concorrenti o profili che ti piacciono. Se puoi, salva anche qualche loro video recente.\n\nCon questi dati ti preparo un'analisi con punti di forza, punti deboli e cosa cambiare nei prossimi video. Grazie!",
+      "copy": "Copia messaggio",
+      "copied": "Copiato!"
+    },
+    "tools": {
+      "noFfmpeg": "Il componente per leggere i video (FFmpeg) non è disponibile: reinstalla TALeport.",
+      "modelDownload": "Al primo video con audio TALeport scarica il modello gratuito per la trascrizione (circa {{mb}} MB, una volta sola); poi funziona anche senza internet."
+    },
+    "step1": {
+      "title": "1 · I video del cliente",
+      "text": "Trascina qui i video del cliente. Poi su ogni video premi «Aggiungi risultati»: con gli screenshot delle statistiche l'analisi capisce dove la gente smette di guardare."
+    },
+    "step2": {
+      "title": "2 · La concorrenza (facoltativo)",
+      "text": "Aggiungi i concorrenti e trascina i loro video, salvati dall'app o registrando lo schermo. Senza concorrenti l'analisi guarda solo il cliente.",
+      "placeholder": "Nome del concorrente",
+      "add": "Aggiungi concorrente"
+    },
+    "step3": {
+      "title": "3 · Analisi",
+      "text": "Video con risultati: {{done}} su {{total}}. Più risultati aggiungi, più l'analisi è precisa."
+    },
+    "notes": {
+      "label": "Note sul cliente (facoltative)",
+      "placeholder": "Settore, obiettivi, pubblico… es. «ristorante, vuole più prenotazioni dai giovani»"
+    },
+    "platform": "Piattaforma",
+    "platforms": {
+      "instagram": "Instagram",
+      "tiktok": "TikTok",
+      "youtube": "YouTube Shorts",
+      "facebook": "Facebook",
+      "other": "Altro"
+    },
+    "drop": {
+      "client": "Trascina qui i video del cliente o fai clic per sceglierli",
+      "competitor": "Trascina qui i video di {{name}}",
+      "hint": "MP4, MOV, WEBM… anche più file insieme"
+    },
+    "uploading": "Caricamento…",
+    "steps": {
+      "probe": "Lettura del video…",
+      "cuts": "Ricerca dei tagli di montaggio…",
+      "audio": "Analisi dell'audio…",
+      "frames": "Estrazione dei fotogrammi…",
+      "speech": "Trascrizione del parlato…"
+    },
+    "card": {
+      "queued": "In coda…",
+      "retry": "Riprova",
+      "delete": "Elimina video",
+      "confirmDelete": "Eliminare «{{name}}»?",
+      "cuts": "{{value}} tagli/min",
+      "addResults": "Aggiungi risultati",
+      "resultsSummary": "{{views}} visualizzazioni · visto {{watched}} · modifica"
+    },
+    "stats": {
+      "title": "Risultati di «{{name}}»",
+      "fromScreenshots": "Dagli screenshot (consigliato)",
+      "screenshotsHint": "Trascina gli screenshot delle statistiche del video (Insight di Instagram, TikTok Studio…): l'AI legge visualizzazioni, interazioni, tempo medio e curva di permanenza. Serve un'AI che legge le immagini.",
+      "dropImages": "Trascina qui gli screenshot o fai clic per sceglierli",
+      "imagesFormats": "PNG, JPG o WEBP, fino a 6 immagini",
+      "imagesChosen_one": "{{count}} screenshot scelto",
+      "imagesChosen_other": "{{count}} screenshot scelti",
+      "read": "Leggi i numeri",
+      "reading": "Lettura in corso…",
+      "readDone": "Numeri letti e salvati: controllali qui sotto.",
+      "attachInChat_one": "Nella chat allega anche lo screenshot ({{count}}) prima di inviare il messaggio.",
+      "attachInChat_other": "Nella chat allega anche i {{count}} screenshot prima di inviare il messaggio.",
+      "manual": "Oppure scrivi i numeri"
+    },
+    "fields": {
+      "views": "Visualizzazioni",
+      "reach": "Account raggiunti",
+      "likes": "Mi piace",
+      "comments": "Commenti",
+      "shares": "Condivisioni",
+      "saves": "Salvataggi",
+      "follows": "Nuovi follower",
+      "avg_watch_seconds": "Tempo medio (secondi)",
+      "retention": "Curva di permanenza",
+      "retentionHint": "Coppie secondo=percentuale ancora presente, separate da virgole (es. 0=100, 3=62)."
+    },
+    "analyze": "Analizza",
+    "reanalyze": "Analizza di nuovo",
+    "analyzing": "Analisi in corso…",
+    "pdf": "PDF per il cliente",
+    "needClientVideo": "Aggiungi almeno un video del cliente per avviare l'analisi.",
+    "waitProcessing": "Attendi che i video finiscano di essere elaborati.",
+    "compare": {
+      "title": "Confronto con la concorrenza",
+      "subtitle": "Valori mediani per profilo, misurati dai file e dai risultati inseriti.",
+      "profile": "Profilo",
+      "you": "cliente",
+      "videos": "Video",
+      "length": "Durata",
+      "cuts": "Tagli/min",
+      "firstCut": "Primo taglio",
+      "firstWords": "Prime parole",
+      "views": "Visualizz.",
+      "watched": "Visto",
+      "interactions": "Interazioni",
+      "note": "«Visto» = tempo medio di visione diviso per la durata. «Interazioni» = (mi piace + commenti + condivisioni + salvataggi) / visualizzazioni. «–» = dato non disponibile."
+    },
+    "analysis": {
+      "summary": "In sintesi",
+      "strengths": "Punti di forza",
+      "weaknesses": "Punti deboli",
+      "recommendations": "Cosa fare adesso",
+      "competitors": "Cosa fa la concorrenza",
+      "whatWorks": "Cosa funziona",
+      "weakSpots": "Punti deboli",
+      "toBorrow": "Da riprendere",
+      "byVideo": "Video per video",
+      "hook": "Inizio",
+      "dropOff": "Dove si perde il pubblico",
+      "fix": "Cosa cambiare",
+      "ideas": "Idee per i prossimi video",
+      "examples": "Esempi: {{videos}}"
+    },
+    "priority": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Bassa"
     }
   }
 }

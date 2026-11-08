@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import { openExternal } from '../../api/hooks'
 import { Card } from '../../components/Card'
 
-const SECTIONS = ['what', 'sources', 'daily', 'ai', 'reports', 'privacy', 'install', 'problems'] as const
+const SECTIONS = ['what', 'sources', 'daily', 'video', 'ai', 'reports', 'privacy', 'install', 'problems'] as const
 
 /** Short user guide (IT/EN/ES), always available offline inside the app. */
 export function GuidePage() {

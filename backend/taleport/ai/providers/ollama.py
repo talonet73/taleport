@@ -12,6 +12,7 @@ from taleport.ai.providers.base import (
     TIMEOUT_SECONDS,
     Completion,
     ProviderError,
+    image_base64,
 )
 
 DEFAULT_URL = "http://localhost:11434"
@@ -35,17 +36,27 @@ def list_models(base_url: str, timeout: float = 3.0) -> list[str]:
 class OllamaProvider:
     name = "ollama"
     paid = False
+    vision = True  # only vision models (llava, gemma3, qwen2.5vl...) can read the images
 
     def __init__(self, model: str, base_url: str = DEFAULT_URL) -> None:
         self.model = model
         self._url = base_url.rstrip("/")
 
     def complete(
-        self, system: str, user: str, *, json_output: bool, max_tokens: int = DEFAULT_MAX_TOKENS
+        self,
+        system: str,
+        user: str,
+        *,
+        json_output: bool,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        images: list[bytes] | None = None,
     ) -> Completion:
+        message: dict = {"role": "user", "content": user}
+        if images:
+            message["images"] = [image_base64(img) for img in images]
         body = {
             "model": self.model,
-            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            "messages": [{"role": "system", "content": system}, message],
             "stream": False,
             "options": {"num_predict": max_tokens, "num_ctx": 16384},
         }
@@ -59,6 +70,8 @@ class OllamaProvider:
             raise ProviderError("ai.ollama_unreachable", url=self._url) from exc
         if response.status_code == 404:
             raise ProviderError("ai.model_not_found", model=self.model)
+        if response.status_code >= 400 and images:
+            raise ProviderError("ai.no_vision", model=self.model)
         if response.status_code >= 400:
             raise ProviderError("ai.provider_error", provider="Ollama", status=response.status_code)
         data = response.json()

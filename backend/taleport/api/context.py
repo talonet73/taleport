@@ -42,6 +42,7 @@ from taleport.scan.items import ItemRepository
 from taleport.scan.service import ScanService
 from taleport.topics.service import TopicStore
 from taleport.updates.service import UpdateService
+from taleport.video.service import VideoService
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +69,7 @@ class AppContext:
     reports: ReportService
     backup: BackupService
     updates: UpdateService
+    videos: VideoService
     token: str
     bus: EventBus
     version: str = __version__
@@ -85,6 +87,8 @@ def build_context(
     http: HttpClient | None = None,
     collectors_factory: Callable[[], list[Collector]] | None = None,
     ai_provider_factory: ProviderFactory | None = None,
+    video_transcriber: object | None = "default",
+    start_video_worker: bool = True,
 ) -> AppContext:
     bus = EventBus()
     secrets = secrets or SecretStore()
@@ -177,6 +181,13 @@ def build_context(
         reports=reports,
         backup=BackupService(db, settings, topics, reports),
         updates=UpdateService(db, settings, http, notifications),
+        videos=VideoService(
+            db,
+            ai,
+            bus,
+            **({} if video_transcriber == "default" else {"transcriber": video_transcriber}),
+            start_worker=start_video_worker,
+        ),
         secrets=secrets,
         topics=topics,
         items=items,

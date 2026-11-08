@@ -33,7 +33,29 @@ class LLMProvider(Protocol):
     name: str
     model: str
     paid: bool  # False for local models (Ollama)
+    vision: bool  # accepts images (screenshots, video frames)
 
     def complete(
-        self, system: str, user: str, *, json_output: bool, max_tokens: int = DEFAULT_MAX_TOKENS
+        self,
+        system: str,
+        user: str,
+        *,
+        json_output: bool,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        images: list[bytes] | None = None,
     ) -> Completion: ...
+
+
+def image_mime(data: bytes) -> str:
+    """MIME type of a PNG / JPEG / WebP image from its first bytes (JPEG by default)."""
+    if data.startswith(b"\x89PNG"):
+        return "image/png"
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "image/webp"
+    return "image/jpeg"
+
+
+def image_base64(data: bytes) -> str:
+    import base64
+
+    return base64.b64encode(data).decode("ascii")

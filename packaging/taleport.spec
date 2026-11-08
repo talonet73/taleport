@@ -4,7 +4,12 @@
 import re
 from pathlib import Path
 
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
+from PyInstaller.utils.hooks import (
+    collect_data_files,
+    collect_dynamic_libs,
+    collect_submodules,
+    copy_metadata,
+)
 
 ROOT = Path(SPECPATH).parent  # noqa: F821 (defined by PyInstaller)
 VERSION = re.search(
@@ -42,7 +47,18 @@ datas = [
     *collect_data_files("taleport"),  # migrations, prompt templates, resources (i18n, stopwords…)
     *collect_data_files("yake"),
     *copy_metadata("apscheduler"),  # triggers are looked up through entry points
+    # Video analysis: FFmpeg binary, faster-whisper assets, versions checked at import time.
+    *collect_data_files("imageio_ffmpeg"),
+    *collect_data_files("faster_whisper"),
+    *copy_metadata("imageio_ffmpeg"),
+    *copy_metadata("faster_whisper"),
+    *copy_metadata("ctranslate2"),
+    *copy_metadata("huggingface_hub"),
+    *copy_metadata("tokenizers"),
+    *copy_metadata("tqdm"),
 ]
+
+binaries = [*collect_dynamic_libs("ctranslate2")]
 
 hiddenimports = [
     *collect_submodules("uvicorn"),
@@ -50,11 +66,15 @@ hiddenimports = [
     "keyring.backends.Windows",
     "pystray._win32",
     "webview.platforms.edgechromium",
+    *collect_submodules("faster_whisper"),
+    "multipart",
+    "python_multipart",
 ]
 
 a = Analysis(  # noqa: F821
     [str(ROOT / "packaging" / "launcher.py")],
     pathex=[str(ROOT / "backend")],
+    binaries=binaries,
     datas=datas,
     hiddenimports=hiddenimports,
     excludes=["tkinter", "pytest", "respx", "ruff", "IPython"],

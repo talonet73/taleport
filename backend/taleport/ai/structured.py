@@ -50,11 +50,15 @@ def run_structured[T: BaseModel](
     on_completion: Callable[[Completion], None],
     attempts: int = 2,
     max_tokens: int = DEFAULT_MAX_TOKENS,
+    images: list[bytes] | None = None,
 ) -> T:
     user = prompt.user
     last_error = ""
+    extra = {"images": images} if images else {}  # providers without image support never see it
     for _ in range(attempts):
-        completion = provider.complete(prompt.system, user, json_output=True, max_tokens=max_tokens)
+        completion = provider.complete(
+            prompt.system, user, json_output=True, max_tokens=max_tokens, **extra
+        )
         on_completion(completion)
         try:
             return schema.model_validate(extract_json(completion.text))

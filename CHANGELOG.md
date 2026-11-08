@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.1.0 — 2026-11-08
+
+Analisi video per i clienti · Video analysis for clients
+
+**Italiano**
+
+- Nuova pagina «Analisi video»: crei il cliente, trascini i suoi video e quelli dei concorrenti, premi «Analizza». Ottieni punti di forza, punti deboli, cosa fa la concorrenza, cosa cambiare video per video e idee per i prossimi.
+- Ogni video viene misurato sul PC con strumenti open source: durata, formato, tagli di montaggio, pause, volume, parlato e testo dei primi 3 secondi (FFmpeg, faster-whisper; il modello di trascrizione si scarica una volta, circa 145 MB).
+- Risultati dei video: trascini gli screenshot delle statistiche (Insight di Instagram, TikTok Studio) e l'AI legge numeri e curva di permanenza, oppure li scrivi a mano. Da qui si vede dove la gente smette di guardare.
+- Tabella di confronto con la concorrenza sempre disponibile, anche senza AI; «PDF per il cliente» pronto da mandare; «Messaggio per il cliente» con il testo per chiedere i file giusti.
+- Nessun accesso agli account e nessuno scraping: si usano solo i file che il cliente ti manda.
+
+**English**
+
+- New "Video analysis" page: create the client, drop their videos and their competitors', press "Analyze". You get strengths, weaknesses, what competitors do, what to change video by video and ideas for the next ones.
+- Every video is measured on your PC with open-source tools: length, format, edit cuts, pauses, loudness, speech and the text of the first 3 seconds (FFmpeg, faster-whisper; the transcription model is downloaded once, about 145 MB).
+- Video results: drop screenshots of the statistics (Instagram Insights, TikTok Studio) and the AI reads the numbers and the retention curve, or type them by hand. This shows where people stop watching.
+- Comparison table with competitors always available, even without AI; "PDF for the client" ready to send; "Message for the client" with the text to ask for the right files.
+- No account access and no scraping: only the files the client sends you are used.
+
 ## 1.0.0 — 2026-11-03
 
 Prima versione pubblica · First public release

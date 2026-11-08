@@ -19,6 +19,7 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 8 completata** (2026-11-02)
 - [x] **Fase 9 completata** (2026-11-02)
 - [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; codice e Release 1.0.0 su GitHub; resta solo la prova su un Windows pulito
+- [~] **Fase 11 — Analisi video per i clienti** (2026-11-08): codice, test e interfaccia pronti (versione 1.1.0); da fare la prova con video veri e l'installer su Windows
 
 ---
 
@@ -205,3 +206,28 @@ Note:
 - Corretto durante la prova: il messaggio innocuo di Windows quando una pagina chiude la connessione («ConnectionResetError») finiva nel log come errore; ora viene ignorato.
 - Non provati: la domanda «eliminare anche i dati?» della disinstallazione (in modalità silenziosa viene saltata), la firma del codice (nessun certificato), l'avviso SmartScreen (compare solo su file scaricati da internet), un Windows senza WebView2 (preinstallato su Windows 10 aggiornato e Windows 11).
 - Criterio di accettazione completo (10 argomenti, post tramite «Apri nella chat», Tendenze, PDF personalizzato su un Windows pulito): da fare installando `Setup-TALeport.exe` su un altro PC o in una macchina virtuale.
+
+## Fase 11 — Analisi video per i clienti
+Richiesta dell'utente: «il cliente mi chiede: analizzi i miei video? i miei punti di forza e di debolezza? quelli della concorrenza?», con l'esperienza più semplice possibile.
+
+Verifiche fatte prima (2026-11-08):
+- La curva di permanenza al secondo non è data da nessuna API pubblica (né Instagram né TikTok). L'API di Instagram dà `ig_reels_avg_watch_time` solo con account professionale collegato a una Pagina Facebook; la Display API di TikTok solo visualizzazioni, like, commenti e condivisioni.
+- I reel di Instagram senza login non si scaricano più (yt-dlp: «Main webpage is locked behind the login page»). Lo scraping con i cookie dell'utente è escluso dalle regole del progetto.
+- Scelta: **solo file**. Il cliente manda i video e gli screenshot delle statistiche, l'AI legge gli screenshot (curva di permanenza compresa) e non serve collegare nessun account.
+
+- [x] Migrazione `0008_videos.sql`: `video_projects` (un cliente, note, analisi AI salvata) e `videos` (proprietario cliente/concorrente, piattaforma, stato, misure, trascrizione, risultati)
+- [x] `video/media.py`: FFmpeg da `imageio-ffmpeg`, senza finestra di console; durata, risoluzione e rotazione, tagli (`select=gt(scene,0.32)`), pause (`silencedetect`), volume (`volumedetect`), fotogrammi (0,5 s, 2,5 s, metà, fine), WAV 16 kHz
+- [x] `video/transcribe.py`: faster-whisper `base` int8 su CPU, modello scaricato una volta in `%LOCALAPPDATA%\TALeport\models`; se manca o fallisce l'analisi continua senza parlato (avviso sulla scheda del video)
+- [x] `video/features.py`: misure spiegabili (tagli/min, primo taglio, prime parole, parole/min, pause %, testo dei primi 3 s), rapporti dai risultati (% visto, interazioni, condivisioni, calo più forte della curva, % rimasto dopo 3 s), mediane per profilo
+- [x] Elaborazione in un thread in coda, avanzamento per passi via SSE (`videos.changed`), ripresa all'avvio dei video interrotti
+- [x] Risultati: a mano (numeri anche come «12,3K», «4.512», «1,2 Mln») oppure dagli screenshot con un'AI che legge le immagini (prompt `video_stats`). Supporto immagini aggiunto a Anthropic, Chat Completions (OpenAI, xAI, Gemini) e Ollama; Perplexity no. Senza immagini → «Apri nella chat» con l'avviso di allegare gli screenshot
+- [x] Analisi AI (prompt `video_analysis`, schema `VideoAnalysis`): sintesi, punti di forza e deboli con gli id dei video, concorrenti, azioni con priorità, giudizio video per video (inizio, dove si perde il pubblico, cosa cambiare), idee. Con i modelli che vedono le immagini si mandano i fotogrammi d'apertura (massimo 12); un modello Ollama senza visione ripete l'analisi solo con i numeri
+- [x] PDF per il cliente (`video/report.py`): sintesi, confronto, punti di forza e deboli, concorrenza, azioni, video per video, idee, metodo; nessuna chiamata AI
+- [x] Pagina «Analisi video»: elenco clienti, «Messaggio per il cliente» (testo pronto per chiedere video, screenshot e concorrenti), trascina e rilascia con avanzamento del caricamento, gruppi per concorrente, scheda del video con anteprima e passi, finestra dei risultati, tabella di confronto, analisi, PDF; guida aggiornata; testi IT/EN/ES
+- [x] Test: 31 nuovi (misure su un video vero generato con FFmpeg, errori, risultati, screenshot, analisi con provider/chat/senza visione, PDF, cancellazione, ripresa) — 182 backend + 4 frontend
+- [x] `taleport.spec`: binario FFmpeg, dati e metadati di faster-whisper, librerie di CTranslate2, python-multipart
+- [ ] Prova sul portatile con video veri (trascrizione col modello scaricato) e build dell'installer 1.1.0
+
+Note:
+- L'installer crescerà (FFmpeg circa 80 MB, CTranslate2, onnxruntime e PyAV usati da faster-whisper).
+- Video dei concorrenti: si salvano dall'app (TikTok consente il download dei video pubblici quando l'autore lo permette) oppure registrando lo schermo.

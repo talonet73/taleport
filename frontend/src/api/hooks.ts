@@ -301,6 +301,9 @@ export function useServerEvents() {
         void queryClient.invalidateQueries({ queryKey: key })
       }
     })
+    on('videos.changed', () => {
+      void queryClient.invalidateQueries({ queryKey: ['video-projects'] })
+    })
     on('analysis.finished', () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.today })
       void queryClient.invalidateQueries({ queryKey: ['themes'] })

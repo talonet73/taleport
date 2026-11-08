@@ -90,6 +90,7 @@ def main(argv: list[str] | None = None) -> int:
 
     ctx = build_context(db, secrets.token_urlsafe(32))
     ctx.scans.mark_interrupted()
+    ctx.videos.resume()
     settings = ctx.settings.get()
 
     scheduler = ScanScheduler(ctx.scans)

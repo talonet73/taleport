@@ -9,6 +9,8 @@ from taleport.ai.providers.base import (
     TIMEOUT_SECONDS,
     Completion,
     ProviderError,
+    image_base64,
+    image_mime,
 )
 
 DEFAULT_MODEL = "claude-opus-5-5"
@@ -18,16 +20,36 @@ _FALLBACK_MODELS = {"claude-fable-5-1", "claude-opus-5-5", "claude-opus-5", "cla
 _FALLBACK_BETA = "server-side-fallback-2026-07-01"
 
 
+def _content(user: str, images: list[bytes] | None) -> str | list[dict]:
+    if not images:
+        return user
+    blocks: list[dict] = [
+        {
+            "type": "image",
+            "source": {"type": "base64", "media_type": image_mime(img), "data": image_base64(img)},
+        }
+        for img in images
+    ]
+    return [*blocks, {"type": "text", "text": user}]
+
+
 class AnthropicProvider:
     name = "anthropic"
     paid = True
+    vision = True
 
     def __init__(self, api_key: str, model: str = DEFAULT_MODEL) -> None:
         self.model = model
         self._client = anthropic.Anthropic(api_key=api_key, timeout=TIMEOUT_SECONDS, max_retries=2)
 
     def complete(
-        self, system: str, user: str, *, json_output: bool, max_tokens: int = DEFAULT_MAX_TOKENS
+        self,
+        system: str,
+        user: str,
+        *,
+        json_output: bool,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        images: list[bytes] | None = None,
     ) -> Completion:
         # json_output is enforced by the prompt + schema validation (no assistant prefill on
         # current models; sampling parameters are not sent).
@@ -35,7 +57,7 @@ class AnthropicProvider:
             "model": self.model,
             "max_tokens": max_tokens,
             "system": system,
-            "messages": [{"role": "user", "content": user}],
+            "messages": [{"role": "user", "content": _content(user, images)}],
         }
         try:
             if self.model in _FALLBACK_MODELS:
