@@ -13,11 +13,14 @@ import uuid
 from datetime import UTC, datetime
 from typing import Any
 
+from pydantic import Field, field_validator
+
 from taleport.ai import prompts
 from taleport.ai.providers.base import ProviderError
 from taleport.ai.service import AIService
 from taleport.ai.structured import parse_answer, run_structured
 from taleport.core.errors import AppError
+from taleport.core.i18n import tr
 from taleport.db.database import Database
 from taleport.generator.covered import published_themes
 from taleport.generator.extract import limit_content
@@ -26,6 +29,8 @@ from taleport.generator.render import render_copy_text
 from taleport.generator.schemas import GeneratedPost, GeneratedPosts
 from taleport.topics.models import Topic
 from taleport.topics.service import TopicStore
+from taleport.voices.schemas import VoiceAnalysis, VoiceProfileIn
+from taleport.voices.service import VoiceService, documents_text, voice_prompt_parts
 
 PLATFORMS = ("linkedin", "instagram", "facebook", "youtube", "tiktok")
 LANGUAGES = ("it", "en", "es")
@@ -44,11 +49,53 @@ def _validate_choice(platforms: list[str], languages: list[str]) -> None:
         raise AppError("generator.languages_required")
 
 
+class ReferencePosts(GeneratedPosts):
+    """Posts from reference documents, with the topics found and the documents' voice."""
+
+    topics: list[str] = Field(default_factory=list)
+    voice: VoiceAnalysis | None = None
+
+    @field_validator("topics", mode="before")
+    @classmethod
+    def _topics(cls, value: object) -> object:
+        if isinstance(value, str):
+            value = [value]
+        if not isinstance(value, list):
+            return []
+        return [str(v).strip()[:120] for v in value if str(v).strip()][:10]
+
+    @field_validator("voice", mode="wrap")
+    @classmethod
+    def _voice(cls, value: object, handler: Any) -> object:
+        try:  # a malformed voice must not throw away good posts
+            return handler(value)
+        except ValueError:
+            return None
+
+
 class GeneratorService:
-    def __init__(self, db: Database, ai: AIService, topics: TopicStore) -> None:
+    def __init__(
+        self, db: Database, ai: AIService, topics: TopicStore, voices: VoiceService | None = None
+    ) -> None:
         self._db = db
         self._ai = ai
         self._topics = topics
+        self._voices = voices or VoiceService(db, ai)
+
+    def _voice_snapshot(self, voice_id: int | None) -> dict[str, Any] | None:
+        """The chosen profile, frozen into the draft context (regeneration keeps the voice)."""
+        if voice_id is None:
+            return None
+        profile = self._voices.get(voice_id)
+        return {k: profile[k] for k in ("id", "name", "guide", "examples")}
+
+    def _tone_and_style(
+        self, ctx: dict[str, Any], topic: Topic | None, tone: str | None = None
+    ) -> tuple[str, str]:
+        guide, examples = voice_prompt_parts(ctx.get("voice"))
+        parts = [p for p in (guide, tone) if p]
+        tone_text = "\n".join(parts) or (topic.tone if topic else "") or "-"
+        return tone_text, examples or self._style(topic)
 
     # -- prompt context ------------------------------------------------------------------
 
@@ -125,14 +172,15 @@ class GeneratorService:
         topic = self._topics.get(ctx["topic_id"]) if ctx.get("topic_id") else None
         with self._db.connect() as conn:
             covered = self._covered(conn, ctx.get("topic_id"), avoid)
+        tone_text, style = self._tone_and_style(ctx, topic, tone)
         return prompts.render(
             "post_generation",
             ui,
             topic_name=topic.name if topic else "-",
             topic_description=(topic.description if topic else "") or "-",
             audience=(topic.audience if topic else "") or "-",
-            tone=tone or (topic.tone if topic else "") or "-",
-            style_examples=self._style(topic),
+            tone=tone_text,
+            style_examples=style,
             covered=covered,
             theme_title=ctx["theme_title"],
             theme_summary=ctx["theme_summary"],
@@ -148,13 +196,14 @@ class GeneratorService:
         ui = self._ai.language()
         topic = self._topics.get(ctx["topic_id"]) if ctx.get("topic_id") else None
         title = ctx["theme_title"] + (f" — {avoid}" if avoid else "")
+        tone_text, style = self._tone_and_style(ctx, topic)
         return prompts.render(
             "long_content",
             ui,
             content_title=title,
             audience=(topic.audience if topic else "") or "-",
-            tone=(topic.tone if topic else "") or "-",
-            style_examples=self._style(topic),
+            tone=tone_text,
+            style_examples=style,
             content=ctx["corpus"],
             count=str(count),
             platforms=", ".join(platforms),
@@ -267,9 +316,11 @@ class GeneratorService:
         variants: int = 1,
         tone: str | None = None,
         mode: str | None = None,
+        voice_id: int | None = None,
     ) -> dict[str, Any]:
         self._check_theme_request(platforms, languages, variants)
         ctx = self._theme_context(theme_id)
+        ctx["voice"] = self._voice_snapshot(voice_id)
         prompt = self._theme_prompt(ctx, platforms, languages, variants, tone)
         resolved, outcome = self._run(prompt, mode, "post_generation")
         if resolved == "chat":
@@ -279,10 +330,16 @@ class GeneratorService:
         )
 
     def parse_from_theme(
-        self, theme_id: int, platforms: list[str], languages: list[str], text: str
+        self,
+        theme_id: int,
+        platforms: list[str],
+        languages: list[str],
+        text: str,
+        voice_id: int | None = None,
     ) -> dict[str, Any]:
         _validate_choice(platforms, languages)
         ctx = self._theme_context(theme_id)
+        ctx["voice"] = self._voice_snapshot(voice_id)
         posts = parse_answer(text, GeneratedPosts)
         return self._save(self._keep_requested(posts, platforms, languages), ctx, "theme", "chat")
 
@@ -315,11 +372,13 @@ class GeneratorService:
         language: str,
         topic_id: int | None = None,
         mode: str | None = None,
+        voice_id: int | None = None,
     ) -> dict[str, Any]:
         _validate_choice(platforms, [language])
         if not 1 <= count <= MAX_SERIES:
             raise AppError("generator.series_range", max=MAX_SERIES)
         ctx, truncated = self._long_context(content, title, topic_id)
+        ctx["voice"] = self._voice_snapshot(voice_id)
         prompt = self._long_prompt(ctx, count, platforms, language)
         resolved, outcome = self._run(prompt, mode, "long_content")
         if resolved == "chat":
@@ -337,13 +396,155 @@ class GeneratorService:
         language: str,
         topic_id: int | None,
         text: str,
+        voice_id: int | None = None,
     ) -> dict[str, Any]:
         _validate_choice(platforms, [language])
         ctx, truncated = self._long_context(content, title, topic_id)
+        ctx["voice"] = self._voice_snapshot(voice_id)
         posts = parse_answer(text, GeneratedPosts)
         saved = self._save(
             self._keep_requested(posts, platforms, [language]), ctx, "long_content", "chat"
         )
+        return {**saved, "truncated": truncated}
+
+    # -- from reference documents ----------------------------------------------------------
+
+    def _reference_request(
+        self,
+        documents: list[dict[str, str]],
+        title: str,
+        count: int,
+        platforms: list[str],
+        languages: list[str],
+        voice: str,
+        voice_id: int | None,
+        topic_id: int | None,
+    ) -> tuple[dict[str, Any], prompts.Prompt, bool]:
+        _validate_choice(platforms, languages)
+        if not 1 <= count <= 5:
+            raise AppError("generator.reference_count")
+        if count * len(platforms) * len(languages) > MAX_POSTS_PER_REQUEST:
+            raise AppError("generator.too_many", max=MAX_POSTS_PER_REQUEST)
+        if voice not in ("reference", "profile", "topic"):
+            raise AppError("validation", fields=["voice"])
+        text, truncated = documents_text(documents)
+        topic = self._topics.get(topic_id) if topic_id is not None else None
+        names = [d["name"] for d in documents]
+        ctx: dict[str, Any] = {
+            "topic_id": topic_id,
+            "theme_id": None,
+            "theme_key": None,
+            "theme_title": title.strip()[:200] or ", ".join(names)[:200],
+            "theme_summary": "",
+            "sources": [{"title": n, "url": "", "publisher": "", "text": ""} for n in names],
+            "corpus": text,
+            "reference": True,
+            "voice": self._voice_snapshot(voice_id) if voice == "profile" else None,
+        }
+        if voice == "profile" and voice_id is None:
+            raise AppError("validation", fields=["voice_id"])
+        ui = self._ai.language()
+        if voice == "reference":
+            tone_text, style = tr(ui, "voice.use_reference"), "-"
+        else:
+            tone_text, style = self._tone_and_style(ctx, topic)
+        prompt = prompts.render(
+            "reference_posts",
+            ui,
+            audience=(topic.audience if topic else "") or "-",
+            tone=tone_text,
+            style_examples=style,
+            documents=text,
+            count=str(count),
+            platforms=", ".join(platforms),
+            languages=prompts.language_list(languages, ui),
+        )
+        return ctx, prompt, truncated
+
+    def _save_reference(
+        self,
+        posts: ReferencePosts,
+        ctx: dict[str, Any],
+        platforms: list[str],
+        languages: list[str],
+        voice: str,
+        save_voice: str | None,
+        mode: str,
+    ) -> dict[str, Any]:
+        if voice == "reference" and posts.voice is not None:
+            # Regenerating a draft later keeps the voice the documents were written in.
+            ctx["voice"] = {"id": None, **posts.voice.model_dump(exclude={"name"}),
+                            "name": posts.voice.name}  # fmt: skip
+        if posts.topics and ctx["theme_title"] == ", ".join(s["title"] for s in ctx["sources"]):
+            ctx["theme_title"] = ", ".join(posts.topics[:3])[:200]
+        saved = self._save(self._keep_requested(posts, platforms, languages), ctx,
+                           "long_content", mode)  # fmt: skip
+        profile = None
+        if save_voice is not None and posts.voice is not None:
+            profile = self._voices.create(
+                VoiceProfileIn(
+                    name=save_voice.strip() or posts.voice.name or ctx["sources"][0]["title"],
+                    guide=posts.voice.guide,
+                    examples=posts.voice.examples,
+                    topic_ids=[ctx["topic_id"]] if ctx.get("topic_id") else [],
+                    sources=[s["title"] for s in ctx["sources"]],
+                )
+            )
+        return {
+            **saved,
+            "topics": posts.topics,
+            "voice": posts.voice.model_dump() if posts.voice else None,
+            "voice_profile": profile,
+        }
+
+    def generate_from_reference(
+        self,
+        documents: list[dict[str, str]],
+        platforms: list[str],
+        languages: list[str],
+        count: int = 1,
+        title: str = "",
+        voice: str = "reference",
+        voice_id: int | None = None,
+        topic_id: int | None = None,
+        save_voice: str | None = None,
+        mode: str | None = None,
+    ) -> dict[str, Any]:
+        ctx, prompt, truncated = self._reference_request(
+            documents, title, count, platforms, languages, voice, voice_id, topic_id
+        )
+        resolved, provider, fallback = self._ai.resolve(mode)
+        if provider is None:
+            return {"mode": "chat", "fallback": fallback, "truncated": truncated,
+                    "handoff": self._ai.handoff(prompt)}  # fmt: skip
+        try:
+            posts = run_structured(
+                provider, prompt, ReferencePosts, self._ai.recorder(provider, "reference_posts"),
+                max_tokens=GENERATION_MAX_TOKENS,
+            )  # fmt: skip
+        except ProviderError as exc:
+            raise AppError.from_provider(exc) from exc
+        saved = self._save_reference(posts, ctx, platforms, languages, voice, save_voice, resolved)
+        return {**saved, "truncated": truncated}
+
+    def parse_reference(
+        self,
+        documents: list[dict[str, str]],
+        platforms: list[str],
+        languages: list[str],
+        text: str,
+        count: int = 1,
+        title: str = "",
+        voice: str = "reference",
+        voice_id: int | None = None,
+        topic_id: int | None = None,
+        save_voice: str | None = None,
+    ) -> dict[str, Any]:
+        ctx, _prompt, truncated = self._reference_request(
+            documents, title, count, platforms, languages, voice, voice_id, topic_id
+        )
+        posts = parse_answer(text, ReferencePosts)
+        saved = self._save_reference(posts, ctx, platforms, languages, voice, save_voice, "chat")
         return {**saved, "truncated": truncated}
 
     # -- single drafts ---------------------------------------------------------------------

@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.2.0 — 2026-11-09
+
+Post da una reference e profili di tono di voce · Posts from a reference and tone-of-voice profiles
+
+**Italiano**
+
+- Generatore, nuova scheda «Da una reference»: carichi fino a 5 documenti (Word, PDF, PowerPoint o testo), l'AI trova gli argomenti e scrive i post con lo stesso tono di voce dei documenti. Puoi salvare quel tono come profilo con una spunta.
+- Nuova pagina «Tono di voce»: profili creati da documenti (l'AI descrive come scrivono e sceglie frasi di esempio, che puoi correggere) o scritti a mano. Ogni profilo si collega a uno o più argomenti e viene proposto da solo per i loro temi.
+- Il tono si sceglie anche per i post da un tema e da un contenuto lungo; rigenerando una bozza il tono resta lo stesso.
+- Si leggono anche i file PowerPoint (testo delle slide, tabelle e note) e le tabelle dei documenti Word.
+
+**English**
+
+- Generator, new "A reference" tab: upload up to 5 documents (Word, PDF, PowerPoint or text), the AI finds the topics and writes the posts in the same tone of voice as the documents. One tick saves that tone as a profile.
+- New "Tone of voice" page: profiles learned from documents (the AI describes how they write and picks example sentences you can edit) or written by hand. Each profile links to one or more topics and is suggested automatically for their themes.
+- The tone can also be chosen for posts from a theme and from long content; regenerating a draft keeps the same tone.
+- PowerPoint files are now read too (slide text, tables and notes), as are tables in Word documents.
+
 ## 1.1.1 — 2026-11-09
 
 Correzioni AI · AI fixes

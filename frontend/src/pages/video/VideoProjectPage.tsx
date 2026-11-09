@@ -28,7 +28,7 @@ import { SavedNotice } from '../../components/reports/ExportPdfButton'
 import { useErrorMessage } from '../../components/useErrorMessage'
 import { AnalysisView, ComparisonTable } from './AnalysisView'
 import { ClientMessageDialog } from './ClientMessageDialog'
-import { DropZone } from './DropZone'
+import { DropZone } from '../../components/DropZone'
 import { StatsDialog } from './StatsDialog'
 import { VideoCard } from './VideoCard'
 

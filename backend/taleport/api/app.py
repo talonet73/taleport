@@ -32,6 +32,7 @@ from taleport.api import (
     system_routes,
     topics_routes,
     video_routes,
+    voices_routes,
 )
 from taleport.api.context import AppContext
 from taleport.core.errors import AppError
@@ -105,6 +106,7 @@ def create_app(ctx: AppContext, static_dir: Path | None = None) -> FastAPI:
     app.include_router(reports_routes.router, prefix="/api")
     app.include_router(system_routes.router, prefix="/api")
     app.include_router(video_routes.router, prefix="/api")
+    app.include_router(voices_routes.router, prefix="/api")
     app.include_router(sse.router, prefix="/api")
 
     _mount_frontend(app, static_dir or frontend_dist())

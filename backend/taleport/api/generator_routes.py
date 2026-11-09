@@ -24,6 +24,7 @@ class ThemeGeneration(BaseModel):
     variants: int = 1
     tone: str | None = Field(None, max_length=300)
     mode: str | None = None
+    voice_id: int | None = None
 
 
 class ThemeGenerationParse(ThemeGeneration):
@@ -33,14 +34,15 @@ class ThemeGenerationParse(ThemeGeneration):
 @router.post("/generator/theme")
 def generate_from_theme(request: Request, body: ThemeGeneration) -> dict[str, Any]:
     return _ctx(request).generator.generate_from_theme(
-        body.theme_id, body.platforms, body.languages, body.variants, body.tone, body.mode
-    )
+        body.theme_id, body.platforms, body.languages, body.variants, body.tone, body.mode,
+        body.voice_id,
+    )  # fmt: skip
 
 
 @router.post("/generator/theme/parse")
 def parse_from_theme(request: Request, body: ThemeGenerationParse) -> dict[str, Any]:
     return _ctx(request).generator.parse_from_theme(
-        body.theme_id, body.platforms, body.languages, body.text
+        body.theme_id, body.platforms, body.languages, body.text, body.voice_id
     )
 
 
@@ -52,6 +54,7 @@ class LongGeneration(BaseModel):
     language: str
     topic_id: int | None = None
     mode: str | None = None
+    voice_id: int | None = None
 
 
 class LongGenerationParse(LongGeneration):
@@ -68,14 +71,16 @@ def generate_long(request: Request, body: LongGeneration) -> dict[str, Any]:
         body.language,
         body.topic_id,
         body.mode,
+        body.voice_id,
     )
 
 
 @router.post("/generator/long/parse")
 def parse_long(request: Request, body: LongGenerationParse) -> dict[str, Any]:
     return _ctx(request).generator.parse_long(
-        body.content, body.title, body.platforms, body.language, body.topic_id, body.text
-    )
+        body.content, body.title, body.platforms, body.language, body.topic_id, body.text,
+        body.voice_id,
+    )  # fmt: skip
 
 
 class FileUpload(BaseModel):
@@ -157,3 +162,43 @@ def unpublish(request: Request, draft_id: int) -> dict[str, Any]:
 @router.delete("/drafts/{draft_id}", status_code=204)
 def delete_draft(request: Request, draft_id: int) -> None:
     _ctx(request).generator.delete(draft_id)
+
+
+class ReferenceDocument(BaseModel):
+    name: str = Field(min_length=1, max_length=300)
+    text: str = Field(max_length=400_000)
+
+
+class ReferenceGeneration(BaseModel):
+    documents: list[ReferenceDocument] = Field(min_length=1, max_length=5)
+    platforms: list[str]
+    languages: list[str]
+    count: int = 1
+    title: str = Field("", max_length=200)
+    voice: str = "reference"  # 'reference', 'profile' or 'topic'
+    voice_id: int | None = None
+    topic_id: int | None = None
+    save_voice: str | None = Field(None, max_length=80)  # set: save the documents' voice
+    mode: str | None = None
+
+    def args(self) -> dict[str, Any]:
+        return {
+            "documents": [d.model_dump() for d in self.documents],
+            "platforms": self.platforms, "languages": self.languages, "count": self.count,
+            "title": self.title, "voice": self.voice, "voice_id": self.voice_id,
+            "topic_id": self.topic_id, "save_voice": self.save_voice,
+        }  # fmt: skip
+
+
+class ReferenceGenerationParse(ReferenceGeneration):
+    text: str = Field(max_length=300_000)
+
+
+@router.post("/generator/reference")
+def generate_from_reference(request: Request, body: ReferenceGeneration) -> dict[str, Any]:
+    return _ctx(request).generator.generate_from_reference(**body.args(), mode=body.mode)
+
+
+@router.post("/generator/reference/parse")
+def parse_reference(request: Request, body: ReferenceGenerationParse) -> dict[str, Any]:
+    return _ctx(request).generator.parse_reference(**body.args(), text=body.text)

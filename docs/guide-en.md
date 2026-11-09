@@ -31,6 +31,12 @@ How TALeport works, in short.
 - “Analyze” writes strengths, weaknesses, what competitors do and what to change video by video; “PDF for the client” creates the report to send.
 - No account access and no scraping: only the files the client sends you are used. “Message for the client” gives you a ready text to ask for them.
 
+## Posts from a reference and tone of voice
+
+- In the Generator choose “A reference” and upload up to 5 documents (Word, PDF, PowerPoint or text): the AI finds the topics and writes the posts in the same tone of voice as the documents.
+- Tick “Save these documents' tone as a profile” to reuse it: you find it in the Tone of voice page.
+- In the Tone of voice page you create profiles from documents or by hand (instructions and example sentences) and link them to topics: that topic's themes are written in that tone, which you can still change every time.
+
 ## AI: three ways
 
 - Ollama: free and on your PC. Install it from the official site, start it and download a model.

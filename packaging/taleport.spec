@@ -50,6 +50,7 @@ datas = [
     # Video analysis: FFmpeg binary, faster-whisper assets, versions checked at import time.
     *collect_data_files("imageio_ffmpeg"),
     *collect_data_files("faster_whisper"),
+    *collect_data_files("pptx"),  # python-pptx: reading PowerPoint references
     *copy_metadata("imageio_ffmpeg"),
     *copy_metadata("faster_whisper"),
     *copy_metadata("ctranslate2"),

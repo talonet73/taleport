@@ -63,6 +63,7 @@ Nome: sempre **TALeport** nei testi visibili; `taleport` per pacchetti, cartelle
 | File esportati | `core/exports.py`: cartella `exports\`, nomi controllati con regex, `os.startfile` | Un solo punto per PDF, backup, registro |
 | Pulizia | `core/maintenance.py`: notizie non viste da `retention_months` mesi, registro e notifiche lette dopo 90 giorni; all'avvio e dopo ogni scansione | Privacy (§9) |
 | Analisi video | `video/`: solo file dati dal cliente (nessun account, nessuno scraping); misure offline con FFmpeg di `imageio-ffmpeg` (tagli, pause, volume, fotogrammi) e faster-whisper `base` (modello scaricato una volta in `models\`); risultati a mano o letti dagli screenshot da un'AI con immagini (`LLMProvider.complete(..., images=)`, attributo `vision`); file in `videos\<cliente>\`; worker in coda + SSE `videos.changed` | Le API non danno la curva di permanenza e Instagram blocca i download senza login (verificato 2026-11-08) |
+| Tono di voce | `voices/`: profili (istruzioni + frasi di esempio + argomenti collegati, uno per argomento) da documenti (prompt `voice_analysis`) o a mano; il tono scelto entra nei prompt come `tone`/`style_examples` ed è salvato nel contesto della bozza (`ctx.voice`); post da reference: prompt `reference_posts`, bozze `long_content` | Riusa i segnaposto esistenti dei prompt e la rigenerazione mantiene il tono |
 | Migrazioni | `0001_init.sql` contiene solo `settings` e `logs`; ogni fase aggiunge la sua migrazione con le tabelle del §8 che usa | Lo schema nasce insieme al codice che lo usa |
 
 ## Stack e strumenti
@@ -94,6 +95,7 @@ TALeport/
 │  │  ├─ generator/         # post per piattaforma, fact-check, contenuti lunghi
 │  │  ├─ ask/               # schema piano, funzioni di analisi, esecutore
 │  │  ├─ reports/           # PDF, grafici, modelli
+│  │  ├─ voices/            # profili di tono di voce
 │  │  ├─ video/             # analisi video clienti: FFmpeg, trascrizione, misure, analisi AI, PDF
 │  │  ├─ notifications/
 │  │  └─ resources/         # stopword, valori predefiniti (orari social, prezzi AI)

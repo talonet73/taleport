@@ -18,15 +18,39 @@ log = logging.getLogger(__name__)
 _FENCE = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL | re.IGNORECASE)
 
 
+_STRING = r'"(?:[^"\\]|\\.)*"'
+# `"key": "a", "b", "c"` — a list written without brackets (small local models do this).
+_BARE_LIST = re.compile(rf"(:\s*)({_STRING}(?:\s*,?\s*{_STRING}(?!\s*:))+)(?=\s*[,}}\]])")
+_ADJACENT_STRINGS = re.compile(rf"({_STRING})\s+(?={_STRING})")
+_TRAILING_COMMA = re.compile(r",(\s*[}\]])")
+
+
+def repair_json(text: str) -> str:
+    """Fixes the most common mistakes of small models without touching valid JSON."""
+    text = _TRAILING_COMMA.sub(r"\1", text)
+
+    def as_list(match: re.Match[str]) -> str:
+        items = _ADJACENT_STRINGS.sub(r"\1, ", match.group(2))
+        return f"{match.group(1)}[{items}]"
+
+    return _BARE_LIST.sub(as_list, text)
+
+
 def extract_json(text: str) -> Any:
     """The JSON object in a model answer, tolerating code fences and chatter around it."""
     fenced = _FENCE.search(text)
     candidate = fenced.group(1) if fenced else text
+    if not fenced and "```" in candidate:  # an opening fence whose closing one is missing
+        candidate = candidate.split("```", 1)[1].removeprefix("json")
     start = candidate.find("{")
     end = candidate.rfind("}")
     if start == -1 or end <= start:
         raise ValueError("no JSON object found")
-    return json.loads(candidate[start : end + 1])
+    body = candidate[start : end + 1]
+    try:
+        return json.loads(body)
+    except json.JSONDecodeError:
+        return json.loads(repair_json(body))
 
 
 def _short_error(exc: Exception) -> str:

@@ -17,7 +17,7 @@ import { HandoffPanel } from '../../components/ai/HandoffPanel'
 import { useAiFlow } from '../../components/ai/useAiFlow'
 import { Modal } from '../../components/Modal'
 import { useErrorMessage } from '../../components/useErrorMessage'
-import { DropZone } from './DropZone'
+import { DropZone } from '../../components/DropZone'
 
 const NUMBER_FIELDS = ['views', 'reach', 'likes', 'comments', 'shares', 'saves', 'follows', 'avg_watch_seconds'] as const
 type NumberField = (typeof NUMBER_FIELDS)[number]

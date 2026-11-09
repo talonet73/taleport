@@ -7,6 +7,7 @@
     "generator": "Generator",
     "longContent": "From long content",
     "video": "Video analysis",
+    "voices": "Tone of voice",
     "calendar": "Calendar",
     "topics": "Topics",
     "archive": "Archive",
@@ -247,12 +248,13 @@
       "variants_range": "Variants go from 1 to 3.",
       "too_many": "Too many posts at once: max {{max}}. Reduce networks, languages or variants.",
       "series_range": "The series goes from 1 to {{max}} posts.",
-      "no_posts": "The answer has no posts for the chosen networks and languages."
+      "no_posts": "The answer has no posts for the chosen networks and languages.",
+      "reference_count": "From 1 to 5 posts per network and language."
     },
     "content": {
       "unreadable": "Can't read the file. Is it protected or damaged?",
       "too_large": "The file is larger than {{max_mb}} MB.",
-      "unsupported_format": "Unsupported format: use PDF, DOCX or TXT.",
+      "unsupported_format": "Unsupported format: use DOCX, PDF, PPTX or TXT.",
       "empty": "The file has no text (for example a scanned PDF).",
       "too_short": "The content is too short: at least 200 characters are needed."
     },
@@ -314,6 +316,12 @@
       "too_many_screenshots": "At most {{max}} screenshots at a time.",
       "unsupported_image": "“{{name}}” is not a supported image (PNG, JPG, WEBP).",
       "image_too_big": "“{{name}}” is too large (maximum 8 MB)."
+    },
+    "voices": {
+      "not_found": "Profile not found.",
+      "too_many": "At most {{max}} tone profiles.",
+      "no_documents": "Upload at least one document.",
+      "too_many_documents": "At most {{max}} documents at a time."
     }
   },
   "common": {
@@ -523,12 +531,30 @@
     "handoffTitle": "Generate with your chat",
     "results_one": "{{count}} draft generated",
     "results_other": "{{count}} drafts generated",
-    "recent": "Recent drafts"
+    "recent": "Recent drafts",
+    "toneExtra": "Extra tone notes (optional)",
+    "source": {
+      "label": "Start from",
+      "theme": "A theme of today",
+      "reference": "A reference"
+    },
+    "reference": {
+      "documents": "Reference documents",
+      "documentsHint": "Upload speeches, articles or presentations: the AI finds the topics and writes the posts in the same tone of voice.",
+      "audience": "Audience from (topic)",
+      "count": "Posts per network and language",
+      "saveVoice": "Save these documents' tone as a profile",
+      "voiceNamePlaceholder": "Profile name (optional, e.g. “CEO speeches”)",
+      "saveVoiceHint": "You can reuse it for other posts and link it to a topic in the Tone of voice page.",
+      "generate": "Write the posts from the reference",
+      "topicsFound": "Topics found",
+      "voiceSaved": "Tone saved as the profile “{{name}}”."
+    }
   },
   "longContent": {
     "subtitle": "Paste a text or upload a document: TALeport turns it into a coherent series of posts to publish on different days.",
     "upload": "Upload a file",
-    "formats": "PDF, DOCX or TXT, up to 15 MB",
+    "formats": "PDF, DOCX, PPTX or TXT, up to 15 MB",
     "title": "Content title",
     "content": "Content",
     "placeholder": "Paste an article, a transcript or a document here…",
@@ -1119,6 +1145,14 @@
           "No account access and no scraping: only the files the client sends you are used. “Message for the client” gives you a ready text to ask for them."
         ]
       },
+      "voices": {
+        "title": "Posts from a reference and tone of voice",
+        "items": [
+          "In the Generator choose “A reference” and upload up to 5 documents (Word, PDF, PowerPoint or text): the AI finds the topics and writes the posts in the same tone of voice as the documents.",
+          "Tick “Save these documents' tone as a profile” to reuse it: you find it in the Tone of voice page.",
+          "In the Tone of voice page you create profiles from documents or by hand (instructions and example sentences) and link them to topics: that topic's themes are written in that tone, which you can still change every time."
+        ]
+      },
       "ai": {
         "title": "AI: three ways",
         "items": [
@@ -1325,6 +1359,55 @@
       "high": "High",
       "medium": "Medium",
       "low": "Low"
+    }
+  },
+  "voices": {
+    "subtitle": "Tone-of-voice profiles for your posts: learn them from documents (speeches, articles, presentations) or write them yourself, and link them to topics.",
+    "fromDocuments": "New profile from documents",
+    "manual": "New empty profile",
+    "newTitle": "New tone profile",
+    "editTitle": "Edit profile",
+    "empty": {
+      "title": "No profiles yet",
+      "text": "Upload one or more documents written in the tone you want (for example a client's speeches): the AI describes how they write and saves the profile. Then pick it when you generate posts, or link it to a topic and it is used automatically."
+    },
+    "usedFor": "Used for: {{topics}}",
+    "notLinked": "Not linked to topics: you pick it when generating.",
+    "edit": "Edit {{name}}",
+    "delete": "Delete {{name}}",
+    "confirmDelete": "Delete the profile “{{name}}”?",
+    "learn": {
+      "hint": "Upload up to 5 documents written in the tone to imitate. Their content is not saved: the AI only extracts the way of writing and a few example sentences, which you can fix before saving.",
+      "analyze": "Analyze the tone"
+    },
+    "editor": {
+      "name": "Profile name",
+      "namePlaceholder": "E.g. “Witty fan”, “Warm institutional”",
+      "guide": "How to write",
+      "guidePlaceholder": "- Address the audience directly\n- Short sentences, an occasional rhetorical question\n- No technical jargon",
+      "guideHint": "Instructions for the AI, one per line: persona, register, rhythm, typical words, things to avoid.",
+      "examples": "Example sentences",
+      "examplesPlaceholder": "Paste 3-5 typical sentences, separated by a blank line.",
+      "examplesHint": "Separate them with a blank line. The AI imitates them without copying.",
+      "topics": "Use it for these topics",
+      "topicsHint": "Themes of these topics will be written in this tone. Each topic uses one profile.",
+      "noTopics": "You have no topics yet.",
+      "topicTaken": "Currently uses “{{name}}”: selecting it moves it to this profile",
+      "sources": "Learned from: {{files}}"
+    },
+    "documents": {
+      "drop": "Drop the documents here or click to choose them",
+      "formats": "Word (DOCX), PDF, PowerPoint (PPTX) or text, up to {{max}} files",
+      "reading": "Reading the documents…",
+      "characters": "{{value}} characters",
+      "truncated": "shortened",
+      "remove": "Remove {{name}}"
+    },
+    "select": {
+      "label": "Tone of voice",
+      "manage": "Manage profiles",
+      "topic": "The topic's tone",
+      "reference": "Same as the uploaded documents"
     }
   }
 }

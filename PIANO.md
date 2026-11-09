@@ -19,6 +19,7 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 8 completata** (2026-11-02)
 - [x] **Fase 9 completata** (2026-11-02)
 - [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; codice e Release 1.0.0 su GitHub; resta solo la prova su un Windows pulito
+- [~] **Fase 12 — Reference e profili di tono di voce** (2026-11-09): versione 1.2.0
 - [~] **Fase 11 — Analisi video per i clienti** (2026-11-08): pubblicata nella 1.1.0, correzioni AI nella 1.1.1 (2026-11-09); da fare la prova con video veri di un cliente
 
 ---
@@ -238,3 +239,14 @@ Verifiche fatte prima (2026-11-08):
 Note:
 - L'installer passa da 46,5 a 117,5 MB (FFmpeg 105 MB non compresso, CTranslate2, onnxruntime e PyAV usati da faster-whisper).
 - Video dei concorrenti: si salvano dall'app (TikTok consente il download dei video pubblici quando l'autore lo permette) oppure registrando lo schermo.
+
+## Fase 12 — Reference e profili di tono di voce (1.2.0)
+Richiesta: nella creazione dei post poter caricare una reference esterna (Word, PDF, PowerPoint), analizzarne contenuti e tono di voce e scrivere post sugli argomenti trovati con lo stesso tono; profili di tono diversi da usare a seconda degli argomenti.
+
+- [x] Lettura PPTX (testo delle slide, tabelle, note) con python-pptx; tabelle dei DOCX
+- [x] Migrazione `0009_voices.sql`: `voice_profiles` (nome, istruzioni `guide`, frasi di esempio, argomenti collegati, documenti di origine). Un argomento usa al massimo un profilo
+- [x] `voices/`: profili (CRUD), analisi del tono da documenti con prompt `voice_analysis` (niente salvataggio automatico: l'utente rivede e salva)
+- [x] Generatore «Da una reference» (prompt `reference_posts`, schema `ReferencePosts`): argomenti trovati, tono dei documenti oppure di un profilo oppure dell'argomento, salvataggio facoltativo del tono come profilo collegato all'argomento scelto. Le bozze sono `long_content` con il testo dei documenti come corpus per il controllo dei fatti
+- [x] Tono scelto (`voice_id`) anche per tema e contenuto lungo; il tono è salvato nel contesto della bozza, quindi la rigenerazione lo mantiene; il profilo dell'argomento è preselezionato nell'interfaccia
+- [x] Pagina «Tono di voce», selettore del tono nel Generatore e in Da contenuto lungo, guida e testi IT/EN/ES
+- [x] Test: 14 nuovi (PPTX/DOCX, profili e argomenti esclusivi, analisi con provider e chat, reference con tono dei documenti, con profilo, via chat, limiti, tono su tema e contenuto lungo, API, prompt) — 203 backend

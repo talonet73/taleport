@@ -31,6 +31,12 @@ Cómo funciona TALeport, en breve.
 - «Analizar» escribe puntos fuertes, puntos débiles, qué hace la competencia y qué cambiar vídeo por vídeo; «PDF para el cliente» crea el informe para enviar.
 - Sin acceso a cuentas y sin scraping: solo se usan los archivos que te envía el cliente. «Mensaje para el cliente» te da el texto listo para pedírselos.
 
+## Posts desde una referencia y tono de voz
+
+- En el Generador elige «Desde una referencia» y sube hasta 5 documentos (Word, PDF, PowerPoint o texto): la IA encuentra los temas y escribe los posts con el mismo tono de voz de los documentos.
+- Marca «Guardar el tono de estos documentos como perfil» para reutilizarlo: lo encontrarás en la página Tono de voz.
+- En la página Tono de voz creas perfiles desde documentos o a mano (instrucciones y frases de ejemplo) y los vinculas a los temas: los temas de ese tema se escriben con ese tono, que siempre puedes cambiar.
+
 ## IA: tres formas
 
 - Ollama: gratis y en tu PC. Instálalo desde el sitio oficial, ábrelo y descarga un modelo.

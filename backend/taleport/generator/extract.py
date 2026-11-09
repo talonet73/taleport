@@ -1,4 +1,4 @@
-"""Text from pasted content or uploaded PDF / DOCX / TXT files (offline)."""
+"""Text from pasted content or uploaded PDF / DOCX / PPTX / TXT files (offline)."""
 
 from __future__ import annotations
 
@@ -31,10 +31,9 @@ def extract_text(filename: str, data_base64: str) -> str:
             reader = PdfReader(io.BytesIO(data))
             text = "\n\n".join(page.extract_text() or "" for page in reader.pages)
         elif name.endswith(".docx"):
-            import docx
-
-            document = docx.Document(io.BytesIO(data))
-            text = "\n".join(p.text for p in document.paragraphs)
+            text = _docx_text(data)
+        elif name.endswith(".pptx"):
+            text = _pptx_text(data)
         elif name.endswith((".txt", ".md")):
             text = data.decode("utf-8", errors="replace")
         else:
@@ -48,6 +47,44 @@ def extract_text(filename: str, data_base64: str) -> str:
     if not text:
         raise AppError("content.empty")  # e.g. a scanned PDF without a text layer
     return text
+
+
+def _docx_text(data: bytes) -> str:
+    import docx
+
+    document = docx.Document(io.BytesIO(data))
+    parts = [p.text for p in document.paragraphs]
+    for table in document.tables:
+        for row in table.rows:
+            cells = [c.text.strip() for c in row.cells if c.text.strip()]
+            if cells:
+                parts.append(" | ".join(dict.fromkeys(cells)))  # merged cells repeat
+    return "\n".join(parts)
+
+
+def _pptx_text(data: bytes) -> str:
+    """Slide by slide: titles, text boxes, tables and speaker notes."""
+    from pptx import Presentation
+
+    deck = Presentation(io.BytesIO(data))
+    slides = []
+    for number, slide in enumerate(deck.slides, start=1):
+        lines: list[str] = []
+        for shape in slide.shapes:
+            if shape.has_text_frame:
+                lines += [p.text for p in shape.text_frame.paragraphs if p.text.strip()]
+            elif getattr(shape, "has_table", False) and shape.has_table:
+                for row in shape.table.rows:
+                    cells = [c.text.strip() for c in row.cells if c.text.strip()]
+                    if cells:
+                        lines.append(" | ".join(cells))
+        if slide.has_notes_slide:
+            notes = slide.notes_slide.notes_text_frame.text.strip()
+            if notes:
+                lines.append(notes)
+        if lines:
+            slides.append(f"[{number}]\n" + "\n".join(lines))
+    return "\n\n".join(slides)
 
 
 def limit_content(text: str) -> tuple[str, bool]:

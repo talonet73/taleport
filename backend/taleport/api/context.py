@@ -43,6 +43,7 @@ from taleport.scan.service import ScanService
 from taleport.topics.service import TopicStore
 from taleport.updates.service import UpdateService
 from taleport.video.service import VideoService
+from taleport.voices.service import VoiceService
 
 log = logging.getLogger(__name__)
 
@@ -70,6 +71,7 @@ class AppContext:
     backup: BackupService
     updates: UpdateService
     videos: VideoService
+    voices: VoiceService
     token: str
     bus: EventBus
     version: str = __version__
@@ -131,7 +133,8 @@ def build_context(
     ai.on_usage = lambda: notifications.check_spend(
         usage.month_total(), settings.get(), datetime.now().astimezone()
     )
-    generator = GeneratorService(db, ai, topics)
+    voices = VoiceService(db, ai)
+    generator = GeneratorService(db, ai, topics, voices)
     insights = InsightsService(db, topics, ai)
     results = ResultsService(db)
     reports = ReportService(db, settings, insights, results)
@@ -181,6 +184,7 @@ def build_context(
         reports=reports,
         backup=BackupService(db, settings, topics, reports),
         updates=UpdateService(db, settings, http, notifications),
+        voices=voices,
         videos=VideoService(
             db,
             ai,

@@ -171,5 +171,6 @@
   "report.video.hook": "Inizio",
   "report.video.drop_off": "Dove si perde il pubblico",
   "report.video.fix": "Cosa cambiare",
-  "report.video.method": "Durata, tagli di montaggio, pause e parlato sono misurati direttamente dai file dei video, sul computer, con strumenti open source (FFmpeg, faster-whisper). Visualizzazioni, tempo di visione e curva di permanenza sono quelli forniti dal cliente o letti dagli screenshot delle statistiche. Le valutazioni sono state scritte con l'aiuto dell'intelligenza artificiale partendo da questi dati."
+  "report.video.method": "Durata, tagli di montaggio, pause e parlato sono misurati direttamente dai file dei video, sul computer, con strumenti open source (FFmpeg, faster-whisper). Visualizzazioni, tempo di visione e curva di permanenza sono quelli forniti dal cliente o letti dagli screenshot delle statistiche. Le valutazioni sono state scritte con l'aiuto dell'intelligenza artificiale partendo da questi dati.",
+  "voice.use_reference": "Usa lo stesso tono di voce dei documenti di riferimento: stesso registro, stesso modo di rivolgersi al pubblico, stesso ritmo delle frasi, stesse espressioni tipiche."
 }

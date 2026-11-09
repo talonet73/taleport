@@ -1,4 +1,4 @@
-import { Loader2, Sparkles } from 'lucide-react'
+import { FileText, Flame, Loader2, Sparkles } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router'
@@ -15,6 +15,8 @@ import { LanguagePicker, PlatformPicker } from '../../components/drafts/Pickers'
 import { Modal } from '../../components/Modal'
 import { PriorityNote } from '../../components/results/PriorityNote'
 import { useErrorMessage } from '../../components/useErrorMessage'
+import { useTopicVoice, VoiceSelect } from '../../components/voices/VoiceSelect'
+import { ReferenceSource } from './ReferenceSource'
 
 const MAX_POSTS = 12
 const fieldClass =
@@ -36,6 +38,8 @@ export function GeneratorPage() {
   const [tone, setTone] = useState('')
   const [mode, setMode] = useState<AiMode | null>(null)
   const [batchId, setBatchId] = useState<string | null>(null)
+  const [source, setSource] = useState<'theme' | 'reference'>(params.get('source') === 'reference' ? 'reference' : 'theme')
+  const [voice, setVoice] = useState('')
 
   const sections = today?.topics ?? []
   const theme = sections.flatMap((s) => s.themes).find((th) => th.id === themeId)
@@ -52,9 +56,12 @@ export function GeneratorPage() {
   useEffect(() => {
     if (!themeId && sections[0]?.themes[0]) setThemeId(sections[0].themes[0].id)
   }, [sections, themeId])
+  // The voice linked to the theme's topic is pre-selected (it can still be changed).
+  const topicVoice = useTopicVoice(topic?.id)
+  useEffect(() => setVoice(topicVoice), [topicVoice])
 
   const total = platforms.length * Math.max(languages.length, 1) * variants
-  const request = { theme_id: themeId, platforms, languages, variants, tone: tone || null }
+  const request = { theme_id: themeId, platforms, languages, variants, tone: tone || null, voice_id: voice ? Number(voice) : null }
   const flow = useAiFlow<never>({
     start: (m) => aiPost('/generator/theme', { ...request, mode: m }),
     parse: (text) => aiPost('/generator/theme/parse', { ...request, text }),
@@ -68,6 +75,34 @@ export function GeneratorPage() {
         <p className="mt-1 max-w-prose text-muted">{t('generator.subtitle')}</p>
       </div>
 
+      <div role="tablist" aria-label={t('generator.source.label')} className="inline-flex rounded-full border border-line bg-surface p-1 shadow-card">
+        {(
+          [
+            ['theme', Flame, t('generator.source.theme')],
+            ['reference', FileText, t('generator.source.reference')],
+          ] as const
+        ).map(([key, Icon, label]) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={source === key}
+            onClick={() => setSource(key)}
+            className={`flex items-center gap-2 rounded-full px-4 py-2 font-semibold transition ${
+              source === key ? 'bg-accent-gradient text-on-accent' : 'text-muted hover:text-ink'
+            }`}
+          >
+            <Icon className="size-4" aria-hidden />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {source === 'reference' ? (
+        <Card>
+          <ReferenceSource onBatch={setBatchId} />
+        </Card>
+      ) : (
       <Card>
         <div className="space-y-5">
           <label className="flex flex-col gap-2">
@@ -98,6 +133,8 @@ export function GeneratorPage() {
           {results?.reasons.map((reason, i) => <PriorityNote key={i} reason={reason} />)}
           <LanguagePicker value={languages} onChange={setLanguages} />
 
+          <VoiceSelect value={voice} onChange={setVoice} />
+
           <div className="grid gap-4 md:grid-cols-3">
             <label className="flex flex-col gap-2">
               <span className="font-medium text-ink">{t('generator.variants')}</span>
@@ -110,7 +147,7 @@ export function GeneratorPage() {
               </select>
             </label>
             <label className="flex flex-col gap-2">
-              <span className="font-medium text-ink">{t('generator.tone')}</span>
+              <span className="font-medium text-ink">{voice ? t('generator.toneExtra') : t('generator.tone')}</span>
               <input
                 value={tone}
                 onChange={(e) => setTone(e.target.value)}
@@ -136,6 +173,7 @@ export function GeneratorPage() {
           </button>
         </div>
       </Card>
+      )}
 
       {flow.phase === 'handoff' && flow.handoff && (
         <Modal title={t('generator.handoffTitle')} onClose={flow.reset} wide>

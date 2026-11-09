@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "taleport"
-version = "1.1.1"
+version = "1.2.0"
 description = "TALeport: local trend scanner and post drafting assistant for social media managers"
 requires-python = ">=3.12,<3.13"
 license = "MIT"
@@ -23,6 +23,7 @@ dependencies = [
     "anthropic>=2.3",
     "pypdf>=4",
     "python-docx>=1.1",
+    "python-pptx>=1.0",
     "reportlab>=4.2",
     "matplotlib>=3.9",
     "svglib>=1.5",

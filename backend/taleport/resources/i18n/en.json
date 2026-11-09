@@ -171,5 +171,6 @@
   "report.video.hook": "Opening",
   "report.video.drop_off": "Where viewers leave",
   "report.video.fix": "What to change",
-  "report.video.method": "Length, edit cuts, pauses and speech are measured directly from the video files, on the computer, with open-source tools (FFmpeg, faster-whisper). Views, watch time and the retention curve are those supplied by the client or read from screenshots of the statistics. The assessments were written with the help of AI from these data."
+  "report.video.method": "Length, edit cuts, pauses and speech are measured directly from the video files, on the computer, with open-source tools (FFmpeg, faster-whisper). Views, watch time and the retention curve are those supplied by the client or read from screenshots of the statistics. The assessments were written with the help of AI from these data.",
+  "voice.use_reference": "Use the same tone of voice as the reference documents: same register, same way of addressing the audience, same sentence rhythm, same typical expressions."
 }

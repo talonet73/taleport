@@ -7,6 +7,7 @@
     "generator": "Generador",
     "longContent": "Desde contenido largo",
     "video": "Análisis de vídeo",
+    "voices": "Tono de voz",
     "calendar": "Calendario",
     "topics": "Temas",
     "archive": "Archivo",
@@ -247,12 +248,13 @@
       "variants_range": "Las variantes van de 1 a 3.",
       "too_many": "Demasiados posts a la vez: máximo {{max}}. Reduce redes, idiomas o variantes.",
       "series_range": "La serie va de 1 a {{max}} posts.",
-      "no_posts": "La respuesta no contiene posts para las redes e idiomas elegidos."
+      "no_posts": "La respuesta no contiene posts para las redes e idiomas elegidos.",
+      "reference_count": "De 1 a 5 posts por red e idioma."
     },
     "content": {
       "unreadable": "No puedo leer el archivo. ¿Está protegido o dañado?",
       "too_large": "El archivo supera {{max_mb}} MB.",
-      "unsupported_format": "Formato no compatible: usa PDF, DOCX o TXT.",
+      "unsupported_format": "Formato no compatible: usa DOCX, PDF, PPTX o TXT.",
       "empty": "El archivo no contiene texto (por ejemplo, un PDF escaneado).",
       "too_short": "El contenido es demasiado corto: se necesitan al menos 200 caracteres."
     },
@@ -314,6 +316,12 @@
       "too_many_screenshots": "Máximo {{max}} capturas a la vez.",
       "unsupported_image": "«{{name}}» no es una imagen compatible (PNG, JPG, WEBP).",
       "image_too_big": "«{{name}}» es demasiado grande (máximo 8 MB)."
+    },
+    "voices": {
+      "not_found": "Perfil no encontrado.",
+      "too_many": "Máximo {{max}} perfiles de tono.",
+      "no_documents": "Sube al menos un documento.",
+      "too_many_documents": "Máximo {{max}} documentos a la vez."
     }
   },
   "common": {
@@ -523,12 +531,30 @@
     "handoffTitle": "Generar con tu chat",
     "results_one": "{{count}} borrador generado",
     "results_other": "{{count}} borradores generados",
-    "recent": "Borradores recientes"
+    "recent": "Borradores recientes",
+    "toneExtra": "Indicaciones extra sobre el tono (opcionales)",
+    "source": {
+      "label": "Desde dónde empezar",
+      "theme": "Desde un tema de hoy",
+      "reference": "Desde una referencia"
+    },
+    "reference": {
+      "documents": "Documentos de referencia",
+      "documentsHint": "Sube discursos, artículos o presentaciones: la IA encuentra los temas y escribe los posts con el mismo tono de voz.",
+      "audience": "Público de (tema)",
+      "count": "Posts por red e idioma",
+      "saveVoice": "Guardar el tono de estos documentos como perfil",
+      "voiceNamePlaceholder": "Nombre del perfil (opcional, p. ej. «Discursos del presidente»)",
+      "saveVoiceHint": "Podrás reutilizarlo en otros posts y vincularlo a un tema en la página Tono de voz.",
+      "generate": "Escribir los posts desde la referencia",
+      "topicsFound": "Temas encontrados",
+      "voiceSaved": "Tono guardado como perfil «{{name}}»."
+    }
   },
   "longContent": {
     "subtitle": "Pega un texto o sube un documento: TALeport lo convierte en una serie coherente de posts para publicar en días distintos.",
     "upload": "Subir un archivo",
-    "formats": "PDF, DOCX o TXT, hasta 15 MB",
+    "formats": "PDF, DOCX, PPTX o TXT, hasta 15 MB",
     "title": "Título del contenido",
     "content": "Contenido",
     "placeholder": "Pega aquí un artículo, una transcripción o un documento…",
@@ -1119,6 +1145,14 @@
           "Sin acceso a cuentas y sin scraping: solo se usan los archivos que te envía el cliente. «Mensaje para el cliente» te da el texto listo para pedírselos."
         ]
       },
+      "voices": {
+        "title": "Posts desde una referencia y tono de voz",
+        "items": [
+          "En el Generador elige «Desde una referencia» y sube hasta 5 documentos (Word, PDF, PowerPoint o texto): la IA encuentra los temas y escribe los posts con el mismo tono de voz de los documentos.",
+          "Marca «Guardar el tono de estos documentos como perfil» para reutilizarlo: lo encontrarás en la página Tono de voz.",
+          "En la página Tono de voz creas perfiles desde documentos o a mano (instrucciones y frases de ejemplo) y los vinculas a los temas: los temas de ese tema se escriben con ese tono, que siempre puedes cambiar."
+        ]
+      },
       "ai": {
         "title": "IA: tres formas",
         "items": [
@@ -1325,6 +1359,55 @@
       "high": "Alta",
       "medium": "Media",
       "low": "Baja"
+    }
+  },
+  "voices": {
+    "subtitle": "Perfiles de tono de voz para tus posts: obtenlos de documentos (discursos, artículos, presentaciones) o escríbelos tú, y vincúlalos a los temas.",
+    "fromDocuments": "Nuevo perfil desde documentos",
+    "manual": "Nuevo perfil vacío",
+    "newTitle": "Nuevo perfil de tono",
+    "editTitle": "Editar perfil",
+    "empty": {
+      "title": "Aún no hay perfiles",
+      "text": "Sube uno o más documentos escritos en el tono que quieres (por ejemplo los discursos de un cliente): la IA describe cómo escribe y guarda el perfil. Luego lo eliges al generar posts, o lo vinculas a un tema y se usa solo."
+    },
+    "usedFor": "Usado para: {{topics}}",
+    "notLinked": "Sin temas vinculados: lo eliges tú al generar.",
+    "edit": "Editar {{name}}",
+    "delete": "Eliminar {{name}}",
+    "confirmDelete": "¿Eliminar el perfil «{{name}}»?",
+    "learn": {
+      "hint": "Sube hasta 5 documentos escritos en el tono que imitar. Su contenido no se guarda: la IA solo extrae la forma de escribir y algunas frases de ejemplo, que podrás corregir antes de guardar.",
+      "analyze": "Analizar el tono"
+    },
+    "editor": {
+      "name": "Nombre del perfil",
+      "namePlaceholder": "P. ej. «Hincha irónico», «Institucional cercano»",
+      "guide": "Cómo escribir",
+      "guidePlaceholder": "- Tutea al público\n- Frases cortas, alguna pregunta retórica\n- Nada de jerga técnica",
+      "guideHint": "Instrucciones para la IA, una por línea: persona, registro, ritmo, palabras típicas, cosas que evitar.",
+      "examples": "Frases de ejemplo",
+      "examplesPlaceholder": "Pega 3-5 frases típicas, separadas por una línea vacía.",
+      "examplesHint": "Sepáralas con una línea vacía. La IA las imita sin copiarlas.",
+      "topics": "Usarlo para estos temas",
+      "topicsHint": "Los temas de estos temas se escribirán con este tono. Cada tema usa un solo perfil.",
+      "noTopics": "Aún no tienes temas.",
+      "topicTaken": "Ahora usa «{{name}}»: al seleccionarlo pasa a este perfil",
+      "sources": "Obtenido de: {{files}}"
+    },
+    "documents": {
+      "drop": "Arrastra aquí los documentos o haz clic para elegirlos",
+      "formats": "Word (DOCX), PDF, PowerPoint (PPTX) o texto, hasta {{max}} archivos",
+      "reading": "Leyendo los documentos…",
+      "characters": "{{value}} caracteres",
+      "truncated": "acortado",
+      "remove": "Quitar {{name}}"
+    },
+    "select": {
+      "label": "Tono de voz",
+      "manage": "Gestionar perfiles",
+      "topic": "Tono del tema",
+      "reference": "El mismo de los documentos subidos"
     }
   }
 }

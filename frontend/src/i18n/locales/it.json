@@ -7,6 +7,7 @@
     "generator": "Generatore",
     "longContent": "Da contenuto lungo",
     "video": "Analisi video",
+    "voices": "Tono di voce",
     "calendar": "Calendario",
     "topics": "Argomenti",
     "archive": "Archivio",
@@ -247,12 +248,13 @@
       "variants_range": "Le varianti vanno da 1 a 3.",
       "too_many": "Troppi post in una volta: massimo {{max}}. Riduci social, lingue o varianti.",
       "series_range": "La serie va da 1 a {{max}} post.",
-      "no_posts": "La risposta non contiene post per i social e le lingue scelti."
+      "no_posts": "La risposta non contiene post per i social e le lingue scelti.",
+      "reference_count": "Da 1 a 5 post per ogni social e lingua."
     },
     "content": {
       "unreadable": "Non riesco a leggere il file. È protetto o danneggiato?",
       "too_large": "Il file supera {{max_mb}} MB.",
-      "unsupported_format": "Formato non supportato: usa PDF, DOCX o TXT.",
+      "unsupported_format": "Formato non supportato: usa DOCX, PDF, PPTX o TXT.",
       "empty": "Il file non contiene testo (per esempio un PDF scansionato).",
       "too_short": "Il contenuto è troppo corto: servono almeno 200 caratteri."
     },
@@ -314,6 +316,12 @@
       "too_many_screenshots": "Massimo {{max}} screenshot alla volta.",
       "unsupported_image": "«{{name}}» non è un'immagine supportata (PNG, JPG, WEBP).",
       "image_too_big": "«{{name}}» è troppo grande (massimo 8 MB)."
+    },
+    "voices": {
+      "not_found": "Profilo non trovato.",
+      "too_many": "Massimo {{max}} profili di tono.",
+      "no_documents": "Carica almeno un documento.",
+      "too_many_documents": "Massimo {{max}} documenti alla volta."
     }
   },
   "common": {
@@ -523,12 +531,30 @@
     "handoffTitle": "Genera con la tua chat",
     "results_one": "{{count}} bozza generata",
     "results_other": "{{count}} bozze generate",
-    "recent": "Bozze recenti"
+    "recent": "Bozze recenti",
+    "toneExtra": "Indicazioni in più sul tono (facoltative)",
+    "source": {
+      "label": "Da dove partire",
+      "theme": "Da un tema di oggi",
+      "reference": "Da una reference"
+    },
+    "reference": {
+      "documents": "Documenti di riferimento",
+      "documentsHint": "Carica discorsi, articoli o presentazioni: l'AI trova gli argomenti e scrive i post con lo stesso tono di voce.",
+      "audience": "Pubblico da (argomento)",
+      "count": "Post per ogni social e lingua",
+      "saveVoice": "Salva il tono di questi documenti come profilo",
+      "voiceNamePlaceholder": "Nome del profilo (facoltativo, es. «Discorsi del presidente»)",
+      "saveVoiceHint": "Potrai riusarlo per altri post e collegarlo a un argomento nella pagina Tono di voce.",
+      "generate": "Scrivi i post dalla reference",
+      "topicsFound": "Argomenti trovati",
+      "voiceSaved": "Tono salvato come profilo «{{name}}»."
+    }
   },
   "longContent": {
     "subtitle": "Incolla un testo o carica un documento: TALeport ne ricava una serie di post coerenti, da pubblicare in giorni diversi.",
     "upload": "Carica un file",
-    "formats": "PDF, DOCX o TXT, fino a 15 MB",
+    "formats": "PDF, DOCX, PPTX o TXT, fino a 15 MB",
     "title": "Titolo del contenuto",
     "content": "Contenuto",
     "placeholder": "Incolla qui un articolo, una trascrizione o un documento…",
@@ -1119,6 +1145,14 @@
           "Nessun accesso agli account e nessuno scraping: si usano solo i file che ti manda il cliente. «Messaggio per il cliente» ti dà il testo pronto per chiederglieli."
         ]
       },
+      "voices": {
+        "title": "Post da una reference e tono di voce",
+        "items": [
+          "Nel Generatore scegli «Da una reference» e carica fino a 5 documenti (Word, PDF, PowerPoint o testo): l'AI trova gli argomenti e scrive i post con lo stesso tono di voce dei documenti.",
+          "Spunta «Salva il tono di questi documenti come profilo» per riusarlo: lo trovi nella pagina Tono di voce.",
+          "Nella pagina Tono di voce crei profili da documenti o a mano (istruzioni e frasi di esempio) e li colleghi agli argomenti: i temi di quell'argomento vengono scritti con quel tono, che puoi comunque cambiare ogni volta."
+        ]
+      },
       "ai": {
         "title": "AI: tre modi",
         "items": [
@@ -1325,6 +1359,55 @@
       "high": "Alta",
       "medium": "Media",
       "low": "Bassa"
+    }
+  },
+  "voices": {
+    "subtitle": "Profili di tono di voce da usare per i post: li ricavi da documenti (discorsi, articoli, presentazioni) o li scrivi tu, e puoi collegarli agli argomenti.",
+    "fromDocuments": "Nuovo profilo da documenti",
+    "manual": "Nuovo profilo vuoto",
+    "newTitle": "Nuovo profilo di tono",
+    "editTitle": "Modifica profilo",
+    "empty": {
+      "title": "Nessun profilo ancora",
+      "text": "Carica uno o più documenti scritti nel tono che vuoi (per esempio i discorsi di un cliente): l'AI descrive come scrive e salva il profilo. Poi lo scegli quando generi i post, oppure lo colleghi a un argomento e viene usato da solo."
+    },
+    "usedFor": "Usato per: {{topics}}",
+    "notLinked": "Non collegato ad argomenti: lo scegli tu quando generi.",
+    "edit": "Modifica {{name}}",
+    "delete": "Elimina {{name}}",
+    "confirmDelete": "Eliminare il profilo «{{name}}»?",
+    "learn": {
+      "hint": "Carica fino a 5 documenti scritti nel tono da imitare. Il contenuto non viene salvato: l'AI ne ricava solo il modo di scrivere e qualche frase di esempio, che potrai correggere prima di salvare.",
+      "analyze": "Analizza il tono"
+    },
+    "editor": {
+      "name": "Nome del profilo",
+      "namePlaceholder": "Es. «Ironico da tifoso», «Istituzionale caldo»",
+      "guide": "Come scrivere",
+      "guidePlaceholder": "- Dai del tu al pubblico\n- Frasi brevi, una domanda retorica ogni tanto\n- Niente gergo tecnico",
+      "guideHint": "Istruzioni per l'AI, una per riga: persona, registro, ritmo, parole tipiche, cose da evitare.",
+      "examples": "Frasi di esempio",
+      "examplesPlaceholder": "Incolla 3-5 frasi tipiche, separate da una riga vuota.",
+      "examplesHint": "Separale con una riga vuota. L'AI le imita senza copiarle.",
+      "topics": "Usalo per questi argomenti",
+      "topicsHint": "I temi di questi argomenti verranno scritti con questo tono. Ogni argomento usa un solo profilo.",
+      "noTopics": "Non hai ancora argomenti.",
+      "topicTaken": "Ora usa «{{name}}»: selezionandolo passa a questo profilo",
+      "sources": "Ricavato da: {{files}}"
+    },
+    "documents": {
+      "drop": "Trascina qui i documenti o fai clic per sceglierli",
+      "formats": "Word (DOCX), PDF, PowerPoint (PPTX) o testo, fino a {{max}} file",
+      "reading": "Lettura dei documenti…",
+      "characters": "{{value}} caratteri",
+      "truncated": "accorciato",
+      "remove": "Togli {{name}}"
+    },
+    "select": {
+      "label": "Tono di voce",
+      "manage": "Gestisci profili",
+      "topic": "Tono dell'argomento",
+      "reference": "Lo stesso dei documenti caricati"
     }
   }
 }

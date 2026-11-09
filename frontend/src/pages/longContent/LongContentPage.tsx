@@ -1,5 +1,5 @@
 import { FileUp, Loader2, Sparkles } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { readAsBase64 } from '../../api/files'
@@ -13,6 +13,7 @@ import { GenerationResults } from '../../components/drafts/GenerationPanel'
 import { LanguagePicker, PlatformPicker } from '../../components/drafts/Pickers'
 import { Modal } from '../../components/Modal'
 import { useErrorMessage } from '../../components/useErrorMessage'
+import { useTopicVoice, VoiceSelect } from '../../components/voices/VoiceSelect'
 
 const fieldClass =
   'w-full rounded-xl border border-line bg-surface-raised px-3 py-2.5 text-ink outline-none placeholder:text-muted focus:border-accent'
@@ -35,8 +36,19 @@ export function LongContentPage() {
   const [truncated, setTruncated] = useState(false)
   const [fileError, setFileError] = useState<unknown>(null)
   const [reading, setReading] = useState(false)
+  const [voice, setVoice] = useState('')
+  const topicVoice = useTopicVoice(topicId)
+  useEffect(() => setVoice(topicVoice), [topicVoice])
 
-  const request = { content, title, count, platforms, language: languages[0], topic_id: topicId }
+  const request = {
+    content,
+    title,
+    count,
+    platforms,
+    language: languages[0],
+    topic_id: topicId,
+    voice_id: voice ? Number(voice) : null,
+  }
   const flow = useAiFlow<never>({
     start: (m) => aiPost('/generator/long', { ...request, mode: m }),
     parse: (text) => aiPost('/generator/long/parse', { ...request, text }),
@@ -84,7 +96,7 @@ export function LongContentPage() {
             <input
               ref={fileInput}
               type="file"
-              accept=".pdf,.docx,.txt,.md"
+              accept=".pdf,.docx,.pptx,.txt,.md"
               className="hidden"
               onChange={(e) => void onFile(e.target.files?.[0])}
             />
@@ -141,6 +153,7 @@ export function LongContentPage() {
             </label>
             <AiModeSelect value={mode ?? settings?.default_ai ?? 'chat'} onChange={setMode} />
           </div>
+          <VoiceSelect value={voice} onChange={setVoice} />
 
           {flow.error !== null && flow.phase !== 'handoff' && <p className="text-red-400">{errorMessage(flow.error)}</p>}
           <button
