@@ -223,7 +223,7 @@
       "rate_limited": "{{provider}} ha limitato le richieste: riprova tra poco.",
       "timeout": "L'AI non ha risposto in tempo. Riprova o scegli un modello più veloce.",
       "network": "Impossibile raggiungere {{provider}}: controlla la connessione.",
-      "provider_error": "{{provider}} ha risposto con un errore ({{status}}).",
+      "provider_error": "{{provider}} ha risposto con un errore ({{http_status}}).",
       "refused": "{{provider}} ha rifiutato la richiesta.",
       "ollama_unreachable": "Ollama non risponde all'indirizzo {{url}}.",
       "ollama_missing": "Ollama non è installato. Puoi scaricarlo gratis da ollama.com.",
@@ -237,7 +237,9 @@
       "empty_answer": "Incolla la risposta prima di salvare.",
       "unavailable": "L'AI predefinita non è disponibile.",
       "spend_cap_reached": "il tetto di spesa del mese è stato raggiunto",
-      "no_vision": "Il modello «{{model}}» non legge le immagini: scegli un modello che le supporta (es. Claude, GPT, Gemini o un modello Ollama «vision»)."
+      "no_vision": "Il modello «{{model}}» non legge le immagini: scegli un modello che le supporta (es. Claude, GPT, Gemini o un modello Ollama «vision»).",
+      "no_credit": "La chiave API di {{provider}} non ha credito: l'uso via API si paga a parte rispetto all'abbonamento. Ricarica il credito sul sito di {{provider}} oppure usa «Apri nella chat» o Ollama (gratis).",
+      "ollama_memory": "Il modello «{{model}}» non entra nella memoria del computer: chiudi altri programmi o scegli un modello più piccolo in Ollama."
     },
     "generator": {
       "platforms_required": "Scegli almeno un social.",

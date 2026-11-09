@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from urllib.parse import parse_qs, urlsplit
 
 import httpx
@@ -222,7 +223,13 @@ def test_trends_keeps_matching_terms_and_fetches_once_per_country(
 
 
 @respx.mock
-def test_rss_watched_feed(http: HttpClient, store: TopicStore) -> None:
+def test_rss_watched_feed(
+    http: HttpClient, store: TopicStore, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # The fixture feed is from 2026-11-02: read it as if it were that day.
+    monkeypatch.setattr(
+        "taleport.collectors.rss.utc_now", lambda: datetime(2026, 11, 2, 18, 0, tzinfo=UTC)
+    )
     respx.get("https://example.com/feed.xml").mock(
         return_value=httpx.Response(200, content=fixture("google_news_it.xml"))
     )

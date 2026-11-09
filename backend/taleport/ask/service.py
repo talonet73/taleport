@@ -138,7 +138,7 @@ class InsightsService:
         try:
             plan = run_structured(provider, prompt, AskPlan, self._ai.recorder(provider, "ask"))
         except ProviderError as exc:
-            raise AppError(exc.code, status=502, **exc.params) from exc
+            raise AppError.from_provider(exc) from exc
         return {"mode": resolved, "question": question, **self.run_plan(plan)}
 
     def parse_ask(self, question: str, text: str) -> dict[str, Any]:

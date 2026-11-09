@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.1 — 2026-11-09
+
+Correzioni AI · AI fixes
+
+**Italiano**
+
+- Risolto «Errore interno dell'app» durante la generazione dei post: quando l'AI rispondeva con un errore (per esempio Ollama), l'app andava in crash invece di mostrare il motivo. Valeva per tutte le AI.
+- Ollama più affidabile: risposte più ordinate, un tentativo in più e, se Ollama si interrompe, un nuovo tentativo automatico. Messaggio chiaro quando il modello non entra in memoria.
+- Le risposte imperfette dei modelli locali (hashtag in una riga, slide come oggetti, numeri fuori scala) vengono corrette invece di essere scartate.
+- Credito API esaurito (OpenAI, Anthropic): ora l'app lo dice chiaramente e suggerisce «Apri nella chat» oppure Ollama, invece di «ha limitato le richieste».
+
+**English**
+
+- Fixed "Internal app error" when generating posts: when the AI answered with an error (for example Ollama), the app crashed instead of showing the reason. This affected every AI.
+- More reliable Ollama: steadier answers, one more attempt and an automatic retry if Ollama stops mid-answer. Clear message when the model does not fit in memory.
+- Imperfect answers from local models (hashtags in one line, slides as objects, out-of-range numbers) are now fixed instead of rejected.
+- API credit exhausted (OpenAI, Anthropic): the app now says so clearly and suggests "Open in chat" or Ollama, instead of "rate limited".
+
 ## 1.1.0 — 2026-11-08
 
 Analisi video per i clienti · Video analysis for clients

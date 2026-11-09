@@ -527,7 +527,7 @@ class VideoService:
                 max_tokens=2000,
             )
         except ProviderError as exc:
-            raise AppError(exc.code, status=502, **exc.params) from exc
+            raise AppError.from_provider(exc) from exc
         return {"mode": mode, "video": self._save_stats(video_id, reading.stats)}
 
     def parse_stats(self, video_id: int, text: str) -> dict[str, Any]:
@@ -683,7 +683,7 @@ class VideoService:
         try:
             analysis = self._run_analysis(provider, project, images, note)
         except ProviderError as exc:
-            raise AppError(exc.code, status=502, **exc.params) from exc
+            raise AppError.from_provider(exc) from exc
         return {"mode": mode, "project": self._save_analysis(project_id, analysis, mode)}
 
     def _run_analysis(

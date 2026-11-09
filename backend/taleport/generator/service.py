@@ -178,7 +178,7 @@ class GeneratorService:
                 max_tokens=GENERATION_MAX_TOKENS,
             )  # fmt: skip
         except ProviderError as exc:
-            raise AppError(exc.code, status=502, **exc.params) from exc
+            raise AppError.from_provider(exc) from exc
         return resolved, posts
 
     def _allowed_terms(self, topic_id: int | None) -> list[str]:

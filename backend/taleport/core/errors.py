@@ -16,5 +16,14 @@ class AppError(Exception):
         self.status = status
         self.params = params
 
+    @classmethod
+    def from_provider(cls, exc: Exception, status: int = 502) -> AppError:
+        """An AI provider failure as a user-facing error. Provider params never clash with
+        the HTTP status of the response (a provider's own `status` is renamed)."""
+        params = dict(getattr(exc, "params", {}))
+        if "status" in params:
+            params["http_status"] = params.pop("status")
+        return cls(getattr(exc, "code", "ai.provider_error"), status=status, **params)
+
     def to_payload(self) -> dict[str, Any]:
         return {"error": {"code": self.code, "params": self.params}}

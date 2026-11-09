@@ -19,7 +19,7 @@ Regola: a fine fase l'app si avvia, i test passano, questo file è aggiornato, s
 - [x] **Fase 8 completata** (2026-11-02)
 - [x] **Fase 9 completata** (2026-11-02)
 - [~] **Fase 10** (2026-11-03): installer 1.0.0 pronto e provato, repository collegato; codice e Release 1.0.0 su GitHub; resta solo la prova su un Windows pulito
-- [~] **Fase 11 — Analisi video per i clienti** (2026-11-08): codice, test e interfaccia pronti (versione 1.1.0); da fare la prova con video veri e l'installer su Windows
+- [~] **Fase 11 — Analisi video per i clienti** (2026-11-08): pubblicata nella 1.1.0, correzioni AI nella 1.1.1 (2026-11-09); da fare la prova con video veri di un cliente
 
 ---
 
@@ -226,8 +226,15 @@ Verifiche fatte prima (2026-11-08):
 - [x] Pagina «Analisi video»: elenco clienti, «Messaggio per il cliente» (testo pronto per chiedere video, screenshot e concorrenti), trascina e rilascia con avanzamento del caricamento, gruppi per concorrente, scheda del video con anteprima e passi, finestra dei risultati, tabella di confronto, analisi, PDF; guida aggiornata; testi IT/EN/ES
 - [x] Test: 31 nuovi (misure su un video vero generato con FFmpeg, errori, risultati, screenshot, analisi con provider/chat/senza visione, PDF, cancellazione, ripresa) — 182 backend + 4 frontend
 - [x] `taleport.spec`: binario FFmpeg, dati e metadati di faster-whisper, librerie di CTranslate2, python-multipart
-- [ ] Prova sul portatile con video veri (trascrizione col modello scaricato) e build dell'installer 1.1.0
+- [x] Sul portatile (2026-11-08, `packaging/aggiorna-1.1.bat`): dipendenze installate, 182 test backend e 4 frontend superati su Windows, installer 1.1.0 compilato (117,5 MB; FFmpeg e faster-whisper inclusi) e pubblicato come Release v1.1.0
+- [ ] Prova dell'app installata con video veri di un cliente (prima trascrizione = download del modello)
+
+### 1.1.1 (2026-11-09) — correzioni AI
+- [x] Errore di generazione dei post con Ollama: «Errore interno» al posto del messaggio vero (parametro `status` del provider in conflitto con lo status HTTP di `AppError`, colpiva tutte le AI). Ora c'è `AppError.from_provider`, Ollama riprova senza modalità JSON dopo un errore del server e ha temperatura 0,4, i modelli locali hanno un terzo tentativo e lo schema dei post accetta le risposte imperfette più comuni. Provato sul portatile con gemma3: 2 generazioni su 2 riuscite (4 post, 20-26 s)
+- [x] Credito API esaurito (OpenAI 429 `insufficient_quota`, saldo Anthropic basso): messaggio dedicato invece di «ha limitato le richieste»
+- [x] `packaging/rilascia.bat`: test, installer, commit, tag, push e Release GitHub con un doppio clic (usa le credenziali git del PC)
+- Nota: `device_commit_files` ignora la seconda scrittura con lo stesso percorso di origine: usare sempre una cartella di appoggio nuova
 
 Note:
-- L'installer crescerà (FFmpeg circa 80 MB, CTranslate2, onnxruntime e PyAV usati da faster-whisper).
+- L'installer passa da 46,5 a 117,5 MB (FFmpeg 105 MB non compresso, CTranslate2, onnxruntime e PyAV usati da faster-whisper).
 - Video dei concorrenti: si salvano dall'app (TikTok consente il download dei video pubblici quando l'autore lo permette) oppure registrando lo schermo.

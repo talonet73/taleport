@@ -20,6 +20,25 @@ from taleport.ai.providers.base import (
     image_mime,
 )
 
+_CREDIT_CODES = {
+    "insufficient_quota",
+    "credit_balance_exhausted",
+    "organization_usage_limit_exceeded",
+    "billing_hard_limit_reached",
+}
+
+
+def _is_credit_error(response: httpx.Response) -> bool:
+    """OpenAI answers 429 both for "too many requests" and for "no prepaid credit left"."""
+    try:
+        error = response.json().get("error") or {}
+    except ValueError:
+        return False
+    if isinstance(error, list):  # Gemini wraps errors in a list
+        error = error[0] if error else {}
+    values = {str(error.get(k, "")).lower() for k in ("code", "type", "status")}
+    return bool(values & _CREDIT_CODES)
+
 
 def _raise_for(response: httpx.Response, provider: str, model: str) -> None:
     if response.status_code < 400:
@@ -29,8 +48,10 @@ def _raise_for(response: httpx.Response, provider: str, model: str) -> None:
     if response.status_code == 404:
         raise ProviderError("ai.model_not_found", model=model)
     if response.status_code == 429:
+        if _is_credit_error(response):
+            raise ProviderError("ai.no_credit", provider=provider)
         raise ProviderError("ai.rate_limited", provider=provider)
-    raise ProviderError("ai.provider_error", provider=provider, status=response.status_code)
+    raise ProviderError("ai.provider_error", provider=provider, http_status=response.status_code)
 
 
 def _post(url: str, key: str, body: dict[str, Any], provider: str, model: str) -> dict[str, Any]:

@@ -77,8 +77,10 @@ class AnthropicProvider:
         except anthropic.APITimeoutError as exc:
             raise ProviderError("ai.timeout") from exc
         except anthropic.APIStatusError as exc:
+            if "credit balance" in str(exc).lower():
+                raise ProviderError("ai.no_credit", provider="Anthropic") from exc
             raise ProviderError(
-                "ai.provider_error", provider="Anthropic", status=exc.status_code
+                "ai.provider_error", provider="Anthropic", http_status=exc.status_code
             ) from exc
         except anthropic.APIConnectionError as exc:
             raise ProviderError("ai.network", provider="Anthropic") from exc

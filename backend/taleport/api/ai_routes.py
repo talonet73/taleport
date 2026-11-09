@@ -43,7 +43,7 @@ def provider_models(request: Request, provider_id: str) -> list[str]:
     try:
         return available_models(provider_id, ctx.settings.get(), ctx.secrets)
     except ProviderError as exc:
-        raise AppError(exc.code, status=502, **exc.params) from exc
+        raise AppError.from_provider(exc) from exc
 
 
 @router.post("/ai/providers/{provider_id}/test")

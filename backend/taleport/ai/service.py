@@ -48,7 +48,7 @@ ProviderFactory = Callable[[str, AppSettings, SecretStore], LLMProvider]
 
 
 def _as_app_error(exc: ProviderError) -> AppError:
-    return AppError(exc.code, status=502, **exc.params)
+    return AppError.from_provider(exc)
 
 
 class AIService:

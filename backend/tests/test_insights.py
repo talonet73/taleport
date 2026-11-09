@@ -20,6 +20,13 @@ from tests.test_ai import FakeProvider
 TODAY = date(2026, 11, 2)
 
 
+@pytest.fixture(autouse=True)
+def _frozen_today(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The seeded data is fixed in time: presets like "last 7 days" must count from TODAY."""
+    monkeypatch.setattr("taleport.ask.scope.today_local", lambda: TODAY)
+    monkeypatch.setattr("taleport.ask.service.today_local", lambda: TODAY)
+
+
 def _stat(conn, topic_id, day, term, count, language="it", source="news", kind="keyword"):
     conn.execute(
         "INSERT INTO keyword_stats VALUES (?, ?, ?, ?, ?, ?, ?)",

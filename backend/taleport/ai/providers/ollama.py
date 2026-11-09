@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from pathlib import Path
 
@@ -16,6 +17,15 @@ from taleport.ai.providers.base import (
 )
 
 DEFAULT_URL = "http://localhost:11434"
+
+log = logging.getLogger(__name__)
+
+
+def _error_text(response: httpx.Response) -> str:
+    try:
+        return str(response.json().get("error", ""))[:300]
+    except ValueError:
+        return response.text[:300]
 
 
 def installed_on_disk() -> bool:
@@ -42,6 +52,14 @@ class OllamaProvider:
         self.model = model
         self._url = base_url.rstrip("/")
 
+    def _post(self, body: dict) -> httpx.Response:
+        try:
+            return httpx.post(f"{self._url}/api/chat", json=body, timeout=TIMEOUT_SECONDS * 2)
+        except httpx.TimeoutException as exc:
+            raise ProviderError("ai.timeout") from exc
+        except httpx.HTTPError as exc:
+            raise ProviderError("ai.ollama_unreachable", url=self._url) from exc
+
     def complete(
         self,
         system: str,
@@ -54,26 +72,40 @@ class OllamaProvider:
         message: dict = {"role": "user", "content": user}
         if images:
             message["images"] = [image_base64(img) for img in images]
-        body = {
+        options: dict = {"num_predict": max_tokens, "num_ctx": 16384}
+        if json_output:
+            options["temperature"] = 0.4  # fewer malformed answers from small local models
+        body: dict = {
             "model": self.model,
             "messages": [{"role": "system", "content": system}, message],
             "stream": False,
-            "options": {"num_predict": max_tokens, "num_ctx": 16384},
+            "options": options,
         }
         if json_output:
             body["format"] = "json"
-        try:
-            response = httpx.post(f"{self._url}/api/chat", json=body, timeout=TIMEOUT_SECONDS * 2)
-        except httpx.TimeoutException as exc:
-            raise ProviderError("ai.timeout") from exc
-        except httpx.HTTPError as exc:
-            raise ProviderError("ai.ollama_unreachable", url=self._url) from exc
+        response = self._post(body)
+        if response.status_code >= 500 and json_output and not images:
+            # Ollama sometimes stops mid-answer while forcing JSON: the prompt already asks
+            # for JSON, so one more try without the grammar usually works.
+            log.warning(
+                "Ollama %s: %s; retrying without JSON mode",
+                response.status_code,
+                _error_text(response),
+            )
+            body.pop("format", None)
+            response = self._post(body)
         if response.status_code == 404:
             raise ProviderError("ai.model_not_found", model=self.model)
-        if response.status_code >= 400 and images:
-            raise ProviderError("ai.no_vision", model=self.model)
         if response.status_code >= 400:
-            raise ProviderError("ai.provider_error", provider="Ollama", status=response.status_code)
+            detail = _error_text(response)
+            log.warning("Ollama %s: %s", response.status_code, detail)
+            if images:
+                raise ProviderError("ai.no_vision", model=self.model)
+            if "memory" in detail.lower():
+                raise ProviderError("ai.ollama_memory", model=self.model)
+            raise ProviderError(
+                "ai.provider_error", provider="Ollama", http_status=response.status_code
+            )
         data = response.json()
         return Completion(
             text=data.get("message", {}).get("content", ""),

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from collections.abc import Callable
 from typing import Any
@@ -13,6 +14,7 @@ from taleport.ai.prompts import Prompt
 from taleport.ai.providers.base import DEFAULT_MAX_TOKENS, Completion, LLMProvider
 from taleport.core.errors import AppError
 
+log = logging.getLogger(__name__)
 _FENCE = re.compile(r"```(?:json)?\s*(.*?)```", re.DOTALL | re.IGNORECASE)
 
 
@@ -54,6 +56,8 @@ def run_structured[T: BaseModel](
 ) -> T:
     user = prompt.user
     last_error = ""
+    if not getattr(provider, "paid", True):
+        attempts = max(attempts, 3)  # local models are free: one more corrective try
     extra = {"images": images} if images else {}  # providers without image support never see it
     for _ in range(attempts):
         completion = provider.complete(
@@ -64,5 +68,12 @@ def run_structured[T: BaseModel](
             return schema.model_validate(extract_json(completion.text))
         except (ValueError, ValidationError) as exc:
             last_error = _short_error(exc)
+            log.warning(
+                "%s/%s: invalid structured answer (%d chars): %s",
+                getattr(provider, "name", "?"),
+                getattr(provider, "model", "?"),
+                len(completion.text),
+                last_error,
+            )
             user = f"{prompt.user}\n\n{prompt.retry.replace('{{error}}', last_error)}"
     raise AppError("ai.invalid_response", detail=last_error)

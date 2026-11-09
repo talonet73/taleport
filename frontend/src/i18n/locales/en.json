@@ -223,7 +223,7 @@
       "rate_limited": "{{provider}} limited the requests: try again shortly.",
       "timeout": "The AI didn't answer in time. Try again or pick a faster model.",
       "network": "Can't reach {{provider}}: check your connection.",
-      "provider_error": "{{provider}} answered with an error ({{status}}).",
+      "provider_error": "{{provider}} answered with an error ({{http_status}}).",
       "refused": "{{provider}} declined the request.",
       "ollama_unreachable": "Ollama is not answering at {{url}}.",
       "ollama_missing": "Ollama is not installed. You can download it for free from ollama.com.",
@@ -237,7 +237,9 @@
       "empty_answer": "Paste the answer before saving.",
       "unavailable": "The default AI isn't available.",
       "spend_cap_reached": "the monthly spending cap has been reached",
-      "no_vision": "The model “{{model}}” cannot read images: choose a model that supports them (e.g. Claude, GPT, Gemini or an Ollama “vision” model)."
+      "no_vision": "The model “{{model}}” cannot read images: choose a model that supports them (e.g. Claude, GPT, Gemini or an Ollama “vision” model).",
+      "no_credit": "The {{provider}} API key has no credit: API use is billed separately from the subscription. Top up on the {{provider}} website, or use “Open in chat” or Ollama (free).",
+      "ollama_memory": "The model “{{model}}” does not fit in this computer's memory: close other programs or pick a smaller model in Ollama."
     },
     "generator": {
       "platforms_required": "Pick at least one network.",
